@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>aspnet-LILI_TTS-E7BDD02C-06D2-4AC5-85A3-A5BEF13FAD67</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Temp_Models\**" />
+    <Content Remove="Temp_Models\**" />
+    <EmbeddedResource Remove="Temp_Models\**" />
+    <None Remove="Temp_Models\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\dbToolsManagementContext - Copy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Shared\Layout1.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.22" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="MicrosoftMvcAjax.Mvc5" Version="5.0.0" />
+    <PackageReference Include="NPOI" Version="2.5.4" />
+    <PackageReference Include="Rotativa" Version="1.7.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.22" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\lib\datatables-rowGroup\dataTables.rowsGroup.js" />
+    <None Include="wwwroot\lib\JQuery-unobtrusive-Ajax\jquery-ajax-unobtrusive-master\.vsts-pipelines\builds\ci-public.yml" />
+    <None Include="wwwroot\lib\select2\select2.min.js" />
+    <None Include="wwwroot\lib\table2excel\table2excel.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ViewAsPdf.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\fonts\fontawesome-webfont.woff2v=4.7.0\" />
+    <Folder Include="wwwroot\lib\toastr\" />
+    <Folder Include="wwwroot\Upload\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\MaintenanceRequisition\_ProductPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\MaintenanceRequisition\_WorkshopPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

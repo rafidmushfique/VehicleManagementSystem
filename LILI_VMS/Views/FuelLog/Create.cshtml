@@ -1,0 +1,215 @@
+﻿@model TblFuelLog
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/FuelLog/Index">Fuel Log</a></li>
+        <li class="breadcrumb-item active">Add Fuel Log Info</li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-action="CreateFuelLog" asp-controller="FuelLog" method="post">
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Fuel Log No</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="FuelLogNo" class="form-control" placeholder="" readonly="readonly">
+                                </div>
+                                <label for="inputEmail3" class="col-sm-2 control-label">Fuel Log Date</label>
+                                <div class="col-sm-3">
+                                    <input type="date" asp-for="FuelLogDate" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Vehicle</label>
+                                <div class="col-sm-3">
+                                   <select class="form-control select2" asp-for="VehicleCode">
+                                       <option value="*"> Select Vehicle</option>
+                                        @foreach (var item in ViewBag.VehicleList)
+                                        {
+                                            <option value="@item.VehicleCode">@item.RegistrationNo </option>
+                                        
+                                        }
+                                    </select>
+                                </div>
+                                <label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-3">
+                                    <textarea class="form-control" asp-for="Comments"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header"> <b> Log Details </b></div>
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Fuel Station Name</label>
+                                <div class="col-sm-3">
+                                    <input type="text" id="FuelStationName" class="form-control" placeholder="" >
+                                </div>
+                                <label for="inputEmail3" class="col-sm-2 control-label">Fuel Type</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="FuelTypeCode"> 
+                                        <option value="*"> Select Fuel Type</option>
+                                        @foreach (var item in ViewBag.FuelType)
+                                        {
+
+                                            <option value="@item.FuelTypeCode"> @item.FuelTypeName </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Fuel (Liter)</label>
+                                <div class="col-sm-3">
+                                    <input type="text" id="Quantity" onkeyup="fnCalculateAmount()"  class="form-control" placeholder="" value="0" >
+                                </div>
+                                <label for="inputEmail3" class="col-sm-2 control-label">Rate</label>
+                                <div class="col-sm-3">
+                                    <input type="text" id="Rate" onkeyup="fnCalculateAmount()" class="form-control" placeholder=""  value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Current Fuel (Liter)</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="CurrentFuelQty" class="form-control" placeholder="" value="0" onkeypress='return isNumberKey(event)'>
+                                    </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Amount</label>
+                                <div class="col-sm-3">
+                                    <input type="text" id="Amount" class="form-control" placeholder="" readonly>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6 text-right">
+                                     <button type="button" class="btn btn-info" onclick="fnAddDataToGrid()">Add to Grid</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+
+
+                            <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                <table id="tblFuelLogDetail" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center; width:6%">FuelLogNo</th>
+                                            <th style="text-align:center; width:3%">FuelStationName</th>
+                                            <th style="text-align:center; width:7%">Fuel (Liter)</th>
+                                            <th style="text-align:center; width:7%">Rate</th>
+                                            <th style="text-align:center; width:7%">Amount</th>
+                                            <th style="text-align:center; width:7%">Current Fuel</th>
+                                            <th style="text-align:center; width:7%">FuelType</th>
+                                            <th style="text-align:center; width:2%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="htFuleDetails">
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="card-footer text-center">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/FuelLog/Index")'>Cancel</a>
+                        <button type="submit" class="btn btn-info">Save</button>
+
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function fnAddDataToGrid()
+    {
+        var table = $("#tblFuelLogDetail");
+        var tbody = $("#htFuleDetails");
+
+
+        var FuelLogNo = $("#FuelLogNo").val();
+        var FuelStationName = $("#FuelStationName").val();
+        var Quantity = $("#Quantity").val();
+        var Rate = $("#Rate").val();
+        var Amount = $("#Amount").val();
+        var FuelTypeCode = $("#FuelTypeCode").val();
+        var FuelTypeName = $("#FuelTypeCode option:selected").text();
+        var CurrentFuelQty = $("#CurrentFuelQty").val();
+
+        var index = tbody.children("tr").length;
+        var indexCell = "<td style='display:none'><input readonly class='form-control' name='TblFuelLogDetails.Index' type='hidden' value='" + index + "' /></td>";
+
+        var idCell = "<td style='display:none'> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_Id' name='TblFuelLogDetails[" + index + "].Id' type='text' value='0' /></td>";
+        var fuelLogNoCell = "<td> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_FuelLogNo' name='TblFuelLogDetails[" + index + "].FuelLogNo' type='text' value='" + FuelLogNo + "' /></td>";
+        var fuelStationNameCell = "<td> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_FuelStationName' name='TblFuelLogDetails[" + index + "].FuelStationName' type='text' value='" + FuelStationName + "' /></td>";
+        var quantityCell = "<td> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_Quantity' name='TblFuelLogDetails[" + index + "].Quantity' type='number' value='" + Quantity + "' /></td>";
+        var rateCell = "<td> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_Rate' name='TblFuelLogDetails[" + index + "].Rate' type='number' step='0.01' value='" + Rate + "' /></td>";
+        var amountCell = "<td> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_Amount' name='TblFuelLogDetails[" + index + "].Amount' type='number' step='0.01' value='" + Amount + "' /></td>";
+        var currentFuelQty = "<td> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_CurrentFuelQty' name='TblFuelLogDetails[" + index + "].CurrentFuelQty' type='number' step='0.01' value='" + CurrentFuelQty + "' /></td>";
+        var fuelTypeCodeCell = "<td style='display:none'> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_FuelTypeCode' name='TblFuelLogDetails[" + index + "].FuelTypeCode' type='text' value='" + FuelTypeCode + "' /></td>";
+        var fuelTypeNameCell = "<td> <input readonly class='form-control' id='TblFuelLogDetails_" + index + "_FuelTypeName' type='text' value='" + FuelTypeName + "' /></td>";
+        var removeCell = "<td><button type='button' class='btn btn-sm btn-danger' onclick='removeTblRow(" + index + ")'>Remove</button></td>";
+
+        var newRow = "<tr id='trTblFuelLogDetails" + index + "'>"
+            + indexCell
+            + idCell
+            + fuelLogNoCell
+            + fuelStationNameCell
+            + quantityCell
+            + rateCell
+            + amountCell
+            + currentFuelQty
+            + fuelTypeCodeCell
+            + fuelTypeNameCell
+            + removeCell
+
+            + "</tr>";
+        tbody.append(newRow);
+    }
+    function removeTblRow(id) {
+
+        var controlToBeRemoved = "#trTblFuelLogDetails" + id;
+        $(controlToBeRemoved).remove();
+        fnCalculateTotalLoadMt();
+    }
+    function fnCalculateAmount(){
+            var Quantity = Number($("#Quantity").val());
+            var Rate = Number($("#Rate").val());
+            var Amount = Quantity * Rate;
+            $("#Amount").val(Amount);
+
+
+    }
+   function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode != 46 && (charCode < 48 || charCode > 57)))
+            return false;
+        return true;
+    }
+</script>

@@ -1,0 +1,93 @@
+﻿@model TblFuelType
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/TyreSetup/Index">Tyre Setup</a></li>
+        <li class="breadcrumb-item active">Add Tyre Info</li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-action="AddFuelType" asp-controller="FuelType" method="post">
+
+                    <div class="card-body">
+
+                 
+                        <div class="card-header"> <b> Fuel Type Setup </b></div>
+                        
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Fuel type Code</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" asp-for="FuelTypeCode" class="form-control" placeholder="" readonly>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Fuel Type Name</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" asp-for="FuelTypeName" class="form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-center">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/Home/Index")'>Cancel</a>
+                        <button type="submit" class="btn btn-info">Save</button>
+
+                    </div>
+                </form>
+               
+
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+                <div class="card-header"> <b> Fuel Type List </b></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+
+
+
+                            <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                <table id="tblFuelLogDetail" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center; width:3%">Id</th>
+                                            <th style="text-align:center; width:3%">Fuel Type Code</th>
+                                            <th style="text-align:center; width:7%">Fuel Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="htFuleDetails">
+                                        @foreach (var item in ViewBag.FueTypelList)
+                                        {
+                                            <tr>
+                                                <td style="text-align:center">@item.Id</td>
+                                                <td style="text-align:center">@item.FuelTypeCode</td>
+                                                <td>@item.FuelTypeName</td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+</section>

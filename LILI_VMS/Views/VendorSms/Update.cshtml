@@ -1,0 +1,78 @@
+﻿@model TblVendorSmsmaster
+<div id="modal-placeholder"></div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/VendorSms/Index">Vendor SMS Notification</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+
+</section>
+<section class="content container-fluid">
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="VendorSms" method="post" asp-action="CreateVenorNotification">
+                    <div class="card-body">
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="VendorSmsCode" class="col-sm-2 control-label">Sms Track Code</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="VendorSmsCode" class="form-control readonly" readonly />
+                                </div>
+                                <label class="col-sm-2 control-label"> Date</label>
+                                <div class="col-sm-3">
+                                    <input type="date" asp-for="ScheduleDate" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                <table id="tblSms" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:3%">Vendor Code</th>
+                                            <th style="width:7%">Vendor Name</th>
+                                            <th style="width:5%"> Vendor Address1</th>
+                                            <th style="width:5%"> Vendor Address2</th>
+                                            <th style="width:5%"> Contact Info</th>
+                                            <th style="width:10%"> Message </th>
+                                            <th style="width:2%"> SMS Sent </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbSmsGrid">
+                                        @for (var i = 0; i < Model.TblVendorSmsdetails.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].VendorCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].VendorName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].Add1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].Add2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].Smsto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.TextAreaFor(modelItem => modelItem.TblVendorSmsdetails[i].Smsmessage, new { @class = "form-control", @readonly = "readonly" })</td>
+                                                <td> @((Model.TblVendorSmsdetails[i].Status == "Y") ? "Yes" : "No") </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/VendorSms/Index")'>Cancel</a>
+                        
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</section>

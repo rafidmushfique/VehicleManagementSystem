@@ -1,0 +1,325 @@
+﻿@model IEnumerable<LILI_VMS.Models.ReportsViewModels.VehicleWiseExpenditureReport>;
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h2>Vehicle Performance Report</h2>
+            </div>
+            <div class="ibox-content" style="min-height: 6em;padding: .5em 0 0 0;">
+                <form action="/Report/VehicleWiseExpenditure" method="post">
+                    <div class="row">
+
+                        <div class="col-sm-2">
+                            <label>Vehicle Owner</label>
+                            <select class="form-control" name="VehicleOwner" id="VehicleOwner" onchange="fnGetVehicleNoList()">
+                                @foreach (var item in ViewBag.ListOfOwner)
+                                {
+                                    <option value="@item.OwnerCode">@item.OwnerName</option>
+                                }
+                            </select>
+                        </div>
+
+                      <div class="col-sm-2">
+                            <label>Vehicle No</label>
+                            <select class="form-control select2" name="VehicleRegNo" id="VehicleRegNo">
+                                @foreach(var item in ViewBag.ListOfRegNo)
+                                {
+                                    <option value="@item.RegNo">@item.VehicleName</option>
+                                }
+                            </select>
+                       </div>
+
+                        <div class="col-sm-2">
+                            <label>Month</label>
+                            @Html.DropDownList("Month", new SelectList(ViewBag.ListOfMonth, "Text", "Value"), new { @class = "form-control" })
+                        </div>
+                        <div class="col-sm-2">
+                            <label>From Date</label>
+                            <div class="col-sm-12 date input-group ">
+                                <input type="date" class="form-control" name="DateFrom" id="DateFrom" value="" />
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>To Date</label>
+                            <div class="col-sm-12 date input-group ">
+                                <input type="date" class="form-control" name="DateTo" id="DateTo" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary" style="margin-top: 1.5em;">Show Report</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model != null)
+{
+    <div class="row" style="margin-bottom:5em;">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" style="width: 100%;display: block;overflow-y: auto;height:75vh">
+                    <table id="myTable" class="table">
+                        <thead style="border:none;">
+                            <tr>
+                                <th style="width:11% ">Vehicle No</th>
+                                <th style="width:5%  ">Vehicle Owner</th>
+                                <th style="width:7%; ">Carried of Tons</th>
+                                <th style="width:7%; ">Run of KM</th>
+                                <th style="width:7%; ">Ltr of fuel</th>
+                                <th style="width:7%; ">Fuel cost</th>
+                                <th style="width:7%; ">Driver allowance</th>
+                                <th style="width:7%; ">Helper allowance</th>
+                                <th style="width:7%; ">Bridge Toll</th>
+                                <th style="width:7%; ">Subscription</th>
+                                <th style="width:7%; ">Police</th>
+                                <th style="width:7%; ">Load Bill</th>
+                                <th style="width:7%; ">Un Load bill</th>
+                                <th style="width:7%; ">Repair & Maintenance</th>
+                                <th style="width:7%; ">Others cost</th>
+                                <th style="width:7%; ">Total cost</th>
+                                <th style="width:7%; ">Cost per kg</th>
+                                <th style="width:7%; ">Cost per KM</th>
+                              
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Total:</th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var vm  in Model)
+                            {
+                                <tr>
+                                    <td>@vm.RegistrationNo</td>
+                                    <td>@vm.Owner</td>
+                                    <td style="text-align:right">@vm.TotalLoadMT</td>
+                                    <td style="text-align:right">@vm.RunOfKM</td>
+                                    <td style="text-align:right">@vm.LtrOfFuel</td>
+                                    <td style="text-align:right">@vm.FuelCost</td>
+                                    <td style="text-align:right">@vm.DriverAllowance</td>
+                                    <td style="text-align:right">@vm.HelperAllowance</td>
+                                    <td style="text-align:right">@vm.Toll</td>
+                                    <td style="text-align:right">@vm.Subscription</td>
+                                    <td style="text-align:right">@vm.Police</td>
+                                    <td style="text-align:right">@vm.LoadBill</td>
+                                    <td style="text-align:right">@vm.UnloadBill</td>
+                                    <td style="text-align:right">@vm.Repair</td>
+                                    <td style="text-align:right">@vm.Others</td>
+                                    <td style="text-align:right">@vm.TotalCost</td>
+                                    <td style="text-align:right">@vm.CostPerKg</td>
+                                    <td style="text-align:right">@vm.CostPerKm</td>
+                               </tr>
+                            }
+                        </tbody>
+                       
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section css
+{
+    <link rel="stylesheet" href="~/lib/datatable/datatable.min.css" />
+
+}
+
+@section Scripts
+{
+    <script src="~/lib/datatable/datatables.min.js"></script>
+    <script src="~/lib/datatable/pdfmake.min.js"></script>
+    <script src="~/lib/datatable/vfs_fonts.js"></script>
+    <script>
+
+
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                fixedHeader: true,
+                "scrollY": true,
+                scrollY: 450,
+                paging: false,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fa fa-file-excel-o"> EXCEL</i>',
+                        footer: true,
+                    },
+
+                    {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        footer: true,
+                        title: function () {
+                            return "Vehicle Performance Report"
+                        },
+                        pageSize: 'LEGAL',
+                        text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                        titleAttr: 'PDF'
+                    }
+                ],
+                footerCallback: function (row, data, start, end, display) {
+                    let api = this.api();
+
+                    // Remove the formatting to get integer data for summation
+                    let intVal = function (i) {
+                        return typeof i === 'string'
+                            ? i.replace(/[\$,]/g, '') * 1
+                            : typeof i === 'number'
+                                ? i
+                                : 0;
+                    };
+
+                    // Total over all pages
+                    costPerKMtotal = api
+                        .column(17)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    costPerKGtotal = api
+                        .column(16)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+                    total = api
+                        .column(15)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+                    OtherTotal = api
+                        .column(14)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+                    RepairTotal = api
+                        .column(13)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+                    UnloadTotal = api
+                        .column(12)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+                    loadTotal = api
+                        .column(11)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    policeTotal = api
+                        .column(10)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    subsTotal = api
+                        .column(09)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    tollTotal = api
+                        .column(08)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    helperAllowenceTotal = api
+                        .column(07)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    driverAllowenceTotal = api
+                        .column(06)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    fuelCostTotal = api
+                        .column(05)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    ltrFuelTotal = api
+                        .column(04)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    runofkmTotal = api
+                        .column(03)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+                    carriedTotal = api
+                        .column(02)
+                        .data()
+                        .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+                    // // Total over this page
+                    // pageTotal = api
+                    //     .column(2, { page: 'current' })
+                    //     .data()
+                    //     .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+                    // Update footer
+                    api.column(17).footer().innerHTML = costPerKMtotal.toFixed(2);
+                    api.column(16).footer().innerHTML = costPerKGtotal.toFixed(2);
+                    api.column(15).footer().innerHTML = total.toFixed(2) ;
+                    api.column(14).footer().innerHTML = OtherTotal.toFixed(2);
+                    api.column(13).footer().innerHTML = RepairTotal.toFixed(2);
+                    api.column(12).footer().innerHTML = UnloadTotal.toFixed(2);
+                    api.column(11).footer().innerHTML = loadTotal.toFixed(2);
+                    api.column(10).footer().innerHTML = policeTotal.toFixed(2);
+                    api.column(09).footer().innerHTML = subsTotal.toFixed(2);
+                    api.column(08).footer().innerHTML = tollTotal.toFixed(2);
+                    api.column(07).footer().innerHTML = helperAllowenceTotal.toFixed(2);
+                    api.column(06).footer().innerHTML = driverAllowenceTotal.toFixed(2);
+                    api.column(05).footer().innerHTML = fuelCostTotal.toFixed(2);
+                    api.column(04).footer().innerHTML = ltrFuelTotal.toFixed(2);
+                    api.column(03).footer().innerHTML = runofkmTotal.toFixed(2);
+                    api.column(02).footer().innerHTML = carriedTotal.toFixed(2);
+                }
+                //"pageLength": 50
+            });
+        });
+        function fnGetVehicleNoList() {
+            let vehicleOwner = $("#VehicleOwner").val();
+            $.ajax({
+                type: "POST",
+                url: "/Report/GetVehicleNoList",
+                data: { vOwnerCode: vehicleOwner },
+                success: function (result) {
+                    console.log(result)
+                    var formoption = "<option value='*'>" + "Select Vehicle" + "</option>";
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].RegNo != '') {
+
+                            formoption += "<option value='" + result[i].regNo + "'>" + result[i].vehicleName + "</option>";
+
+
+                        }
+                    }
+
+                    $("#VehicleRegNo").html(formoption);
+                },
+
+            });
+
+        }
+    </script>
+}

@@ -1,0 +1,171 @@
+﻿@model TblBidWinnerVehicleInfo
+<div id="modal-placeholder"></div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BidSchedule/Index">Bid Schedule</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+
+</section>
+<div class="modal">
+</div>
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+           
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="WinningBid" method="post" asp-action="CreateOrEditBidVehicleInfo">
+
+                    <input type="hidden" asp-for="VendorCode" class="form-control readonly" readonly />
+                    <div class="card-body">
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="BidScheduleNo" class="col-sm-2 control-label">Bid Schedule No</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleNo" class="form-control readonly" readonly />
+                                </div>
+                                <label asp-for="BidScheduleDate" class="col-sm-2 control-label">Schedule Date</label>
+                                <div class="col-sm-3">
+                                    <input type="date" asp-for="BidScheduleDate" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="BidScheduleStartDate" class="col-sm-2 control-label">Schedule Start</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleStartDate" class="form-control" readonly />
+                                </div>
+                                <label asp-for="BidScheduleEndDate" class="col-sm-2 control-label">Schedule End</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleEndDate" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="LoadPoint" class="col-sm-2 control-label">Load Point</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="LoadPoint" class="form-control" readonly />
+                                </div>
+                                <label asp-for="CapacityMt" class="col-sm-2 control-label">Capacity-Mt</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="CapacityMt" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="card">
+                           
+                                <div class="card-body">
+
+                                    <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                        <table id="tblCustomer" class="table table-bordered table-striped table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:3%;display:none">Customer Code</th>
+                                                    <th style="width:5%">Customer Name</th>
+                                                    <th style="width:5%"> Customer Address1</th>
+                                                    <th style="width:5%"> Customer Address2</th>
+                                                 
+                                                   
+                                                </tr>
+                                            </thead>
+                                            <tbody id="htCustomerGrid">
+                                                @foreach (var item in ViewBag.CustomerList)
+                                                {
+                                                    <tr>
+                                                        <td style="display:none">@item.CustomerCode</td>
+                                                        <td>@item.CustomerName</td>
+                                                        <td>@item.Add1</td>
+                                                        <td>@item.Add2</td>
+                                                       
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                   
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="VehicleRegNo" class="col-sm-2 control-label">Vehicle Reg No</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="VehicleRegNo" class="form-control" />
+                                </div>
+                             
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="DriverName" class="col-sm-2 control-label">DriverName</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="DriverName" class="form-control" />
+                                </div>
+                                <label asp-for="DriverContactNo" class="col-sm-2 control-label">DriverContactNo</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="DriverContactNo" class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="Comments" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" asp-for="Comments" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!-- /.box-body -->
+                    <div class="card-footer">
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/WinningBid/Index")'>Cancel</a>
+                        @if (Model.Status != "Completed")
+                        {
+                           
+                            <button type="submit" class="btn btn-info pull-right">Save</button>
+                        
+                        }
+                        
+
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.box -->
+</section>

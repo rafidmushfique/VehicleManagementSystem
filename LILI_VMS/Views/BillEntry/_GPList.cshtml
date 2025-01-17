@@ -1,0 +1,157 @@
+﻿@model TblGpbillGpdetail
+<!-- Modal -->
+<div class="modal fade" id="add-material-search" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content" style="position: relative;">
+
+            <div class="modal-header" style="background-color:#0c8599; color:white;">
+                <h5 class="modal-title" id="addContactLabel">Select GP Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-header">
+                <div class="col-sm-10">
+                    <input type="text" id="SearchKey" class="form-control" placeholder="Registration No / GP No">
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" id="btnSearch" class="btn btn-primary">search</button>
+                </div>
+            </div>
+            <div class="modal-body" style="position: relative;">
+                <div class="loader-overlay" style="display:none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 1050;">
+                    <div class="loader" style="position: relative;">
+                        <div class="spinner-border text-primary" role="status">
+                        </div>
+
+
+                    </div>
+                </div>
+                <form class="form-horizontal" style="padding-bottom:30px">
+                    <div class="card-body">
+
+                        <table id="tblGPInfo" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:2%"></th>
+                                    <th style="width:7%">GP No</th>
+                                    <th style="width:7%">GP Date</th>
+                                    <th style="width:10%">Registration No.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblGPInfoBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer" style="background-color:#0c8599; ">
+                <button type="button" id="btnSet" class="btn btn-warning" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+
+
+       
+
+
+
+        $('#btnSearch').on('click', function () {
+            debugger;
+            var SearchKey = $("#SearchKey").val();
+            var PlantCode = $("#PlantId").val();
+            var vRegNo = $("#RegNo").val();
+            if (vRegNo != '') {
+
+                $(".loader-overlay").css("display", "flex");
+                $.ajax({
+                    type: "POST",
+                    url: "/BillEntry/SearchGPList",
+                    data: { PlantCode: PlantCode, SearchKey: SearchKey, RegNo: vRegNo },
+                    success: function (msg) {
+                       
+                        debugger;
+                        $("#tblGPInfo #tblGPInfoBody").empty();
+                        var tr = '';
+                        for (var i = 0; i < msg.length; i++) {
+                            tr = $('<tr/>');
+                            tr.append("<td>" + '<input name="GPNo" style="height:1.9rem ; width:100%" type="radio" value="' + msg[i].gpNo + '"></label>' + "</td>");
+                            tr.append("<td>" + msg[i].gpNo + "</td>");
+                            tr.append("<td >" + (msg[i].gpDate).replace("T"," ") + "</td>");
+                            tr.append("<td >" + msg[i].vehicleNo + "</td>");
+                            tr.on('click', function () {
+                                $(this).find('input[name="GPNo"]').prop('checked', true);
+                            });
+
+                            $("#tblGPInfo #tblGPInfoBody").append(tr);
+                            $(".loader-overlay").hide();
+                        }
+                    },
+                    error: function () {
+                        $(".loader-overlay").hide();
+                        //$('#ExpertiesId').val('');
+                        //$('#ExpertArea').val('');
+                        //$('#ExpertDesc').val('');
+                    }
+                });
+            }
+            else { 
+                alert("Please select a Vehicle");
+            }
+
+
+            // return false;
+            $(".loader-overlay").hide();
+        });
+
+        $('#btnSet').on('click', function () {
+            var GPNo = $("input:checked").val();
+            var PlantCode = $("#PlantId").val();
+            if (GPNo != '') {
+                $("#gpLoader").show();
+                $("#mtLoader").show();
+                $.ajax({
+                    type: "POST",
+                    url: "/BillEntry/SetGPInfo",
+                    data: { PlantCode: PlantCode,GPNo: GPNo },
+                    success: function (msg) {
+                     console.log(msg);
+                     $.each(msg, function(idx,elem)
+                        {
+                            $("#CustomerCode").val(elem.customerCode);
+                            $("#CustomerName").val(elem.customerName);
+                            $("#CustomerAddress").val(elem.customerAddress);
+                            $("#GpNo").val(elem.gpNo);
+                            $("#LoadOfMt").val(elem.loadMT);
+                            $("#LoadingDate").val(elem.gpDateString);
+                            $("#EntranceDate").val(elem.gpDateString);
+                            addNewRowToGrid();
+                        })
+                        $("#gpLoader").hide();
+                        $("#mtLoader").hide();
+                    },
+                    error: function () {
+                        $("#gpLoader").hide();
+                        $("#mtLoader").hide();
+                    }
+                });
+            }
+        });
+
+    });
+
+
+</script>

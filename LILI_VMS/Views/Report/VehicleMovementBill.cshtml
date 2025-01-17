@@ -1,0 +1,271 @@
+﻿@model IEnumerable<LILI_VMS.Models.ReportsViewModels.VehicleMovementBillReport>;
+
+<div class="row mt-3">
+    <div class="col-xs-8">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content" style="min-height: 6em;padding: .5em 0 0 0;">
+             
+                <form class="form-horizontal" asp-controller="Report" method="post" asp-action="VehicleMovementBill">
+                    <div class="row">
+                        <div class="col-xs-4">
+                        <label>Bill No</label>
+                        <select name="BillNo" class="single_select2 form-control" asp-items="@(new SelectList(ViewBag.ListOfBillNo,"BillNo","BillName"))"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" id="submitBtn" class="btn btn-primary" style="margin-top: 1.5em;">Show Report</button>
+                        </div>
+                    </div>
+                </form>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@if (Model != null)
+{
+    <div class='row' style='margin-bottom:5em;'>
+        <div class="col-xs-12 offset-xs-2">
+            <div class="card card-default">
+                <div class="card-header">
+                    <button class="btn  btn-primary" id="printReport"><i class="fa fa-print"> Print </i> </button>
+                    <div class="card-tools">
+                    </div>
+                </div>
+                <div class="card-body" id="printSection">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4 class="text-left">
+                                <b>Vehicle Trip/Movement Bill</b>
+                            </h4>
+                            <div class="row pt-5">
+                                <div class="col-sm-4">
+                                    <label> Loading date: </label>
+                                    <label>@Model?.FirstOrDefault()?.LoadingDate.ToString("MMMM dd, yyyy")</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    
+                                </div>
+                                <div class="col-sm-4">
+                                    <label> Bill Date: </label>
+                                    <label>@Model?.FirstOrDefault()?.BillDate.ToString("MMMM dd, yyyy")</label>
+                                </div>
+                            </div>
+
+                            <div class="row pt-5">
+                                <div class="col-sm-4">
+                                    <label> Registration No: </label>
+                                    <label>@Model?.FirstOrDefault()?.RegNo</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label> KPL: </label>
+                                    <label>@Model?.FirstOrDefault()?.KPL</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label> Driver Name: </label>
+                                    <label>@Model?.FirstOrDefault()?.DriverName</label>
+                                </div>
+                            </div>
+
+                            <div class="row pt-5">
+                                <div class="col-sm-4">
+                                    <label> Closing Km: </label>
+                                    <label>@Model?.FirstOrDefault()?.ClosingKM</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label> Current Km: </label>
+                                    <label>@Model?.FirstOrDefault()?.StartingKm</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label> Bill KM: </label>
+                                    <label>@Model?.FirstOrDefault()?.RunOfKm</label>
+                                </div>
+                            </div>
+                            <div class="row pt-5">
+                                <div class="col-sm-4">
+                                    <label> Trip Carrying: </label>
+                                    <label>@Model?.FirstOrDefault()?.Weight</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label> Loading Point: </label>
+                                   
+                                </div>
+                                <div class="col-sm-4">
+                                    <label> Gate Pass No: </label>
+                                    
+                                </div>
+                            </div>
+
+
+
+                            <div class="row pt-5">
+                                <div class="col-xs-12" style="width:99%">
+                                    <table id="myTable" class="table table-bordered  table-responsive-sm table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Delivery Area</th>
+                                                <th>Expenditure</th>
+                                                <th>Unit</th>
+                                                <th>BDT</th>
+                                                <th>Comments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                   <td>@item.CustomerAddress</td>
+                                                   <td>@item.ExpenseName</td>
+                                                   <td>@item.Unit</td>
+                                                   <td>@item.TotalPrice</td>
+                                                   <td>@item.Comments</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@section css
+    {
+    @*    <link href="~/Content/adminLte/plugins/select2/css/select2.min.css" rel="stylesheet" />*@
+    <link href="~/lib/datatable/datatable.min.css" rel="stylesheet">
+    <link href="~/lib/select2/select2.min.css" rel="stylesheet" />
+    <style>
+        .col-xs-2 {
+            width: 19.666667%;
+        }
+
+        label {
+            font-size: small;
+        }
+
+        .table td, .table th {
+            padding: 0.2em 0.5em;
+        }
+
+    </style>
+
+    <style>
+        @@media screen {
+            header, footer {
+                display: none;
+            }
+
+            #printSection {
+                display: none;
+            }
+        }
+
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+
+        /* For removing print browswer header and footer info*/
+        @@page {
+            size: auto;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        /*--------------------------------------------------*/
+
+        .signature {
+            border: 0;
+            width: 90%;
+            border-bottom: 1px solid #000;
+        }
+
+        @@media print {
+
+            html, body {
+                height: 100vh;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden;
+            }
+        }
+    </style>
+}
+
+@section scripts
+    {
+    
+    <script src="~/lib/datatable/pdfmake.min.js"></script>
+    <script src="~/lib/datatable/vfs_fonts.js"></script>
+    <script src="~/lib/datatable/datatables.min.js"></script>
+    @*<script type="text/javascript" src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+   *@ 
+   <script src="~/lib/datatables-rowgroup/datatables.rowsgroup.js"></script>
+   <script src="~/lib/select2/select2.min.js"></script>
+
+    @* <script src="~/Content/adminLte/plugins/select2/js/select2.min.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+            $('.single_select2').select2({ width: 'resolve' });
+        });
+        document.getElementById("printReport").onclick = function () {
+           //$('#signaturediv').css('display', 'block');
+            printElement(document.getElementById("PrintArea"));
+            //$('#signaturediv').css('display', 'none');
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+
+            var $printSection = document.getElementById("printSection");
+
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+        }
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                fixedHeader: true,
+                rowsGroup:[0,1,2,3,7],
+                dom: 't',
+               paging:false,
+
+                //"pageLength": 50
+            });
+        });
+    </script>
+}

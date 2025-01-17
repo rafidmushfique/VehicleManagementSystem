@@ -1,0 +1,52 @@
+﻿
+    @page {
+        size: auto;
+       margin: 0;
+    }
+    @media screen {
+        header, footer {
+            display: none;
+        }
+
+     
+    }
+
+    @media print {
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        body > :not(#printSection) {
+            display: none !important;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 80%;
+        }
+
+        html, body {
+            height: 100vh;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+
+    }
+
+ 
+

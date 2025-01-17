@@ -1,0 +1,14 @@
+
+Process:
+-------------
+https://docs.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-5.0&tabs=netcore-cli
+
+
+
+Scaffold-DbContext "Server= 192.168.100.60;Database=dbFCBVehicleManagementSystem;user id=sa;password=dataport;MultipleActiveResultSets=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Temp_Models -Context TempContext    
+
+-Tables actor,film,film_actor,language -f   
+
+
+
+----------------------------------------

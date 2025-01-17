@@ -1,0 +1,363 @@
+﻿@model EmployeeSetupVM
+<div id="modal-placeholder"></div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/VendorMapping/Index"> Employee Setup </a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+</section>
+
+<div class="modal">
+</div>
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-action="CreateEmployeeSetup" asp-controller="EmployeeSetup" method="post">
+                    <div class="card-body">
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">User</label>
+                                        <div class="col-sm-5">
+                                            <select id="UserId" name="UserId" class="form-control select2">
+                                                <option value="*"> Select User</option>
+                                                @foreach (var item in ViewBag.UserList)
+                                                {
+                                                    <option value="@item.Email"> @item.UserName </option>
+
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+@*                             <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">User Name</label>
+                                        <div class="col-sm-5">
+                                            <input class="form-control"></input>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">Plant</label>
+                                        <div class="col-sm-5">
+                                            <select asp-for="PlantCodes" class="form-control select2" multiple="multiple">
+                                                <option value="*"> Select User</option>
+                                                @foreach (var item in ViewBag.UnitList)
+                                                {
+                                                    <option value="@item.BusinessCode"> @item.BusinessName </option>
+
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">Role</label>
+                                        <div class="col-sm-5">
+                                            <select asp-for="UserRole"  class="form-control select2">
+                                                <option value="*"> Select User</option>
+                                                @foreach (var item in ViewBag.RoleList)
+                                                {
+                                                    <option value="@item.Id"> @item.Name </option>
+
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+   
+                        </div>
+                        <div class="row pt-5">
+
+                            <div class="col-sm-12">
+                               
+                                <div class="card">
+                                    <div class="card-header">
+                                        <b>  Approval Role (Checker/Recommender/Approver)</b>
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <label for="inputEmail3" class="col-sm-4 control-label">Menu List</label>
+                                                        <div class="col-sm-5">
+                                                            <select id="MenuList" class="form-control select2">
+                                                                
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <label for="inputEmail3" class="col-sm-4 control-label">Authorization</label>
+                                                        <div class="col-sm-5">
+                                                            <select id="AuthRole" class="form-control select2">
+                                                                <option value="*"> Select User</option>
+                                                                @foreach (var item in ViewBag.AuthList)
+                                                                {
+                                                                    <option value="@item.AuthTypeCode"> @item.AuthTypeName </option>
+
+                                                                }
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button"class="btn btn-info" onclick="fnAddToGrid()">Add</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="tbluser" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:3%">User</th>
+                                               @*      <th style="width:3%">User Role</th>
+                                                    <th style="width:5%">Menu Id</th> *@
+                                                    <th style="width:5%">Menu Name</th>
+                                                    <th style="width:5%">Authorization</th>
+                                                    <th style="text-align:center; width:2%">Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="htuserGrid">
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                         
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+
+                    <div class="card-footer text-center">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/Home")'>Cancel</a>
+                        <button type="submit" class="btn btn-info">Save</button>
+
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+
+
+        $("#UserId").select2();
+        $("#UserId").on('change', function () {
+
+            let userId = $("#UserId").val()
+            let table = $("#tbluser");
+            let $tbody = $("#htuserGrid");
+            $tbody.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "/EmployeeSetup/GetUserWiseInfo",
+                data: { user: userId },
+                success: function (msg) {
+
+                    console.log(msg);
+                        debugger;
+                    if (msg.userRole != "null" && msg.userRole != null && msg.userRole != "") {
+                            $("#UserRole").val(msg.userRole);
+                            $("#UserRole").change();
+                            $("#UserRole").attr("disabled", true);
+                        }
+                       
+                        if(msg.plantCodes != null){
+                            $("#PlantCodes").val(msg.plantCodes);
+                            $("#PlantCodes").change();
+                            $("#PlantCodes").attr("disabled", true);
+                        }
+                        $.each(msg.tblUserMenuAuth, function (idx, elem) {
+                            let index = $tbody.children("tr").length;
+                            let indexCell = "<td style='display:none'><input readonly class='form-control' name='TblUserMenuAuth.Index' type='hidden' value='" + index + "' /></td>";
+                            let idCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_Id' name='TblUserMenuAuth[" + index + "].Id' type='text' value='"+ elem.id +"' /></td>";
+                            let UserIdCell = "<td> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_UserId' name='TblUserMenuAuth[" + index + "].UserId' type='text' value='" + elem.userId + "' /></td>";
+                            let UserRoleCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_UserRole' name='TblUserMenuAuth[" + index + "].UserRole' type='text' value='" + elem.userRole + "' /></td>";
+
+                            let MenuIdentityCell = "<td style='display:none'> <input readonly class='form-control clMenuId' id='TblUserMenuAuth_" + index + "_MenuIdentity' name='TblUserMenuAuth[" + index + "].MenuIdentity' type='text' value='" + elem.menuIdentity + "' /></td>";
+                            let MenuNameCell = "<td> <input readonly class='form-control clMenuName' id='TblUserMenuAuth_" + index + "_MenuName' name='TblUserMenuAuth[" + index + "].MenuName' type='text' value='" + elem.menuName + "' /></td>";
+
+                            let AuthRoleCell = "<td> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_AuthRole' name='TblUserMenuAuth[" + index + "].AuthRole' type='text' value='" + elem.authRole + "' /></td>";
+
+                            let removeCell = "<td> <button type='button' class='btn btn-sm btn-danger' onclick='deleteRow(" + index + ")'>Remove</button> </td>";
+
+                            var newRow = "<tr id='trTblUserMenuAuth" + index + "'>" + indexCell + idCell + UserIdCell + UserRoleCell + MenuIdentityCell + MenuNameCell + AuthRoleCell + removeCell + "</tr>";
+
+                            $tbody.append(newRow);
+                        })
+                    
+                   
+                },
+                error: function (ex) {
+                    console.log(ex);
+                }
+            });
+        });
+        $("#UserRole").on('change', function () {
+
+            var role = $("#UserRole").val();
+            $("#htuserGrid").empty();
+           
+                $.ajax({
+                    type: "POST",
+                        url: "/EmployeeSetup/GetRoleWiseMenuList",
+                    data: { RoleId: role },
+                    success: function (result) {
+                        console.log(result);
+                      var formoption = "<option value='*'>" + "Select Menu" + "</option>";
+                        for (var i = 0; i < result.length; i++) {
+                            if (result[i].RegNo != '') {
+
+                                formoption += "<option value='" + result[i].menuIdentity + "'>" + result[i].menuName + "</option>";
+
+
+                            }
+                        }
+                        $("#MenuList").html(formoption);
+                    },
+                    error: function (ex) {
+                        console.log(ex);
+                    }
+                });
+            });
+
+    })
+ 
+    function fnAddToGrid() { 
+        let table = $("#tbluser");
+        let $tbody = $("#htuserGrid");
+
+        let UserId = $("#UserId").val();
+        let MenuId = $("#MenuList").val();
+        debugger;
+        let exists = false;
+        $("#htuserGrid tr").each(function () {
+            let tdMenuId = $(this).find("input.clMenuId").val();
+            if (tdMenuId == MenuId) { 
+                exists = true;
+            }
+        });
+        
+        
+        let MenuName = $("#MenuList option:selected").text();
+        let UserRole = $("#UserRole").val();
+        let AuthRole = $("#AuthRole").val();
+
+
+        let index = $tbody.children("tr").length;
+        let indexCell = "<td style='display:none'><input readonly class='form-control' name='TblUserMenuAuth.Index' type='hidden' value='" + index + "' /></td>";
+        let idCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_Id' name='TblUserMenuAuth[" + index + "].Id' type='text' value='0' /></td>";
+        let UserIdCell = "<td> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_UserId' name='TblUserMenuAuth[" + index + "].UserId' type='text' value='" + UserId + "' /></td>";
+        let UserRoleCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_UserRole' name='TblUserMenuAuth[" + index + "].UserRole' type='text' value='" + UserRole + "' /></td>";
+        
+        let MenuIdentityCell = "<td style='display:none'> <input readonly class='form-control clMenuId' id='TblUserMenuAuth_" + index + "_MenuIdentity' name='TblUserMenuAuth[" + index + "].MenuIdentity' type='text' value='" + MenuId + "' /></td>";
+        let MenuNameCell = "<td> <input readonly class='form-control clMenuName' id='TblUserMenuAuth_" + index + "_MenuName' name='TblUserMenuAuth[" + index + "].MenuName' type='text' value='" + MenuName + "' /></td>";
+        
+        let AuthRoleCell = "<td> <input readonly class='form-control' id='TblUserMenuAuth_" + index + "_AuthRole' name='TblUserMenuAuth[" + index + "].AuthRole' type='text' value='" + AuthRole + "' /></td>";
+
+        let removeCell = "<td> <button type='button' class='btn btn-sm btn-danger' onclick='removeRow("+index+")'>Remove</button> </td>";
+
+        var newRow = "<tr id='trTblUserMenuAuth" + index + "'>" + indexCell + idCell + UserIdCell + UserRoleCell + MenuIdentityCell + MenuNameCell + AuthRoleCell + removeCell + "</tr>";
+
+        if (exists) {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+
+            toastr.error("Menu Role Already Added");
+        }
+        else {
+            $tbody.append(newRow);
+        }
+        
+
+    }
+    function removeRow(id) {
+        var controlToBeRemoved = "#trTblUserMenuAuth" + id;
+        $(controlToBeRemoved).remove();
+    }
+    function deleteRow(index) {
+      
+       var rowid = "#TblUserMenuAuth_" + index + "_Id";
+        var Id = $(rowid).val();
+        console.log(Id);
+        $.ajax({
+            type: "POST",
+            url: "/EmployeeSetup/DeleteUserAuth",
+            data: { id: Id },
+            success: function (result) {
+                console.log(result);
+                 removeRow(index);
+            },
+            error: function (ex) {
+                console.log(ex);
+            }
+        });
+    }
+</script>

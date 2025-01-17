@@ -1,0 +1,265 @@
+﻿@model TblBidSchedule
+<div id="modal-placeholder"></div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BidSchedule/Index">Bid Schedule</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+
+</section>
+<div class="modal">
+</div>
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+            <input type="hidden" asp-for="ErrorMessage"></input>
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="BidSchedule" method="post" asp-action="CreateSchedule">
+
+                    <input type="hidden" asp-for="UnitName" class="form-control" />
+                    <div class="card-body">
+
+                        <div class="form-group">
+                       
+                           <div class="row">
+                                    <label asp-for="BidScheduleNo" class="col-sm-2 control-label">Bid Schedule No</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" asp-for="BidScheduleNo" class="form-control readonly" readonly/>
+                                    </div>
+                                    <label asp-for="BidScheduleDate" class="col-sm-2 control-label">Schedule Date</label>
+                                    <div class="col-sm-3">
+                                        <input type="date" asp-for="BidScheduleDate" class="form-control" />
+                                    </div>
+                           </div>
+
+                       </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="BidScheduleStartDate" class="col-sm-2 control-label">Schedule Start</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleStartDate" class="form-control" />
+                                </div>
+                                <label asp-for="BidScheduleEndDate" class="col-sm-2 control-label">Schedule End</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleEndDate" class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="LoadPoint" class="col-sm-2 control-label">Load Point</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="LoadPoint" class="form-control" />
+                                </div>
+                                <label asp-for="CapacityMt" class="col-sm-2 control-label">Capacity-Mt</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="CapacityMt" class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="Comments" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-3">
+                                    <textarea type="text" asp-for="Comments" class="form-control"></textarea>
+                                </div>
+                                <label asp-for="IsSendSms" class="col-sm-2 control-label">Send Sms</label>
+                                <div class="col-sm-1">
+                                    <input class="form-check-input" style="width:3rem; height:3rem" type="checkbox" checked disabled />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card">
+                           <div class="card-header">
+                               
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label for="Customer" class="col-sm-1 control-label">Customer</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="Customer" class="form-control" readonly/>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnCustomer" class="btn btn btn-info" data-toggle="ajax-modal" data-target="#add-material-search" data-url="@Url.Action("CustomerInfo")">
+                                                <span class="fas fa-search"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                              
+                           </div>
+                            <div class="col-sm-12">
+                            <div class="card-body">
+                                    
+                                            <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                                <table id="tblCustomer" class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:3%">Customer Code</th>
+                                                            <th style="width:5%">Customer Name</th>
+                                                            <th style="width:5%"> Customer Address1</th>
+                                                            <th style="width:5%"> Customer Address2</th>
+                                                            <th style="width:3%"> Contact Info</th>
+                                                            <th style="text-align:center; width:2%">Action</th>
+                                                           
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="htCustomerGrid">
+                                                        @for (var i = 0; i < Model.TblBidScheduleCustomers.Count; i++)
+                                                        {
+                                                            <tr>
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleCustomers[i].CustomerCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleCustomers[i].CustomerName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleCustomers[i].Add1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleCustomers[i].Add2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleCustomers[i].Mobile, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                   
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label for="Vendor" class="col-sm-1 control-label">Vendors</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="Vendor" class="form-control" readonly />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnGp" class="btn btn btn-info" data-toggle="ajax-modal" data-target="#add-material-search" data-url="@Url.Action("VendorInfo")">
+                                                <span class="fas fa-search"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="card-body" style="border:0px solid #ccc; min-width:30%; ">
+                                <div class="col-sm-12">
+                                    <table id="tblVendor" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:3%">Vendor Code</th>
+                                                <th style="width:5%">Vendor Name</th>
+                                                <th style="width:5%"> Vendor Address1</th>
+                                                <th style="width:5%"> Vendor Address2</th>
+                                                <th style="width:3%"> Contact Info</th>
+                                                <th style="text-align:center; width:2%">Action</th>
+                                                <th style="width:3%; display:none"> SMSTo</th>
+                                                <th style="width:3%; display:none"> SMSMessage</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="htVendorGrid">
+                                            @for (var i = 0; i < Model.TblBidScheduleVendors.Count; i++)
+                                            {
+                                                <tr id="trTblBidScheduleCustomers @i">
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleVendors[i].VendorCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleVendors[i].VendorName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleVendors[i].Add1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleVendors[i].Add2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblBidScheduleVendors[i].Mobile, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td><button type='button' class='btn btn-sm btn-danger' onclick='removeCustomerRow(@i)'>Remove</button></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+
+
+                    </div>
+
+                   
+                    <!-- /.box-body -->
+                    <div class="card-footer">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/BidSchedule/Index")'>Cancel</a>
+                        <button type="submit" class="btn btn-info pull-right">Save</button>
+
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+<script>
+    $(document).ready(function () { 
+        var errormsg = $("#ErrorMessage").val();
+        if (errormsg != "ok") { 
+             if (errormsg != '' || errormsg != null ) {
+                debugger;
+                console.log(errormsg);
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+
+
+                toastr.error(errormsg);
+            }
+        }
+       
+    })
+    function removeCustomerRow(id) {
+
+        var controlToBeRemoved = "#trTblBidScheduleCustomers" + id;
+        $(controlToBeRemoved).remove();
+    }
+    function removeVendorRow(id) {
+
+        var controlToBeRemoved = "#trTblBidScheduleVendors" + id;
+        $(controlToBeRemoved).remove();
+    }
+</script>

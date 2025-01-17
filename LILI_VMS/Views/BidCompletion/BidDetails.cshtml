@@ -1,0 +1,324 @@
+﻿@model TblBidSchedule
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BidApproval/Index">Bid Approval</a></li>
+        <li class="breadcrumb-item active">Finalize</li>
+    </ol>
+
+</section>
+<div class="modal">
+</div>
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+            
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal">
+
+
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <input type="hidden" asp-for="Id" />
+                            <div class="row">
+                                <label asp-for="BidScheduleNo" class="col-sm-2 control-label">Bid Schedule No</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleNo" class="form-control readonly" readonly />
+                                </div>
+                                <label asp-for="BidScheduleDate" class="col-sm-2 control-label">Schedule Date</label>
+                                <div class="col-sm-3">
+                                    <input type="date" asp-for="BidScheduleDate" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="BidScheduleStartDate" class="col-sm-2 control-label">Schedule Start</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleStartDate" class="form-control" readonly />
+                                </div>
+                                <label asp-for="BidScheduleEndDate" class="col-sm-2 control-label">Schedule End</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleEndDate" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="LoadPoint" class="col-sm-2 control-label">Load Point</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="LoadPoint" class="form-control" readonly />
+                                </div>
+                                <label asp-for="CapacityMt" class="col-sm-2 control-label">Capacity-Mt</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="CapacityMt" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                            <label for="Comments" class="col-sm-2 control-label">Comments</label>
+                            <div class="col-sm-3">
+                                <textarea type="text" asp-for="Comments" class="form-control" readonly></textarea>
+                            </div>
+                                <label for="Comments" class="col-sm-2 control-label">Approver Comments</label>
+                                <div class="col-sm-3">
+                                    <textarea type="text" asp-for="BidApproverComment" class="form-control" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-header">
+
+                                <label for="Customer" class=" control-label">Customer</label>
+
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card-body">
+
+                                    <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                        <table id="htGpList" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center; width:5%">Customer Code</th>
+                                                    <th style="text-align:center; width:5%">Customer Name</th>
+                                                    <th style="text-align:center; width:7%">Address</th>
+                                                    <th style="text-align:center; width:3%">Contact No</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="htCustomerGrid">
+                                                @if (Model.TblBidScheduleCustomers != null)
+                                                {
+
+                                                    foreach (var item in Model.TblBidScheduleCustomers)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.CustomerCode</td>
+                                                            <td>@item.CustomerName</td>
+                                                            <td>@item.Add1</td>
+                                                            <td>@item.Mobile</td>
+
+                                                        </tr>
+                                                    }
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+
+
+
+                                <label for="Vendor" class=" control-label">Vendor </label>
+
+                                
+
+                               
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label asp-for="VendorCode" class="col-sm-2 control-label">VendorCode</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="VendorCode" class="form-control" readonly />
+                                        </div>
+                                        <label asp-for="VendorName" class="col-sm-2 control-label">VendorName</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="VendorName" class="form-control" readonly />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label asp-for="VendorAddress" class="col-sm-2 control-label">VendorAddress</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="VendorAddress" class="form-control" readonly />
+                                        </div>
+                                        <label asp-for="VendorContact" class="col-sm-2 control-label">VendorContact</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="VendorContact" class="form-control" readonly />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label asp-for="BidAmount" class="col-sm-2 control-label">BidAmount</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="BidAmount" class="form-control" readonly />
+                                        </div>
+                                        <label for="Comments" class="col-sm-2 control-label">Vendor Comments</label>
+                                        <div class="col-sm-3">
+                                            <textarea type="text" asp-for="VendorComment" class="form-control" readonly></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                     
+                        <div class="card">
+                            <div class="card-header">
+                                <label for="Vendor" class=" control-label">Vehicle Info </label>
+                            </div>
+                            <div class="card-body">
+                      
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label asp-for="DriverName" class="col-sm-2 control-label">DriverName</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="DriverName" class="form-control" readonly />
+                                        </div>
+                                        <label asp-for="DriverContact" class="col-sm-2 control-label">DriverContact</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="DriverContact" class="form-control" readonly />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label asp-for="VehicleRegNo" class="col-sm-2 control-label">VehicleRegNo</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" asp-for="VehicleRegNo" class="form-control" readonly />
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                     
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="Status" class="col-sm-2 control-label">Status</label>
+                                <div class="col-sm-3">
+                                    <select asp-for="Status" class="form-control">
+                                        @foreach (var item in ViewBag.Status)
+                                        {
+                                            <option value="@item.StatusCode">@item.StatusName</option>
+                                            
+                                        }
+
+                                     </select>
+                                </div>
+                                <label for="Comments" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-4">
+                                    <textarea type="text" id="Comments" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <div class="row">
+                                
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+
+                    <!-- /.box-body -->
+                    <div class="card-footer text-center">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/BidCompletion/Index")'>Cancel</a>
+                        <button type="submit" onclick='fnBidStatusUpdate()' class="btn btn-success ">Save</button>
+
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+<script>
+    function fnBidStatusUpdate() { 
+        var status = $("#Status").val();
+        var comments = $("#Comments").val();
+        var id = $("#Id").val();
+        $.ajax({
+            type: "POST",
+            url: "/BidCompletion/Complition",
+            data: { Id: id, Status: status, Comments: comments },
+            success: function (result) {
+
+                // console.log(result)
+                // console.log(result.success);
+                // console.log(result.message);
+                if (result){
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+
+
+                    toastr.success("Bid Status Changes Succesfull!");
+
+                    // alert(result.message);
+                    setTimeout(function () {
+                        window.location.href = '@Url.Action(nameof(Index))';
+                    }, 2000);
+                }
+
+
+
+
+
+
+            },
+
+        });
+
+    }
+</script>

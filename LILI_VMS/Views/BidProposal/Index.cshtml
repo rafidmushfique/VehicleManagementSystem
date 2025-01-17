@@ -1,0 +1,187 @@
+﻿@model PaginatedList<TblBidSchedule>
+
+<section class="content-header">
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Bid Proposal</a></li>
+
+    </ol>
+
+</section>
+
+
+<div id="mymodel" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-sm-12">
+                        <div class="col-sm-11">
+                            <form class="form-horizontal" asp-action="Index" method="get">
+                                <div class="form-group">
+
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <input type="text" name="SearchString" value="@ViewData["currentFilter"]" class="form-control" placeholder="Search for...">
+                                            </div>
+                                            <div class="col-sm-1">
+
+                                                <button type="submit" class="btn btn-info" value="Search"><i class="fa fa-search fa-fw"></i>Search</button>
+
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <table class="table table-responsive table-bordered">
+                        <thead class="thead-dark">
+                            <tr style="height:50px;">
+                                <th style="display:none;">Id</th>
+                                <th style="text-align:center; width:9%">
+                                    <a style="color:white" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> Bid Schedule No <i class="fa fa-sort" style="font-size:20px;color:sandybrown;"></i></a>
+                                </th>
+                                <th style="text-align:center;">Plant</th>
+                               
+                                <th style="text-align:center;">Bid Start</th>
+                                <th style="text-align:center;">Bid End</th>
+                                <th style="text-align:center;">Capacity-MT</th>
+                                <th style="text-align:center;">Customer</th>
+                             
+                                <th style="text-align:center;">Status</th>
+                                <th style="text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="display:none">@Html.DisplayFor(modelItem => item.Id)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.BidScheduleNo)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.UnitName)</td>
+                                   
+                                    <td>@Html.DisplayFor(modelItem => item.BidScheduleStartDate)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.BidScheduleEndDate)</td>
+                                    <td style="text-align:right">@Html.DisplayFor(modelItem => item.CapacityMt)</td>
+                                    <td >
+                                        <ul style="list-style-type: none; margin: 0; padding: 0;">
+                                            @foreach (var customer in item.CustomerNames)
+                                            {
+                                                <li>@customer</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                    @{
+                                        var currentDateTime = DateTime.Now;
+
+                                        if (currentDateTime > item.BidScheduleStartDate && currentDateTime < item.BidScheduleEndDate)
+                                        {
+                                            if (item.Status == "New")
+                                            {
+
+                                                <td style="background-color:dodgerblue; color:white; text-align:center">
+                                                    <text>New</text>
+                                                </td>
+
+                                            }
+                                            else if (item.Status == "Approved")
+                                            {
+                                                <td style="background-color:limegreen; color:white; text-align:center">
+                                                    <text>Approved</text>
+                                                </td>
+                                            }
+                                            else if (item.Status == "Bidded")
+                                            {
+                                                <td style="background-color:orangered; color:white; text-align:center">
+                                                    <text>Bidded</text>
+                                                </td>
+                                            }
+                                            else if (item.Status == "Completed")
+                                            {
+                                                <td style="background-color:SaddleBrown; color:white; text-align:center">
+                                                    <text>Completed</text>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="background-color:white; color:black; text-align:center">
+                                                    <text>@item.Status</text>
+                                                </td>
+                                            }
+                                        }
+                                            else
+                                            {
+                                            <td style="background-color:red; color:white; text-align:center">
+                                                    <text>Closed</text>
+                                                </td>
+                                            }
+                                           
+                                    
+                                    }
+                                   
+                                    
+                                    <td style="text-align:center;">
+                                        <a href="/BidProposal/ProposeBid?Id=@item.Id">
+                                            <i class="fas fa-edit" aria-hidden="true" style="color:#4d4a45"></i>
+                                        </a>
+                                       
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+
+                <div class="table-footer">
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-pageNumber="@(Model.PageIndex - 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class="btn btn-default @prevDisabled"
+                       style="background-color:#4d4a45; color:white;">
+                        <i class="fa fa-angle-left fa-fw"></i>
+                        Previous
+                    </a>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-pageNumber="@(Model.PageIndex + 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class="btn btn-default @nextDisabled"
+                       style="background-color:#4d4a45; color:white;">
+                        <i class="fa fa-angle-right fa-fw"></i>
+                        Next
+                    </a>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+</section>
+<script>
+   
+</script>

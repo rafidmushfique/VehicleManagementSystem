@@ -1,0 +1,577 @@
+﻿@model LILI_VMS.Models.TblVehicleSetup
+
+
+@* <div id="modal-placeholder">
+    @{
+        var message = TempData["msg"].ToString();
+        if (!string.IsNullOrEmpty(message))
+        {
+                                    <script>
+                                    alert("@message");
+                                    </script>
+        
+        }
+    }
+
+</div> *@
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/VehicleSetup/Index">Business/Unit Setup Information</a></li>
+        <li class="breadcrumb-item active">Add Vehicle Setup Information</li>
+        </ol>
+ 
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="row">
+    <div class="col-12">
+
+    <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="VehicleSetup" method="post" asp-action="CreateVehicleSetup">
+                    <div class="card-body">
+
+                <div class="form-group">
+                        <div class="row">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Business</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" asp-for="BusinessCode">
+                                    @foreach (var item in ViewBag.BusinessList)
+                                    {
+                                        <option value="@item.BusinessCode">@item.BusinessName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Vehicle Code</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="VehicleCode" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+
+                        <label for="inputEmail3" class="col-sm-2 control-label">Inclusion Date</label>
+                        <div class="col-sm-3">
+                            <input type="date" asp-for="InclusionDate" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <label for="inputEmail3" class="col-sm-2 control-label">Owner</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" asp-for="Owner">
+                                        @foreach (var item in ViewBag.VehicleOwnerList)
+                                {
+                                            <option value="@item.OwnerCode">@item.OwnerName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <label for="inputEmail3" class="col-sm-1 control-label">Vendor</label>
+                        <div class="col-sm-2">
+                            <input type="text" asp-for="Vendor" class="form-control" placeholder="">
+                        </div>
+
+                                <label for="inputEmail3" class="col-sm-1 control-label">Mobile</label>
+                        <div class="col-sm-2">
+                            <input type="text" asp-for="VendorMobile" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Registration No</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="RegistrationNo" class="form-control" placeholder="">
+                        </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Registration Date</label>
+                        <div class="col-sm-3">
+                            <input type="date" asp-for="RegistrationDate" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Purchase Price </label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="PurchasePrice" class="form-control" placeholder="">
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Depriciation</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Depriciation" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+                <div class="form-group">
+                    <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Manufacturing Year</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="ManufacturingYear" class="form-control" placeholder="">
+                        </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Model No</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="ModelNo" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Brand</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="Brand" class="form-control" placeholder="">
+                        </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Colour</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="Colour" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Weight</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="Weight" class="form-control" placeholder="">
+                        </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Length</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="Length" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                        <label for="inputEmail3" class="col-sm-2 control-label">Width</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Width" class="form-control" placeholder="">
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Height</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Height" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Vehicle Type</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" asp-for="TypeOfVehicle">
+                                        @foreach (var item in ViewBag.VehicleTypeList)
+                                        {
+                                            <option value="@item.VehicleTypeCode">@item.VehicleTypeName</option>
+                                        }
+                                    </select>
+                                </div>
+
+
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Vehicle Size</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" asp-for="SizeOfVehicle">
+                                        @foreach (var item in ViewBag.VehicleSizeList)
+                                        {
+                                            <option value="@item.VehicleSizeCode">@item.VehicleSizeName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">TyreSize</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="TyreSize" class="form-control" placeholder="">
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">QtyofTyre</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="QtyofTyre" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">CC</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Cc" class="form-control" placeholder="">
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Capacity-MT</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="CapacityMt" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">KPL</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Kpl" class="form-control" placeholder="">
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Fuel Tank Capacity</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="FuelTankCapacity" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Present Meter Km</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="PresentMeterKm" class="form-control" placeholder="">
+                                </div>
+                                <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" asp-for="Status">
+                                      
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-header" style="color: black; margin-bottom:10px"><b>Driver Info</b></h5>
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Driver Name</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="DriverName" class="form-control" placeholder="" required>
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Staff Id</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="DriverStaffId" class="form-control" placeholder="" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Mobile No</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="DriverMobileNo" class="form-control" placeholder="">
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">Daily llowance</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="DriverDailyAllowance" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                             <label for="inputEmail3" class="col-sm-2 control-label">Joining Date</label>
+                             <div class="col-sm-2">
+                                 <input type="date" asp-for="DriverJoiningDate" class="form-control" placeholder="">
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-header" style="color: black; margin-bottom:10px"><b>Helper Info</b></h5>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-2 control-label">Helper Name</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="HelperName" class="form-control" placeholder="">
+                                        </div>
+
+                                        <label for="inputEmail3" class="col-sm-2 control-label">Staff Id</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="HelperStaffId" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-2 control-label">Mobile No</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="HelperMobileNo" class="form-control" placeholder="">
+                                        </div>
+
+                                        <label for="inputEmail3" class="col-sm-2 control-label">Daily Allowance</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="HelperDailyAllowance" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Joining Date</label>
+                                <div class="col-sm-2">
+                                    <input type="date" asp-for="HelperJoiningDate" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="card">
+                          <h5 class="card-header" style="color: black; margin-bottom:10px"><b>Document Info</b></h5>
+                          <div class="card-body">
+                        <div class="col-sm-12">
+                               <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-3 control-label">Document Type</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-control" asp-for="DocumentTypeCode">
+                                                @foreach (var item in ViewBag.DocumentTypeList)
+                                                {
+                                                    <option value="@item.DocumentTypeCode">@item.DocumentTypeName</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-3 control-label">Issue Date</label>
+                                        <div class="col-sm-5">
+                                            <input type="date" asp-for="IssueDate" class="form-control" placeholder="">
+                                        </div>
+
+                                    
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                            <label for="inputEmail3" class="col-sm-3 control-label">Expire Date</label>
+                                        <div class="col-sm-5">
+                                            <input type="date" asp-for="ExpiryDate" class="form-control" placeholder="">
+                                        </div>
+
+                               
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                          <label for="" class="col-sm-3 control-label text-right">Attachment</label>
+                                    <div class="col-sm-5">
+                                        <input type="file" id="Attachment" class="form-control" />
+                                    </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" onclick="addNewRowToGrid()" class="btn btn-primary">Add</button>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                               </div>
+                               <div class="col-sm-6">
+                                 <div class="col-sm-12">
+                                    <table id="htAttachmentDetials" class="table table-bordered">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="text-align:center;width:7%;display:none;"> File Name</th>
+                                                <th style="text-align:center;width:10%;display:none;">Original File Name</th>
+                                                <th style="text-align:center;width:10%;display:none;">File Type</th>
+                                                <th style="text-align:center;width:10%;display:none;">Location</th>
+                                                <th style="text-align:center;width:10%;display:none;">Document Typ Code</th>
+
+                                                <th style="text-align:center; width:5%">Document Type</th>
+                                                <th style="text-align:center; width:5%">File</th>
+                                                <th style="text-align:center;width:10%">Issue Date</th>
+                                                <th style="text-align:center;width:10%">Expire Date</th>
+                                                <th style="text-align:center;width:0.5%">Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblDocumentTypeDetail">
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                               </div>
+                        </div>
+
+                          
+                              
+                             
+
+                             
+                            </div>
+                        </div>
+
+
+               <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="Comments" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+
+            </div>
+
+            <!-- /.box-body -->
+            <div class="card-footer">
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/VehicleSetup/Index")'>Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Create</button>
+
+            </div>
+            <!-- /.box-footer -->        
+        </form>
+
+    </div>
+
+    </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+
+
+    function addNewRowToGrid() {
+
+        var vehicleCode = $("#VehicleCode").val();
+        var DocumentTypeCode = $("#DocumentTypeCode").val();
+        var DocumentTypeName = $('#DocumentTypeCode :selected').text();
+        var IssueDate = $("#IssueDate").val();
+        var ExpiryDate = $("#ExpiryDate").val();
+        var formData = new FormData();
+
+        formData.append('file', $('#Attachment')[0].files[0]);
+
+           $.ajax({
+            url: '@Url.Action("UploadFile", "VehicleSetup")', 
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (elem) {
+                  var index = $("#tblDocumentTypeDetail").children("tr").length;
+
+                var indexCell = "<td style='display:none'><input name='TblVehicleDocumentDetails.Index' type='hidden' value='" + index + "' /></td>";
+                var idCell = "<td style='display:none'> <input id='TblVehicleDocumentDetails" + index + "_Id' name='TblVehicleDocumentDetails[" + index + "].Id' type='text' value='0' /></td>";
+
+                var vehicleCodeCell = "<td style='display:none'> <input type='text' class='calFileName' style='text-align:right; width:100%' id='TblVehicleDocumentDetails" + index + "_VehicleCode' name='TblVehicleDocumentDetails[" + index + "]._VehicleCode' value='" + vehicleCode + "'/> </td>";
+                var fileNameCell = "<td style='display:none'> <input type='text' class='calFileName' style='text-align:right; width:100%' id='TblVehicleDocumentDetails" + index + "_FileName' name='TblVehicleDocumentDetails[" + index + "].FileName' value='" + elem.filename + "'/> </td>";
+                var orginalFileNameCell = "<td style='display:none'> <input type='text' class='calOriginalFileName' style='text-align:right; width:100%' id='TblVehicleDocumentDetails" + index + "_OriginalFileName' name='TblVehicleDocumentDetails[" + index + "].OriginalFileName' value='" + elem.originalFileName + "'/></td>";
+                var fileTypeCell = "<td style='display:none'> <input type='text' class='calDocumentType' style='text-align:right; width:100%' id='TblVehicleDocumentDetails" + index + "_DocumentType' name='TblVehicleDocumentDetails[" + index + "].FileType' value='" + elem.extension + "'/></td>";
+                var locationCell = "<td style='display:none'> <input type='text' class='calLocation' style='text-align:right; width:100%' id='TblVehicleDocumentDetails" + index + "_Location' name='TblVehicleDocumentDetails[" + index + "].Location' value='" + elem.fileLocation + "'/></td>";
+                
+                var fileCell = "<td style='text-align: left;'> <a href='/Upload/" + elem.filename + "';download='" + elem.originalFileName + "'>" + elem.originalFileName + "</a></td>"
+
+                var DocumentTypeCodeCell = "<td style='display:none'><input style='width:100%;background-color:  #f5e9e2' readonly id='TblVehicleDocumentDetails" + index + "_SubCategoryCode' name='TblVehicleDocumentDetails[" + index + "].DocumentTypeCode' type='text' value='" + DocumentTypeCode + "' /></td>";
+                var DocumentTypeNameCell = "<td><input class='form-control' readonly id='TblVehicleDocumentDetails" + index + "_DocumentTypeName' name='TblVehicleDocumentDetails[" + index + "].DocumentTypeName' type='text' value='" + DocumentTypeName + "' /></td>";
+                var IssueDateCell = "<td><input class='form-control' readonly id='TblVehicleDocumentDetails" + index + "_IssueDate' name='TblVehicleDocumentDetails[" + index + "].IssueDate' type='text' value='" + IssueDate + "' /></td>";
+                var ExpiryDateCell = "<td><input class='form-control' readonly id='TblVehicleDocumentDetails" + index + "_ExpiryDate' name='TblVehicleDocumentDetails[" + index + "].ExpiryDate' type='text' value='" + ExpiryDate + "' /></td>";
+        
+                var removeCell = "<td ><input class='btn btn-sm btn-danger' id='addRow' type='button' value='Remove' onclick='removeRow(" + index + ");' /></td>";
+
+                var newRow = "<tr id='trtbEduDtl" + index + "'>" + indexCell + idCell + vehicleCodeCell + fileNameCell+ orginalFileNameCell + fileTypeCell + locationCell +DocumentTypeCodeCell + DocumentTypeNameCell + fileCell + IssueDateCell + ExpiryDateCell + removeCell + "</tr>";
+
+                $("#tblDocumentTypeDetail").append(newRow);
+            
+            },
+             error: function (error) {
+                console.log(error.responseText);
+            }
+           });
+
+
+      
+
+    }
+
+
+
+
+
+    function removeRow(id) {
+        var controlToBeRemoved = "#trtbEduDtl" + id;
+
+         var deleteableFile = $("#TblVehicleDocumentDetails" + id + "_FileName");
+        var vFilename = deleteableFile.val();
+        if(vFilename != null && vFilename != "")
+        {
+                   $.ajax({
+            url: '@Url.Action("RemoveFile", "VehicleSetup")',
+            type: 'POST',
+            data: {
+                fileName: vFilename,
+            },
+            success: function (result) {
+                debugger;
+                if (result) {
+                    $(controlToBeRemoved).remove();
+                }
+                else { 
+               toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+                 }
+
+
+                toastr.error("Action Failed!");
+                }
+
+               
+            },
+            error: function (error) {
+              
+            }
+        });
+        }
+        else{
+          $(controlToBeRemoved).remove();
+        }
+
+
+  
+        //alert(controlToBeRemoved);
+      
+    }
+
+</script>

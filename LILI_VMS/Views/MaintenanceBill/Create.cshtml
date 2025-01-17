@@ -1,0 +1,382 @@
+﻿@model LILI_VMS.Models.TblMaintenanceBill
+
+
+<div id="modal-placeholder">
+@*     @{
+        var message = TempData["msg"].ToString();
+        if (!string.IsNullOrEmpty(message))
+        {
+                                    <script>
+                                    alert("@message");
+                                    </script>
+        
+        }
+    } *@
+
+</div>
+
+<!-- Modal placeholder -->
+<div id="modal-placeholder"></div>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/MaintenanceRequisition/Index">Maintenance Bill Information</a></li>
+        <li class="breadcrumb-item active">Add Maintenance Bill Information</li>
+        </ol>
+ 
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="row">
+    <div class="col-12">
+
+    <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="MaintenanceBill" method="post" asp-action="CreateMaintenanceBill">
+               <div class="card-body">
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Bill No</label>
+                                <div class="col-sm-3">
+                                     <input type="text" asp-for="BillNo" class="form-control" placeholder="" readonly="readonly">
+                                </div>
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Bill Date</label>
+                                    <div class="col-sm-3">
+                                        <input type="date" asp-for="BillDate" class="form-control" placeholder="">
+                                    </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Requisition No</label>
+                                <div class="col-sm-2">
+                                    <input type="text" asp-for="RequisitionNo" class="form-control" placeholder="" readonly="readonly">
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#add-product" data-url="@Url.Action("SearchRequisition")">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+
+                              
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Type of Maintenance</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" asp-for="MaintenanceTypeName" class="form-control" placeholder="" readonly="readonly">
+                                    </div>
+
+                              
+
+                            </div>
+                        </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                
+
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Registration No</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" asp-for="RegistrationNo" class="form-control" placeholder="" readonly="readonly">
+                                    </div>
+
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Vehicle No</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" asp-for="VehicleNo" class="form-control" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+                        </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Type of Vehicle</label>
+                            <div class="col-sm-3">
+                                <input type="text" asp-for="VehicleType" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+
+                            <label for="inputEmail3" class="col-sm-2 control-label">Driver</label>
+                            <div class="col-sm-3">
+                                <input type="text" asp-for="Driver" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Last Maitn. Date</label>
+                            <div class="col-sm-3">
+                                <input type="text" asp-for="LastMaintenanceDate" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+
+                            <label for="inputEmail3" class="col-sm-2 control-label">Last Maint. KM </label>
+                            <div class="col-sm-3">
+                                <input type="text" asp-for="LastMaintenanceKm" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Current Maitn. Date</label>
+                        <div class="col-sm-3">
+                                        <input type="date" asp-for="CurrentMaintenanceDate" class="form-control" placeholder="" >
+                        </div>
+
+                        <label for="inputEmail3" class="col-sm-2 control-label">Current Maint. KM</label>
+                        <div class="col-sm-3">
+                                        <input type="text" asp-for="CurrentMaintenanceKm" class="form-control" placeholder="" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Workshop Code</label>
+                        <div class="col-sm-3">
+                            <input type="text" asp-for="SuppWorkShopCode" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+
+
+                        <label for="inputEmail3" class="col-sm-2 control-label">Workshop Name</label>
+                        <div class="col-sm-3">
+                            <input type="text" asp-for="SuppWorkShopName" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
+                        <div class="col-sm-8">
+                            <textarea type="text" asp-for="Comments" class="form-control" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-header" style="color: black; margin-bottom:10px"><b>Parts/Service List</b></h5>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-1 control-label">Parts/Service</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control select2" asp-for="PartsCode">
+                                            @foreach (var item in ViewBag.PartsSetupList)
+                                            {
+                                                <option value="@item.PartsCode">@item.PartsName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-1 control-label">Quantity</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" asp-for="RequitionQty" class="form-control" placeholder="" onchange="totalPrice()">
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-1 control-label">UnitPrice</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" asp-for="UnitPrice" class="form-control" placeholder="" onchange="totalPrice()">
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-1 control-label">TotalPrice</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" asp-for="TotalPrice" class="form-control" placeholder="" readonly>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" onclick="addNewRowToGrid()" class="btn btn-sm btn-primary">Add</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-10 mt-4">
+                                    <table id="htMaintenanceBillPartsDetails" class="table table-bordered">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="text-align:center; width:5%">Item Code</th>
+                                                <th style="text-align:center;width:10%">Item Name</th>
+                                                <th style="text-align:center;width:10%">Quantity</th>
+                                                <th style="text-align:center;width:10%">Unit Price</th>
+                                                <th style="text-align:center;width:10%">Total Price</th>
+                                                <th style="text-align:center;width:10%">Service Charge</th>
+                                                <th style="text-align:center;width:0.5%">Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <td>
+                                                    <b>Total</b>
+                                                </td>
+                                                <td colspan="3">
+                                                </td>
+                                                <td id="TotalCal" style="text-align:right">
+                                                    @ViewBag.TotalCal
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody id="TblMaintenanceBillPartsDetails">
+                                            @{
+                                                int i = 0;
+                                                foreach (var item in Model.TblMaintenanceBillPartsDetails)
+                                                {
+
+                                                    var index = i;
+                                                    var total = 0;
+                                                    var rowId = "trtbEduDtl" + index;
+                                                    <tr id="@rowId">
+                                                       
+                                                        <td style="display:none"><input name='TblMaintenanceBillPartsDetails.Index' type="hidden" value=@index /></td>
+                                                        <td style="display:none"><input name='TblMaintenanceBillPartsDetails[@i].id' type="hidden" value=@item.Id /></td>
+                                                        <td style="display:none"><input name='TblMaintenanceBillPartsDetails[@i].RequisitionNo' type="hidden" value=@item.BillNo /></td>
+                                                        <td style="display:none">@Html.DisplayFor(modelItem => modelItem.TblMaintenanceBillPartsDetails[i].Id, new { @id = "Id_" + i, @readonly = "readonly" })</td>
+
+                                                        <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceBillPartsDetails[i].PartsCode, new { @id = "PartsCode_" + i, @readonly = "readonly" })</td>
+                                                        <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceBillPartsDetails[i].PartsName, new { @id = "PartsName_" + i, @readonly = "readonly" })</td>
+                                                        <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceBillPartsDetails[i].RequitionQty, new { @id = "UnitPrice_" + i, @readonly = "readonly" })</td>
+                                                        <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceBillPartsDetails[i].UnitPrice, new { @id = "UnitPrice_" + i, @readonly = "readonly" })</td>
+                                                        <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceBillPartsDetails[i].TotalPrice, new { @id = "TotalPrice_" + i, @readonly = "readonly" })</td>
+                                                        <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceBillPartsDetails[i].ServiceCharge, new { @id = "ServiceCharge_" + i, @readonly = "readonly" })</td>
+
+                                                        <td><input class="btn btn-sm btn-danger btn_delete" type="button" value="Remove" onClick="RemoveData(@item.Id);"></td>
+
+                                                    </tr>
+                                                    i++;
+
+                                                }
+
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+            </div>
+
+            <!-- /.box-body -->
+            <div class="card-footer">
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/MaintenanceBill/Index")'>Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Create</button>
+
+            </div>
+            <!-- /.box-footer -->        
+        </form>
+
+    </div>
+
+    </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+
+    function addNewRowToGrid() {
+
+        var PartsCode = $("#PartsCode").val();
+        var PartsName = $('#PartsCode :selected').text();
+        var RequitionQty = $("#RequitionQty").val();
+        var UnitPrice = $("#UnitPrice").val();
+        var TotalPrice = $("#TotalPrice").val();
+        var ServiceCharge = 0;
+
+        var index = $("#TblMaintenanceBillPartsDetails").children("tr").length;
+
+        var indexCell = "<td style='display:none'><input name='TblMaintenanceBillPartsDetails.Index' type='hidden' value='" + index + "' /></td>";
+        var idCell = "<td style='display:none'> <input id='TblMaintenanceBillPartsDetails" + index + "_Id' name='TblMaintenanceBillPartsDetails[" + index + "].Id' type='text' value='0' /></td>";
+        var PartsCodeCell = "<td><input class='form-control' readonly id='TblMaintenanceBillPartsDetails" + index + "_PartsCode' name='TblMaintenanceBillPartsDetails[" + index + "].PartsCode' type='text' value='" + PartsCode + "' /></td>";
+        var PartsNameCell = "<td><input class='form-control' readonly id='TblMaintenanceBillPartsDetails" + index + "_PartsName' name='TblMaintenanceBillPartsDetails[" + index + "].PartsName' type='text' value='" + PartsName + "' /></td>";
+        var RequitionQtyCell = "<td><input class='form-control' style = 'text-align:right' readonly id='TblMaintenanceBillPartsDetails" + index + "_RequitionQty' name='TblMaintenanceBillPartsDetails[" + index + "].RequitionQty' type='text' value='" + RequitionQty + "' /></td>";
+        var UnitPriceCell = "<td><input class='form-control' readonly style = 'text-align:right' id='TblMaintenanceBillPartsDetails" + index + "_UnitPrice' name='TblMaintenanceBillPartsDetails[" + index + "].UnitPrice' type='text' value='" + UnitPrice + "' /></td>";
+        var TotalPriceCell = "<td><input class='form-control' readonly style = 'text-align:right' id='TblMaintenanceBillPartsDetails" + index + "_TotalPrice' name='TblMaintenanceBillPartsDetails[" + index + "].TotalPrice' type='text' value='" + TotalPrice + "' /></td>";
+        var ServiceChargeCell = "<td><input class='form-control' style = 'text-align:right' id='TblMaintenanceBillPartsDetails" + index + "_ServiceCharge' name='TblMaintenanceBillPartsDetails[" + index + "].ServiceCharge' type='text' value='" + ServiceCharge + "' /></td>";
+
+        var removeCell = "<td ><input class='btn btn-sm btn-danger' id='addRow' type='button' value='Remove' onclick='removeRow(" + index + ");' /></td>";
+
+        var newRow = "<tr id='trtbEduDtl" + index + "'>" + indexCell + idCell + PartsCodeCell + PartsNameCell + RequitionQtyCell + UnitPriceCell + TotalPriceCell + ServiceChargeCell + removeCell + "</tr>";
+
+        $("#TblMaintenanceBillPartsDetails").append(newRow);
+
+    }
+    function GetMaintenanceBillPartsDetail(productId, billNo) {
+        // alert(productId);
+        // alert(billNo);
+        var BillNo = $("#BillNo").val();
+        $.ajax({
+            type: "POST",
+            url: "/MaintenanceBill/GetMaintenanceBillPartsDetail",
+            data: { productId: productId, billNo: billNo },
+            success: function (msg) {
+                console.log(msg);
+
+             
+                var table = $("#htMaintenanceBillPartsDetails tbody");
+                $.each(msg, function (idx, elem) {
+
+
+                    //var index = $("#tblReqBOMDtl").children("tr").length;
+                    var index = $("#TblMaintenanceBillPartsDetails").children("tr").length;
+
+                    var indexCell = "<td style='display:none'><input name='TblMaintenanceBillPartsDetails.Index' type='hidden' value='" + index + "' /></td>";
+                    var idCell = "<td style='display:none'> <input id='TblMaintenanceBillPartsDetails" + index + "_Id' name='TblMaintenanceBillPartsDetails[" + index + "].Id' type='text' value='0' /></td>";
+                    var BillNoCell = "<td style='display:none'> <input id='TblMaintenanceBillPartsDetails" + index + "_BillNo' name='TblMaintenanceBillPartsDetails[" + index + "].BillNo' type='text' value='" + BillNo + "' /></td>";
+
+                    var PartsCodeCell = "<td><input class='form-control' readonly id='TblMaintenanceBillPartsDetails" + index + "_PartsCode' name='TblMaintenanceBillPartsDetails[" + index + "].PartsCode' type='text' value='" + elem.partsCode + "' /></td>";
+                    var PartsNameCell = "<td><input class='form-control' readonly id='TblMaintenanceBillPartsDetails" + index + "_PartsName' name='TblMaintenanceBillPartsDetails[" + index + "].PartsName' type='text' value='" + elem.partsName + "' /></td>";
+                    var RequitionQtyCell = "<td><input class='form-control' readonly id='TblMaintenanceBillPartsDetails" + index + "_RequitionQty' name='TblMaintenanceBillPartsDetails[" + index + "].RequitionQty' type='text' value='" + elem.requitionQty + "' /></td>";
+                    var UnitPriceCell = "<td><input class='form-control' readonly id='TblMaintenanceBillPartsDetails" + index + "_UnitPrice' name='TblMaintenanceBillPartsDetails[" + index + "].UnitPrice' type='text' value='" + elem.unitPrice + "' /></td>";
+                    var TotalPriceCell = "<td><input class='form-control' readonly id='TblMaintenanceBillPartsDetails" + index + "_TotalPrice' name='TblMaintenanceBillPartsDetails[" + index + "].TotalPrice' type='text' value='" + elem.totalPrice + "' /></td>";
+                    var ServiceChargeCell = "<td><input class='form-control' id='TblMaintenanceBillPartsDetails" + index + "_ServiceCharge' name='TblMaintenanceBillPartsDetails[" + index + "].ServiceCharge' type='text' value='" + elem.serviceCharge + "' /></td>";
+
+                    var removeCell = "<td ><input class='btn btn-sm btn-danger' id='addRow' type='button' value='Remove' onclick='removeRow(" + index + ");' /></td>";
+
+
+                    var newRow = "<tr id='trtbEduDtl" + index + "'>" + indexCell + idCell + BillNoCell + PartsCodeCell + PartsNameCell + RequitionQtyCell + UnitPriceCell + TotalPriceCell + ServiceChargeCell + removeCell + "</tr>";
+                    //table.append(newRow);
+                    $("#TblMaintenanceBillPartsDetails").append(newRow);
+                    fnCalculateTotal();
+
+                });
+
+            },
+            error: function () {
+                //$('#ProcessOrderNo').val('');
+            }
+        });
+
+    }
+    function totalPrice() {
+        var RequitionQty = $("#RequitionQty").val();
+        var UnitPrice = $("#UnitPrice").val();
+
+        var tp = RequitionQty * UnitPrice;
+        $("#TotalPrice").val(tp);
+
+    }
+    function removeRow(id) {
+        var controlToBeRemoved = "#trtbEduDtl" + id;
+        //alert(controlToBeRemoved);
+        $(controlToBeRemoved).remove();
+        fnCalculateTotal();
+    }
+         function fnCalculateTotal() {
+            let total = 0;
+
+
+            $('#TblMaintenanceRequisitionPartsDetail .clTotalPrice').each(function () {
+                let price = parseFloat($(this).val()) || 0; // Get value or default to 0
+                total += price; // Add to total
+            });
+
+
+            $('#TotalCal').text(total.toFixed(2));
+        }
+</script>

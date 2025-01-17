@@ -1,0 +1,50 @@
+﻿.toast-message {
+    font-size: 20px;
+}
+
+table {
+    font-size: small;
+}
+
+body {
+      padding: 0px;
+}
+
+thead {
+    background: #2f4f4f;
+    color: white;
+}
+
+aside {
+    /*background-color: #f4f6f9 !important;*/
+    /*background-image: linear-gradient(#7B1FA2, #BA68C8);*/
+    background-image: linear-gradient(#10151b, #232933);
+    /*background-color: #00796B !important;*/
+}
+
+    aside > .brand-link {
+        /*background-color: #f4f6f9 !important;*/
+        background-color: #10151b !important;
+    }
+
+    aside > a.nav-link {
+        color: #ffffff !important;
+    }
+
+li.menu-open > a.active {
+    color: #232933 !important;
+    background-color: #D1C4E9 !important;
+}
+
+li > a.active {
+    color: #232933 !important;
+    background-color: #EDE7F6 !important;
+}
+
+.content-wrapper {
+    /*background-color: #f3e5f56b !important;*/
+    background-color: #F5F5F56b !important;
+    /*background-color: #D1C4E93a !important;*/
+}
+
+

@@ -1,0 +1,315 @@
+﻿@model LILI_VMS.Models.TblMaintenanceRequisition
+
+
+<div id="modal-placeholder"></div>
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    @*<h1>
+    Employee
+    </h1>*@
+    @*     <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Tools Setup Information</li>
+    <li class="active">Add Employee</li>
+    </ol> *@
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Maintenance Requisition Approval</a></li>
+        <li class="breadcrumb-item active"> Maintenance Requisition Approval</li>
+    </ol>
+
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal" asp-controller="MaintenanceRequisition" method="post" asp-action="UpdateMaintenanceRequisition">
+            <div class="card-body">
+                <input type="hidden" name="Id" value="@Model.Id" />
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Requisition No</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="RequisitionNo" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+                        <label for="inputEmail3" class="col-sm-2 control-label">Requisition Date</label>
+                        <div class="col-sm-3">
+                                <input type="date" asp-for="RequisitionDate" class="form-control" placeholder="" readonly>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Type of Maintenance</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" asp-for="MaintenanceTypeCode" disabled>
+                                @foreach (var item in ViewBag.MaintenanceTypeList)
+                                {
+                                    <option value="@item.MaintenanceTypeCode">@item.MaintenanceTypeName</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                            <input type="hidden" asp-for="VehicleCode" class="form-control" placeholder="" readonly="readonly">
+                     
+
+
+
+                        <label for="inputEmail3" class="col-sm-2 control-label">Registration No</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="RegistrationNo" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+
+                            <label for="inputEmail3" class="col-sm-2 control-label">Driver</label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="Driver" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+
+                            <label for="inputEmail3" class="col-sm-2 control-label">Size of Vehicle</label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="VehicleSize" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+
+                        <label for="inputEmail3" class="col-sm-2 control-label">Type of Vehicle</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="VehicleTypeName" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+
+                      
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Last Maint. KM </label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="LastMaintenanceKm" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+                            <label for="inputEmail3" class="col-sm-2 control-label">Last Maitn. Date</label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="LastMaintenanceDate" class="form-control" placeholder="" readonly="readonly">
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Current Maint. KM</label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="CurrentMaintenanceKm" class="form-control" placeholder="" readonly>
+                            </div>
+                            <label for="inputEmail3" class="col-sm-2 control-label">Current Maitn. Date</label>
+                            <div class="col-sm-4">
+                                <input type="date" asp-for="CurrentMaintenanceDate" class="form-control" placeholder="" readonly>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Running KM</label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="RunOfKm" class="form-control" placeholder="" readonly>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Workshop Code</label>
+                        <div class="col-sm-2">
+                            <input type="text" asp-for="SuppWorkShopCode" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+
+                        <div class="col-sm-2">
+                            <!-- Button trigger modal -->
+                       @*      <button type="button" class="btn btn-mini btn-primary" data-toggle="ajax-modal" data-target="#add-product" data-url="@Url.Action("SearchWorkShop")">
+                                Search Workshop
+                            </button> *@
+                        </div>
+
+                        <label for="inputEmail3" class="col-sm-2 control-label">Workshop Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="SuppWorkShopName" class="form-control" placeholder="" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
+                        <div class="col-sm-9">
+                                <input type="text" asp-for="Comments" class="form-control" placeholder="" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-header" style="color: black; margin-bottom:10px"><b>Parts/Service List</b></h5>
+                        @* <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label">Parts/Service</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" asp-for="PartsCode">
+                                    @foreach (var item in ViewBag.PartsSetupList)
+                                    {
+                                        <option value="@item.PartsCode">@item.PartsName</option>
+                                    }
+                                </select>
+                            </div>
+                            <label for="inputEmail3" class="col-sm-1 control-label">Quantity</label>
+                            <div class="col-sm-1">
+                                <input type="text" asp-for="RequitionQty" class="form-control" placeholder="" onchange="totalPrice()">
+                            </div>
+                            <label for="inputEmail3" class="col-sm-1 control-label">UnitPrice</label>
+                            <div class="col-sm-1">
+                                <input type="text" asp-for="UnitPrice" class="form-control" placeholder="" onchange="totalPrice()">
+                            </div>
+                            <label for="inputEmail3" class="col-sm-1 control-label">TotalPrice</label>
+                            <div class="col-sm-1">
+                                <input type="text" asp-for="TotalPrice" class="form-control" placeholder="" readonly>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" onclick="addNewRowToGrid()" class="btn btn-sm btn-primary">Add</button>
+                            </div>
+                        </div> *@
+
+                            <div class="col-sm-10 mt-4">
+                                <table id="htMaintenanceRequisitionPartsDetails" class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th style="text-align:center; width:5%">Item Code</th>
+                                            <th style="text-align:center;width:10%">Item Name</th>
+                                            <th style="text-align:center;width:10%">Quantity</th>
+                                            <th style="text-align:center;width:10%">Unit Price</th>
+                                            <th style="text-align:center;width:10%">Total Price</th>
+                                            <th style="text-align:center;width:10%">Service Charge</th>
+                                            
+
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <td>
+                                                <b>Total</b>
+                                            </td>
+                                            <td colspan="3">
+                                            </td>
+                                            <td id="TotalCal" style="text-align:right">
+                                                @ViewBag.TotalCal
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody id="TblMaintenanceRequisitionPartsDetail">
+                                        @{
+                                            int i = 0;
+                                            foreach (var item in Model.TblMaintenanceRequisitionPartsDetails)
+                                            {
+
+                                                var index = i;
+                                                var total = 0;
+                                                <tr>
+
+                                                    <td style="display:none"><input name='TblMaintenanceRequisitionPartsDetails.Index' type="hidden" value=@index /></td>
+                                                    <td style="display:none"><input name='TblMaintenanceRequisitionPartsDetails[@i].id' type="hidden" value=@item.Id /></td>
+                                                    <td style="display:none"><input name='TblMaintenanceRequisitionPartsDetails[@i].RequisitionNo' type="hidden" value=@item.RequisitionNo /></td>
+                                                    <td style="display:none">@Html.DisplayFor(modelItem => modelItem.TblMaintenanceRequisitionPartsDetails[i].Id, new { @id = "Id_" + i, @readonly = "readonly" })</td>
+
+                                                    <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceRequisitionPartsDetails[i].PartsCode, new { @id = "PartsCode_" + i, @readonly = "readonly" })</td>
+                                                    <td>@Html.DisplayFor(modelItem => modelItem.TblMaintenanceRequisitionPartsDetails[i].PartsName, new { @id = "PartsName_" + i, @readonly = "readonly" })</td>
+                                                    <td style="text-align:right">@Html.DisplayFor(modelItem => modelItem.TblMaintenanceRequisitionPartsDetails[i].RequitionQty, new { @id = "UnitPrice_" + i, @readonly = "readonly" })</td>
+                                                    <td style="text-align:right">@Html.DisplayFor(modelItem => modelItem.TblMaintenanceRequisitionPartsDetails[i].UnitPrice, new { @id = "UnitPrice_" + i, @readonly = "readonly" })</td>
+                                                    <td style="text-align:right">@Html.DisplayFor(modelItem => modelItem.TblMaintenanceRequisitionPartsDetails[i].TotalPrice, new { @id = "TotalPrice_" + i, @readonly = "readonly" })</td>
+                                                    <td style="text-align:right">@Html.DisplayFor(modelItem => modelItem.TblMaintenanceRequisitionPartsDetails[i].ServiceCharge, new { @id = "ServiceCharge_" + i, @readonly = "readonly" })</td>
+
+                                                   
+                                                   
+                                                </tr>
+                                                  i++;
+                                            }
+
+                                        }
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+                <!-- /.box-body -->
+                <div class="card-footer text-center">
+
+                      @if (!string.IsNullOrEmpty(ViewBag.UserAuthStatus))
+                        {
+
+                            <a class="btn btn-mini btn-primary pull-left" href='@Url.Content("/MaintenanceRequisitionApproval/Index")'>Cancel</a> 
+                           @*  <a id="ReqReject" class="btn btn-primary pull-right">Reject</a>
+                            <a id="ReqApprove" class="btn btn-primary pull-right" style="margin-right:50px;">Approve</a> *@
+
+                        <button type="button" class="btn btn-success" onclick="SetStatus('@ViewBag.UserAuthStatus')">
+                                 @ViewBag.UserAuthText
+                            </button>
+                        <button type="button" class="btn btn-danger" onclick="SetStatus('Rejected')">
+                                Reject
+                            </button>
+                        }
+                </div>
+                <!-- /.box-footer -->
+            </form>
+
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+
+    function SetStatus(approvalStatus) {
+
+        var requisitionNo = $('#RequisitionNo').val();
+        console.log(requisitionNo);
+        $.ajax({
+            type: "POST",
+            url: "/MaintenanceRequisitionApproval/RequisitionApprovalStatus",
+            data: { requisitionNo: requisitionNo, approvalStatus: approvalStatus },
+            success: function (result) {
+                alert(`Requisition ${approvalStatus}.`);
+                window.location.href = "/MaintenanceRequisitionApproval/Index";
+            }
+        });
+    }
+
+</script>

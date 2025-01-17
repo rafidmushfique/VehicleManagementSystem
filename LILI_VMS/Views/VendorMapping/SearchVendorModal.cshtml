@@ -1,0 +1,223 @@
+﻿@model IEnumerable<LILI_VMS.Models.VMVendorInfo>
+@{
+    Layout = "";
+}
+
+<div class="modal fade" id="add-material-search" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content" style="position: relative;">
+
+            <div class="modal-header" style="background-color:#0c8599; color:white;">
+                <h5 class="modal-title" id="addContactLabel">Select Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-header">
+                <div class="col-sm-10">
+                    <input type="text" id="SearchKey" class="form-control" placeholder="Customer Name">
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" id="btnSearch" class="btn btn-primary">search</button>
+                </div>
+            </div>
+            <div class="modal-body" style="position: relative;">
+                <div class="loader-overlay" style="display:none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 1050;">
+                    <div class="loader" style="position: relative;">
+                        <div class="spinner-border text-primary" role="status">
+                        </div>
+
+
+                    </div>
+                </div>
+                <form class="form-horizontal" style="padding-bottom:30px">
+                    <div class="card-body">
+
+                        <table id="tblInfo" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:3%"></th>
+                                    <th style="width:3%">Vendor Code</th>
+                                    <th style="width:5%">Vendor Name</th>
+                                    <th style="width:5%">Plant</th>
+                                    <th style="width:5%; display:none"> Vendor Address1</th>
+                                    <th style="width:5%; display:none"> Vendor Address2</th>
+                                    <th style="width:3%; display:none"> Contact Info</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblInfoBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer" style="background-color:#0c8599; ">
+                <button type="button"  class="btn btn-warning" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () { 
+
+        $('#btnSearch').on('click', function () {
+           
+            var SearchKey = $("#SearchKey").val();
+
+            $(".loader-overlay").css("display", "flex");
+            $.ajax({
+                type: "POST",
+                url: "/BidSchedule/SearchVendor",
+                data: { SearchKey: SearchKey },
+                success: function (msg) {
+
+                    console.log(msg);
+                    $("#tblInfo #tblInfoBody").empty();
+                    var tr = '';
+                    for (var i = 0; i < msg.length; i++) {
+                        tr = $('<tr/>');
+                        tr.append("<td>" + '<input name="VendorCode" id="VendorCode" type="checkbox" value="' + msg[i].vendorCode + '"></label>' + "</td>");
+                        tr.append("<td>" + '<input readonly style="border: none; background-color: transparent;"  type="text" value="' + msg[i].vendorCode + '"></label>' + "</td>");
+                        tr.append("<td>" + '<input readonly style="border: none; background-color: transparent;" name="VendorName" id="VendorName" value="' + msg[i].vendorName + '"></label>' + "</td>");
+                        tr.append("<td style='display:none'>" + '<input readonly style="border: none; background-color: transparent;" name="PlantCode" id="PlantCode"  type="text" value="' + msg[i].plantCode + '"></label>' + "</td>");
+                        tr.append("<td>" + '<input readonly style="border: none; background-color: transparent;" name="PlantName" id="PlantName"  type="text" value="' + msg[i].plantName + '"></label>' + "</td>");
+                        tr.append("<td style='display:none'>" + '<input readonly style="border: none; background-color: transparent;" name="VendorAddress1" id="VendorAddress1"  type="text" value="' + msg[i].add1 + '"></label>' + "</td>");
+                        tr.append("<td style='display:none'>" + '<input readonly style="border: none; background-color: transparent;" name="VendorAddress2" id="VendorAddress2"  type="text" value="' + msg[i].add2 + '"></label>' + "</td>");
+                        tr.append("<td style='display:none'>" + '<input readonly style="border: none; background-color: transparent;" name="ContactInfo" id="ContactInfo"  type="text" value="' + msg[i].mobile + '"></label>' + "</td>");
+                        
+                        // tr.on('click', function () {
+                        //     $(this).find('input[name="VendorCode"]').prop('checked', true);
+                        // });
+                        tr.on('click', function (event) {
+                            // Check if the clicked element is a checkbox
+                            let isChecked = $(this).find('input[name="VendorCode"]').prop('checked');
+                            if (isChecked) {
+                                $(this).find('input[name="VendorCode"]').prop('checked', false);
+                                let table = $("#tblVendor");
+                                let $tbody = $("#htVendorGrid");
+
+                                let selectedCheckboxes = $(this).find('input[name="VendorCode"]');
+                                let selectedRow = selectedCheckboxes.parents('tr');
+
+                                let VendorCode = selectedRow.find('input#VendorCode').val().trim();
+                                $('#tblVendor tr').each(function () {
+
+                                    let currentCode = $(this).find('input.clVendorcode').val();
+
+
+                                    if (currentCode === VendorCode) {
+                                        var row = $(this).closest('tr').attr('id');
+                                        var rowId = $("#" + row).remove();
+                                       
+                                    }
+                                });
+
+                            }
+                            else {
+                                $(this).find('input[name="VendorCode"]').prop('checked', true);
+
+                                let selectedCheckboxes = $(this).find('input[name="VendorCode"]');
+
+                                let selectedRow = selectedCheckboxes.parents('tr');
+                                let CustomerInfo = {};
+
+                                let UserId = $("#UserId").val();
+                                let VendorCode = selectedRow.find('input#VendorCode').val().trim();
+                                let VendorName = selectedRow.find('input#VendorName').val().trim(); // Get value of VendorName input
+                                // let VendorAddress1 = selectedRow.find('input#VendorAddress1').val().trim(); // Get value of VendorAddress1 input
+                                // let VendorAddress2 = selectedRow.find('input#VendorAddress2').val().trim();
+                                // let ContactInfo = selectedRow.find('input#ContactInfo').val().trim();
+
+
+
+                                let table = $("#tblVendor");
+                                let $tbody = $("#htVendorGrid");
+
+
+                                if (checkVendorCodeExists(VendorCode)) {
+                                    
+
+                                    $(this).find('input[name="VendorCode"]').prop('checked', true);
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": false,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+
+
+                                    toastr.error("Already Selected");
+
+                                } 
+                                else {
+                                    let index = $tbody.children("tr").length;
+                                    let indexCell = "<td style='display:none'><input readonly class='form-control' name='TblUserWiseVendorCode.Index' type='hidden' value='" + index + "' /></td>";
+                                    let idCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserWiseVendorCode_" + index + "_Id' name='TblUserWiseVendorCode[" + index + "].Id' type='text' value='0' /></td>";
+                                    let UserIdCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserWiseVendorCode_" + index + "_UserId' name='TblUserWiseVendorCode[" + index + "].UserId' type='text' value='" + UserId + "' /></td>";
+                                    let vendorCodeCell = "<td> <input readonly class='form-control clVendorCode' id='TblUserWiseVendorCode_" + index + "_VendorCode' name='TblUserWiseVendorCode[" + index + "].VendorCode' type='text' value='" + VendorCode + "' /></td>";
+                                    let vendorNameCell = "<td> <input readonly class='form-control' id='TblUserWiseVendorCode_" + index + "_VendorName' name='TblUserWiseVendorCode[" + index + "].VendorName' type='text' value='" + VendorName + "' /></td>";
+  
+                                    let removeCell = "<td><button type='button' class='btn btn-sm btn-danger' onclick='removeVendorRow(" + index + ")'>Remove</button></td>";
+
+                                    var newRow = "<tr id='trTblUserWiseVendorCode" + index + "'>" + indexCell + idCell + UserIdCell + vendorCodeCell + vendorNameCell + removeCell + "</tr>";
+
+
+                                    $tbody.append(newRow);
+                                }
+
+                            }
+
+                        });
+                        $("#tblInfo #tblInfoBody").append(tr);
+                        $(".loader-overlay").hide();
+                    }
+                },
+                error: function () {
+                    $(".loader-overlay").hide();
+                    //$('#ExpertiesId').val('');
+                    //$('#ExpertArea').val('');
+                    //$('#ExpertDesc').val('');
+                }
+            });
+
+            $(".loader-overlay").hide();
+        });
+       
+    });
+
+    function checkVendorCodeExists(VendorCode) {
+
+        let exists = false;
+
+
+        $('#tblVendor tr').each(function () {
+
+            let currentCode = $(this).find('input.clVendorCode').val();
+
+
+            if (currentCode === VendorCode) {
+                exists = true;
+                return false;
+            }
+        });
+        console.log(exists);
+        return exists;
+        
+    }
+
+   
+</script>

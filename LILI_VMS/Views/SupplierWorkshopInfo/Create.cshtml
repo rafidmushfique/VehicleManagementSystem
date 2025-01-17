@@ -1,0 +1,226 @@
+﻿@model LILI_VMS.Models.TblSupplierWorkshopInformation
+
+
+<div id="modal-placeholder">
+    @{
+        var message = TempData["msg"].ToString();
+        if (!string.IsNullOrEmpty(message))
+        {
+                            <script>
+                            alert("@message");
+                            </script>
+        
+        }
+    }
+
+</div>
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BusinessUnitSetup/Index">Business/Unit Setup Information</a></li>
+        <li class="breadcrumb-item active">Add Business/Unit Setup Information</li>
+        </ol>
+ 
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+    <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="SupplierWorkshopInfo" method="post" asp-action="CreateSupplierWorkshopInfo">
+           
+            <div class="card-body">
+
+               <div class="form-group">
+                            <label asp-for="Type" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-2">
+                                <select class="form-control" asp-for="Type" onchange="BusUnitChange()" asp-items="@(new SelectList( ViewBag.ListOfWSType,"WstypeCode","WstypeName"))">
+                            </select>
+                            </div>
+                </div>
+               <div class="form-group">
+                            <div class="form-outline">
+                                <label for="SuppWorkShopCode" class="col-sm-2 control-label">Supplier/WorkShop Code</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="SuppWorkShopCode" class="form-control" placeholder="" readonly>
+                                    <span asp-validation-for="SuppWorkShopCode"></span>
+                            </div> 
+                            </div>
+            
+                       <div class="form-outline">
+                                <label for="SuppWorkShopName" class="col-sm-2 control-label">Supplier/WorkShop Name</label>
+                          <div class="col-sm-4">
+                          <input type="text" asp-for="SuppWorkShopName" class="form-control" placeholder="">
+                                    <span asp-validation-for="SuppWorkShopName"></span>
+                          </div>
+                       </div>
+               </div>
+               <div class="form-group">
+                            <div class="form-outline">
+                                <label for="OwnerName" class="col-sm-2 control-label">Owner Name</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="OwnerName" class="form-control" placeholder="">
+                                    <span asp-validation-for="OwnerName"></span>
+                                </div>
+                            </div>
+     
+                            <div class="form-outline">
+                                <label for="ContactNo" class="col-sm-2 control-label">Contact No</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="ContactNo" class="form-control" placeholder="">
+                                    <span asp-validation-for="ContactNo"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-outline">
+                                <label for="Tin" class="col-sm-2 control-label">TIN</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Tin" class="form-control" placeholder="">
+                                    <span asp-validation-for="Tin"></span>
+                                </div>
+                            </div>
+                            <div class="form-outline">
+                                <label for="Bin" class="col-sm-2 control-label">BIN</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Bin" class="form-control" placeholder="">
+                                    <span asp-validation-for="Bin"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-outline">
+                                <label for="Vat" class="col-sm-2 control-label">VAT</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Vat" class="form-control" placeholder="">
+                                    <span asp-validation-for="Vat"></span>
+                                </div>
+                            </div>
+                        </div>
+
+               <div class="form-group">
+                       <div class="form-outline">
+                                <label for="ToolName" class="col-sm-2 control-label">Address</label>
+                        <div class="col-sm-4">
+                                    <textarea asp-for="Address" class="form-control" placeholder="Address"></textarea>
+                                    <span asp-validation-for="Address"></span>
+                       </div> 
+                       </div>
+               
+                       <div class="form-outline">
+                                <label for="Comments" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-4">
+                                    <textarea asp-for="Comments" class="form-control" placeholder="Comments"></textarea>
+                                    <span asp-validation-for="Comments"></span>
+                                </div>
+                       </div>
+               </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="link">Bank Information</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="form-outline">
+                                        <label for="BankName" class="col-sm-2 control-label">Bank Name</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="BankName" class="form-control" placeholder="">
+                                            <span asp-validation-for="BankName"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-outline">
+                                        <label for="AccountName" class="col-sm-2 control-label">Account Name</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="AccountName" class="form-control" placeholder="">
+                                            <span asp-validation-for="AccountName"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-outline">
+                                        <label for="AccountNumber" class="col-sm-2 control-label">Account Number</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="AccountNumber" class="form-control" placeholder="">
+                                            <span asp-validation-for="AccountNumber"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-outline">
+                                        <label for="Branch" class="col-sm-2 control-label">Branch</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="Branch" class="form-control" placeholder="">
+                                            <span asp-validation-for="Branch"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-outline">
+                                        <label for="RoutingNumber" class="col-sm-2 control-label">Routing Number</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" asp-for="RoutingNumber" class="form-control" placeholder="">
+                                            <span asp-validation-for="RoutingNumber"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+
+
+            <!-- /.box-body -->
+            <div class="card-footer">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/SupplierWorkshopInfo/Index")'>Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Create</button>
+
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+
+    </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+
+    function BusUnitChange() {
+        var id = "";
+        var selectElement = document.querySelector('#Type');
+        var id = selectElement.value;
+        //alert(id);
+
+        $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GenerateBusinessCode", "SupplierWorkshopInfo")',
+                data: {
+                    busUnit: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    //alert(result);
+                    $("#SuppWorkShopCode").val(result);
+
+                }
+            });
+      
+    }
+    
+</script>

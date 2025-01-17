@@ -1,0 +1,307 @@
+﻿@model TblBidSchedule
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BidApproval/Index">Bid Approval</a></li>
+        <li class="breadcrumb-item active">Finalize</li>
+    </ol>
+
+</section>
+<div class="modal">
+</div>
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+            <input type="hidden" asp-for="VendorCode" />
+            <input type="hidden" asp-for="Id" />
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" >
+
+
+                    <div class="card-body">
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="BidScheduleNo" class="col-sm-2 control-label">Bid Schedule No</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleNo" class="form-control readonly" readonly />
+                                </div>
+                                <label asp-for="BidScheduleDate" class="col-sm-2 control-label">Schedule Date</label>
+                                <div class="col-sm-3">
+                                    <input type="date" asp-for="BidScheduleDate" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="BidScheduleStartDate" class="col-sm-2 control-label">Schedule Start</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleStartDate" class="form-control" readonly />
+                                </div>
+                                <label asp-for="BidScheduleEndDate" class="col-sm-2 control-label">Schedule End</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="BidScheduleEndDate" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="LoadPoint" class="col-sm-2 control-label">Load Point</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="LoadPoint" class="form-control" readonly />
+                                </div>
+                                <label asp-for="CapacityMt" class="col-sm-2 control-label">Capacity-Mt</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="CapacityMt" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="LoadPoint" class="col-sm-2 control-label"> Bid Schedule Comment</label>
+                                <div class="col-sm-8">
+                                   <textarea asp-for="Comments" class="form-control" readonly></textarea>
+                                </div>
+                             
+                            </div>
+
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label asp-for="LoadPoint" class="col-sm-1 control-label">Customer</label>
+                                  
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card-body">
+
+                                    <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                        <table id="htGpList" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center; width:5%">Customer Code</th>
+                                                    <th style="text-align:center; width:5%">Customer Name</th>
+                                                    <th style="text-align:center; width:7%">Address</th>
+                                                    <th style="text-align:center; width:3%">Contact No</th>
+                                                 
+                                                </tr>
+                                            </thead>
+                                            <tbody id="htCustomerGrid">
+                                                @if (Model.TblBidScheduleCustomers != null)
+                                                {
+                                                    
+                                                     foreach(var item in Model.TblBidScheduleCustomers)
+                                                        {
+                                                            <tr>
+                                                                <td>@item.CustomerCode</td>
+                                                                <td>@item.CustomerName</td>
+                                                                <td>@item.Add1</td>
+                                                                <td>@item.Mobile</td>
+                                                               
+                                                            </tr>
+                                                        }
+
+                                                }
+                                           
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <label asp-for="LoadPoint" class="col-sm-1 control-label">Vendors</label>
+                                   
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="card-body" style="border:0px solid #ccc; min-width:30%; ">
+                                <div class="col-sm-12">
+                                    <table id="htExpenseList" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:1%"></th>
+                                                <th style="text-align:center; width:5%">Vendor Code</th>
+                                                <th style="text-align:center; width:5%">Vendor Name</th>
+                                                <th style="text-align:center; width:5%">Address</th>
+                                                <th style="text-align:center; width:3%">Contact No</th>
+                                                <th style="text-align:center; width:3%">Bid Amount</th>
+                                                <th style="text-align:center; width:5%">Comments</th>
+                                             </tr>
+                                        </thead>
+                                        <tbody id="htVendorGrid">
+                                            @if (Model.TblBidScheduleVendors != null)
+                                            {
+
+                                                foreach (var item in Model.TblBidScheduleVendors)
+                                                {
+
+                                                    <tr onclick="fnCheck($(this))">
+                                                        <td><input name="CustomerCode" class="VendorCode_@item.VendorCode" id="CustomerCode" type="radio" value="@item.VendorCode"></td>
+                                                        <td>@item.VendorCode</td>
+                                                        <td>@item.VendorName</td>
+                                                        <td>@item.Add1</td>
+                                                        <td>@item.Mobile</td>
+                                                        <td style="text-align:right">@item.BidAmount</td>
+                                                        <td>@item.Comments</td>
+                                                    </tr>
+                                                }
+
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                          <div class="form-group">
+
+                            <div class="row">
+                                <label for="Comments" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" asp-for="BidApproverComment" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+
+                    <!-- /.box-body -->
+                    <div class="card-footer text-center">
+                       
+
+                            <a class="btn btn-mini btn-primary" href='@Url.Content("/BidApproval/Index")'>Cancel</a>
+                            <button type="button" onclick='fnBidFinalize()' class="btn btn-success ">Approve</button>
+                       
+                       
+
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+<script>
+    $(document).ready(function () {
+        var selectedVendorCode = '@Model.VendorCode'; // The vendor code you want to check
+
+        if (selectedVendorCode !== "") {
+            $(".VendorCode_" + selectedVendorCode).prop("checked", true);
+        }
+    });
+
+    function fnBidFinalize() {
+      
+        var model = {};
+        
+        let selectedRadio = $('input[type="radio"]:checked');
+
+        let selectedRow = selectedRadio.parents('tr');
+
+        let bidScheduleNo = $("#BidScheduleNo").val();
+        let vendorCode = selectedRow.find('td:eq(1)').text().trim();
+        debugger;
+        console.log(vendorCode);
+        let bidAmount = selectedRow.find('td:eq(5)').text().trim();
+        let comments = $("#BidApproverComment").val();
+        if (vendorCode != '' && vendorCode != null) {
+            model.BidScheduleNo = bidScheduleNo;
+            model.VendorCode = vendorCode;
+            model.BidAmount = parseFloat(bidAmount); // Parse to float as it's a decimal in C#
+            model.Comments = comments;
+            model.Id = 0; // Assuming Id is not required or auto-generated
+            model.ApprovalNo = ''; // If not required initially
+            model.ApprovalDate = new Date(); // Automatically setting the current date
+
+
+
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: '@Url.Action("Finalize", "BidApproval")',
+                    data: {
+                        model: model,
+                    },
+                    error: function (result) {
+                        alert("error");
+                    },
+                    success: function (result) {
+
+                        window.location.href = "/BidApproval/Index"
+                    }
+                });
+        }
+        else{
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+
+            toastr.error("Please select a Venedor");
+        }
+
+
+        
+       
+    
+    }
+    function fnCheck(e) {
+        e.find('input[name="CustomerCode"]').prop('checked', true);
+    }
+</script>

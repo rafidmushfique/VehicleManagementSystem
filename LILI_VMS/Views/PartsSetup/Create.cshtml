@@ -1,0 +1,140 @@
+﻿@model TblPartsSetup
+
+
+<div id="modal-placeholder">
+
+
+</div>
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/PartsSetup/Index">Parts Setup Information</a></li>
+        <li class="breadcrumb-item active">Add Parts Setup Information</li>
+        </ol>
+ 
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+    <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+        <form class="form-horizontal" method="post" asp-controller="PartsSetup" asp-action="CreatePartsSetup">
+           
+            <div class="card-body">
+@* 
+                <div class="form-group">
+                            <label asp-for="Type" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <select asp-for="Type" onchange="BusUnitChange()">
+                                    <option value="Business">Business</option>
+                                    <option value="Unit">Unit</option>
+                            </select>
+                            </div>
+                </div> *@
+
+               <div class="form-group">
+                            <div class="form-outline">
+                                <label for="PartsCode" class="col-sm-2 control-label">Parts Code</label>
+                                <div class="col-sm-4">
+                                <input type="text" asp-for="PartsCode" class="form-control" placeholder="" readonly>
+                                    <span asp-validation-for="PartsCode"></span>
+                                </div> 
+                            </div>
+               </div>
+               <div class="form-group">
+                       <div class="form-outline">
+                                <label for="PartsName" class="col-sm-2 control-label">Parts Name (English)</label>
+                          <div class="col-sm-4">
+                          <input type="text" asp-for="PartsName" class="form-control" placeholder="" required>
+                                    <span asp-validation-for="PartsName"></span>
+                          </div>
+                       </div>
+            
+                       <div class="form-outline">
+                              <label for="Model" class="col-sm-2 control-label">Model</label>
+                        <div class="col-sm-4">
+                               <input type="text" asp-for="Model" class="form-control" placeholder="">
+                               <span asp-validation-for="Model"></span>
+                        </div> 
+                       </div>
+               </div>
+                        <div class="form-group">
+                            <div class="form-outline">
+                                <label for="NpartsName" class="col-sm-2 control-label">Parts Name (Bengali)</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="NpartsName" class="form-control" placeholder="">
+                                    <span asp-validation-for="NpartsName"></span>
+                                </div>
+                            </div>
+                            <div class="form-outline">
+                                <label for="Brand" class="col-sm-2 control-label">Brand</label>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="Brand" class="form-control" placeholder="">
+                                    <span asp-validation-for="Brand"></span>
+                                </div>
+                            </div>
+   
+
+
+                        </div>
+               <div class="form-group">
+                            <label for="Uomcode" class="col-sm-2 control-label">Unit</label>
+                            <div class="col-sm-4">
+
+                                <select asp-for="Uomcode" required class="form-control" asp-items="@(new SelectList(ViewBag.ListOfUnit,"Uomcode","Uomname"))"></select>
+
+                                <span asp-validation-for="Uomcode"></span>
+                            </div>
+    
+                    <div class="form-outline">
+                                <label for="Origin" class="col-sm-2 control-label">Origin</label>
+                        <div class="col-sm-4">
+                            <input type="text" asp-for="Origin" class="form-control" placeholder="">
+                                    <span asp-validation-for="Origin"></span>
+                        </div>
+                    </div>
+                </div>
+
+               <div class="form-group">
+
+                            <div class="form-outline">
+                                <label for="Remarks" class="col-sm-2 control-label">Remarks</label>
+                                <div class="col-sm-4">
+                                    <textarea asp-for="Remarks" class="form-control" placeholder="Remarks"></textarea>
+                                    <span asp-validation-for="Remarks"></span>
+                                </div>
+                            </div>
+               </div>
+            </div>
+            
+
+
+            <!-- /.box-body -->
+            <div class="card-footer">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/PartsSetup/Index")'>Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Create</button>
+
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+
+    </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+
+    
+</script>

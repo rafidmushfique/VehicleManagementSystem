@@ -1,0 +1,246 @@
+﻿@model PaginatedList<LILI_VMS.Models.TblEmployee>
+
+
+
+<section class="content-header">
+    @*<h1>
+            Employee
+        </h1>*@
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Employee</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+
+
+    <div class="row">
+
+        <div class="box-body">
+            <div class="col-xs-12">
+                <div class="col-sm-11">
+                    <form asp-action="Index" method="get">
+                        <div class="form-actions no-color">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <input type="text" name="SearchString" value="@ViewData["currentFilter"]" class="form-control" placeholder="Search for...">
+                                </div>
+                                <div class="col-sm-3">
+                                    <span class="input-group-btn">
+                                        @*<input  value="Search" class="btn btn-default" style="background-color:#4d4a45; color:white;" />*@
+                                        <button type="submit" class="btn btn-search" value="Search"><i class="fa fa-search fa-fw"></i>Search</button>
+                                    </span>
+                                </div>
+                                <div class="col-sm-3">
+                                    @*<a asp-action="Index">Back to Full List</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-sm-1">
+                    <a class="btn btn-action" href="/Employee/Create">
+                        <i class="fa fa-plus fa-fw"></i>Add
+                    </a>
+                </div>
+            </div>
+            @*<table id="example1" class="table table-bordered table-striped roundedCorners">*@
+            <div class="grid-table-header">
+                <table id="example1" class="table roundedCorners">
+                    <thead>
+                        <tr >
+                            <th style="text-align:center; width:7%">Id</th>
+                            <th style="text-align:center; width:30%">
+                                <a style="color:white;" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Name <i class="fa fa-sort" style="font-size:20px;color:sandybrown;"></i></a>
+                            </th>
+                            <th style="text-align:center; width:15%"><a style="color:white;" asp-action="Index" asp-route-sortOrder="@ViewData["EmpIdSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">EmpId <i class="fa fa-sort" style="font-size:20px;color:sandybrown"></i></a></th>
+                            <th style="text-align:center;  width:15%">Designation</th>
+                            <th style="text-align:center;  width:15%">Department</th>
+                            <th style="text-align:center; width:9%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.EmpId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Designation)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Department)</td>
+
+                                <td style="text-align:center;"><a href="/Employee/Update/@item.Id"><i class="fa fa-edit" aria-hidden="true" style="font-size:20px;color:#4d4a45"></i></a> | <a href="#" onclick="Delete('@item.Id')"><i class="fa fa-trash" aria-hidden="true" style="font-size:20px;color:#4d4a45"></i></a></td>
+                            </tr>
+                        }
+                </table>
+            </div>
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+
+
+            <div class="grid-table-footer">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @prevDisabled"
+                   style="background-color:#4d4a45; color:white;">
+                    <i class="fa fa-angle-left fa-fw"></i>
+                    Previous
+                </a>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @nextDisabled"
+                   style="background-color:#4d4a45; color:white;">
+                    <i class="fa fa-angle-right fa-fw"></i>
+                    Next
+                </a>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<!-- DataTables -->
+@*<script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>*@
+@*<script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>*@
+
+
+
+<!-- page script -->
+<script>
+        //$(function () {
+        //    $('#example1').DataTable();
+        //});
+        function Delete(id){
+            //alert(id)
+            var txt;
+            var r = confirm("Are you sure you want to Delete?");
+            if (r == true) {
+
+                $.ajax(
+                {
+                    type: "POST",
+                    url: '@Url.Action("Delete", "Employee")',
+                    data: {
+                        id: id
+                    },
+                    error: function (result) {
+                        Console.log(result);
+                    },
+                    success: function (result) {
+                        if (result == true) {
+                            var baseUrl = "/Index";
+                            alert("Delete Succesful.");
+                            window.location.reload();
+                        }
+                        else {
+                            alert("Can't delete, May have data dependency !");
+                        }
+
+                    }
+                });
+            }
+        }
+</script>
+
+<style>
+    /*table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+
+    tr:nth-child(even) {
+        background-color: #e3d8c3;
+    }*/
+
+
+
+
+
+
+
+    table {
+        border: 1px solid #e3d8c3;
+        border-radius: 13px;
+        border-spacing: 0;
+    }
+
+    /*table.roundedCorners td,
+    table.roundedCorners th {
+    border-bottom: 1px solid #e3d8c3;
+    padding: 10px;
+    }
+
+    table.roundedCorners tr:last-child > td {
+        border-bottom: none;
+    }*/
+
+
+
+
+
+
+
+
+
+
+    html {
+        margin: 40px auto;
+    }
+
+    .btn-search {
+        background: #286090;
+        border-radius: 0;
+        color: #fff;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #1c1c1c;
+    }
+
+        .btn-search:link, .btn-search:visited {
+            color: #fff;
+        }
+
+        .btn-search:active, .btn-search:hover {
+            background: blue;
+            color: #ccc;
+        }
+
+
+
+
+
+    .btn-action {
+        background: #286090;
+        border-radius: 0;
+        color: #fff;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #1c1c1c;
+    }
+
+        .btn-action:link, .btn-search:visited {
+            color: #fff;
+        }
+
+        .btn-action:active, .btn-search:hover {
+            background: blue;
+            color: #ccc;
+        }
+</style>
+
+

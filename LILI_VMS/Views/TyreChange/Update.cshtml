@@ -1,0 +1,420 @@
+﻿@model TblTyreChangeLog
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BillEntry/Index">Bill Entry</a></li>
+        <li class="breadcrumb-item active">Add Bill Entry</li>
+    </ol>
+
+</section>
+<div class="modal">
+</div>
+<section class="content container-fluid">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <div class="card-body">
+
+                    <form class="form-horizontal" asp-controller="TyreChange" asp-action="CreateChangeLog">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <div class="row ">
+                                            <label class="col-sm-2 control-label">Change Type<text style="color:red">*</text></label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" asp-for="ChangeType" required>
+                                                    <option value="*"> Select Work Type</option>
+                                                    <option value="Assign"> Assign </option>
+                                                    <option value="Replace"> Replace </option>
+                                                    <option value="Exchange"> Exchange </option>
+                                                </select>
+                                                <span asp-validation-for="VehicleCode"></span>
+                                            </div>
+
+                                            <label class="col-sm-2 control-label">Change Log Code</label>
+                                            <div class="col-sm-2">
+                                                <input class="form-control" type="text" asp-for="TyreChangeCode" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Vehicle<text style="color:red">*</text></label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control select2" asp-for="VehicleCode" required>
+                                                <option value="*"> Select Vehicle</option>
+                                                @foreach (var item in ViewBag.VehicleList)
+                                                {
+                                                    <option value="@item.VehicleCode">@item.RegistrationNo</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="VehicleCode"></span>
+                                        </div>
+                                        <label class="col-sm-2 control-label"> Existing Tyre's'</label>
+                                        <div class="col-sm-2">
+
+                                            <select class="form-control select2" asp-for="CurrentTyreCode" disabled>
+                                            </select>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> Source Vehicle </label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control select2" asp-for="PrevVehicleCode" disabled>
+                                                <option value="*"> Select Vehicle</option>
+                                                @foreach (var item in ViewBag.VehicleList)
+                                                {
+                                                    <option value="@item.VehicleCode">@item.RegistrationNo</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="VehicleCode"></span>
+                                        </div>
+                                        <label class="col-sm-2 control-label"> Tyre List</label>
+                                        <div class="col-sm-2">
+
+                                            <select class="form-control select2" asp-for="TyreSetupCode">
+                                                <option value="*"> Select Tyre</option>
+                                                @*@foreach (var item in ViewBag.TyreList)
+                                                {
+                                                <option value="@item.TyreSetupCode">@item.TyreNumber</option>
+                                                } *@
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> Starting KM</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" type="text" asp-for="StartingKm" value="0" />
+                                        </div>
+                                        <label class="col-sm-2 control-label"> Installation Date</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" type="date" asp-for="InstallationDate" required />
+                                            <span asp-validation-for="InstallationDate"></span>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> Status </label>
+                                        <div class="col-sm-2">
+                                            <Select class="form-control" asp-for="Status">
+                                                <option value="Active">Active</option>
+                                                <option value="Spare">Spare</option>
+                                            </Select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-mini btn-primary" href='@Url.Content("/TyreChange/Index")'>Cancel</a>
+                                   @*  <button type="submit" class="btn btn-info">Save</button> *@
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <table id="tblTyre" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:5%"> SL No</th>
+                                                <th style="width:9%"> Change Log Code</th>
+                                                <th style="width:8%"> Tyre Number</th>
+                                                <th> Tyre Setup Code</th>
+                                                <th> Installation Date</th>
+                                                <th> Starting KM</th>
+                                                <th> Tyre Size</th>
+                                                <th>Brand</th>
+                                                <th> Source Vehicle</th>
+                                                <th> Ending KM</th>
+                                                <th> Vehicle</th>
+                                                <th> Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyTyre">
+                                            @if (ViewBag.TyreListInfo != null)
+                                            {
+                                                foreach (var item in ViewBag.TyreListInfo)
+                                                {
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>@item.TyreChangeCode</td>
+                                                        <td>@item.TyreNumber</td>
+                                                        <td>@item.TyreSetupCode</td>
+                                                        <td>@item.InstallationDate</td>
+                                                        <td>@item.StartingKm</td>
+                                                        <td>@item.TyreSize</td>
+                                                        <td>@item.TyreBrand</td>
+                                                        <td>@item.PrevVehicleCode</td>
+                                                        <td>@item.EndKm</td>
+                                                        <td>@item.VehicleCode</td>
+                                                        <td>@item.Status</td>
+                                                    </tr>
+
+                                                }
+                                                
+                                            
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<script>
+    $(document).ready(function () {
+
+        $("#VehicleCode").on("change", function () {
+            var value = $("#VehicleCode").val();
+            console.log(value);
+            var table = $("#tblTyre");
+            var tbody = $("#tbodyTyre");
+            $("#tbodyTyre > tr").remove();
+            let ChangeType = $("#ChangeType").val();
+            $.ajax({
+                type: "POST",
+                url: "/TyreChange/GetVehicleTyreSetup",
+                data: { VehicelCode: value },
+                success: function (result) {
+
+                    console.log(result);
+                    let option = "<option value='*'> Select Tyre </option>";
+                    $.each(result, function (key, item) {
+                        let index = tbody.children("tr").length;
+                        let slNoCell = "<td>" + (Number(index) + 1) + " </td>";
+                        let ChangeLogCodeCell = "<td>" + item.tyreChangeCode + " </td>";
+                        let tyreNumberCell = "<td>" + (item.tyreNumber || 'N/A') + " </td>";
+                        let tyreSetupCell = "<td>" + item.tyreSetupCode + " </td>";
+                        let installationDateCell = "<td>" + item.installationDate + " </td>";
+                        let startingKmCell = "<td>" + item.startingKm + " </td>";
+                        let tyreSizeCell = "<td>" + item.tyreSize + " </td>";
+                        let tyreBandCell = "<td>" + item.tyreBrand + " </td>";
+                        let prevVehicleCodeCell = "<td>" + item.prevVehicleCode + " </td>";
+                        let endKmCell = "<td>" + item.endKm + " </td>";
+                        let vehicleCodeCell = "<td>" + item.vehicleCode + " </td>";
+                        let statusCell = "<td>" + item.status + " </td>";
+
+                        var newRow = "<tr>"
+                            + slNoCell
+                            + ChangeLogCodeCell
+                            + tyreNumberCell
+                            + tyreSetupCell
+                            + installationDateCell
+                            + startingKmCell
+                            + tyreSizeCell
+                            + tyreBandCell
+                            + prevVehicleCodeCell
+                            + endKmCell
+                            + vehicleCodeCell
+                            + statusCell
+                            + "</tr>";
+
+                        tbody.append(newRow);
+
+                        option += "<option value='" + item.tyreSetupCode + "'>" + item.tyreNumber + "</option>";
+
+                    })
+
+                    $("#CurrentTyreCode").html(option);
+
+
+
+                },
+                error: function () {
+
+                }
+            });
+
+
+        });
+
+        $("#ChangeType").on("change", function () {
+            $("#tbodyTyre > tr").remove();
+            $("#VehicleCode").val('*').trigger('change');
+            $("#TyreSetupCode").val('*').trigger('change');
+            $("#PrevVehicleCode").val('*').trigger('change');
+            $("#CurrentTyreCode").val('*').trigger('change');
+
+            $("#StartingKm").val('0');
+
+            $("#InstallationDate").val('');
+            let ChangeType = $("#ChangeType").val();
+
+            if (ChangeType == "Assign" || ChangeType == "*") {
+                $("#PrevVehicleCode").prop("disabled", true);
+                $("#CurrentTyreCode").prop("disabled", true);
+
+            }
+            else if (ChangeType == "Replace") {
+                $("#PrevVehicleCode").prop("disabled", true);
+                $("#CurrentTyreCode").prop("disabled", false);
+            }
+            else {
+                $("#PrevVehicleCode").prop("disabled", false);
+                $("#CurrentTyreCode").prop("disabled", false);
+
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/TyreChange/GetTyreListByType",
+                data: { ChangeType: ChangeType },
+                success: function (result) {
+                    let option = "<option value='*'> Select Tyre </option>";
+                    $.each(result, function (key, item) {
+                        option += "<option value='" + item.tyreSetupCode + "'>" + item.tyreNumber + "</option>";
+                    })
+                    $("#TyreSetupCode").html(option);
+                },
+                error: function () {
+
+                }
+            });
+
+        });
+
+    });
+    function fnAddTyre() {
+        var VehicleCode = $("#VehicleCode").val();
+        var ChangeCode = $("#TyreChangeCode").val();
+        var InstallDate = $("#InstallDate").val();
+        var StartingKilo = $("#StartingKilo").val();
+        var StatusTyre = $("#StatusTyre").val();
+        var TyreCode = $("#TyreCode").val();
+        var table = $("#tblTyre");
+        var tbody = $("#tbodyTyre");
+
+        if (SetupCodeCheck(TyreCode)) {
+            alert("exists");
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/TyreChange/GetTyreInfo",
+                data: { TyreCode: TyreCode },
+                success: function (result) {
+
+                    console.log(result);
+
+                    var index = tbody.children("tr").length;
+                    let indexCell = "<td style='display:none'><input readonly class='form-control' name='tblTyreChangeLog.Index' type='hidden' value='" + index + "' /></td>";
+                    let idCell = "<td style='display:none'> <input readonly class='form-control' id='tblTyreChangeLog_" + index + "_Id' name='tblTyreChangeLog[" + index + "].Id' type='text' value='0' /></td>";
+                    var slNoCell = "<td style='text-align:center'> <text>" + (Number(index) + 1) + "</text></td>";
+                    var tyreNumberCell = "<td><input style='width:fit-content' class='form-control nothing' readonly id='tblTyreChangeLog_" + index + "_TyreNumber' name='tblTyreChangeLog[" + index + "].TyreNumber' type='text' value='" + result.tyreNumber + "' readonly /></td>";
+                    var installationDateCell = "<td><input style='width:100%' class='form-control nothing'  id='tblTyreChangeLog_" + index + "_InstallationDate' name='tblTyreChangeLog[" + index + "].InstallationDate' type='text' value='" + InstallDate + "' readonly /></td>";
+                    var startingKmCell = "<td><input style='width:100%' class='form-control nothing'  id='tblTyreChangeLog_" + index + "_StartingKm' name='tblTyreChangeLog[" + index + "].StartingKm' type='text'value ='" + StartingKilo + "' readonly /> </td>";
+                    var tyreSizeCell = "<td><input style='width:100%' class='form-control nothing'  id='tblTyreChangeLog_" + index + "_TyreSize' name='tblTyreChangeLog[" + index + "].TyreSize' type='text' value='" + result.tyreSize + "' readonly/> </td>";
+                    var tyreBandCell = "<td><input style='width:100%' class='form-control nothing'  id='tblTyreChangeLog_" + index + "_TyreBrand' name='tblTyreChangeLog[" + index + "].TyreBrand' type='text' value='" + result.tyreBrand + "' readonly/> </td>";
+
+                    var tyreChangeCodeCell = "<td><input style='width:100%' class='form-control nothing' readonly id='tblTyreChangeLog_" + index + "_TyreChangeCode' name='tblTyreChangeLog[" + index + "].TyreChangeCode' type='text' value='" + ChangeCode + "' readonly /></td>";
+                    var vehicleCodeCell = "<td><input style='width:100%' class='form-control nothing' readonly id='tblTyreChangeLog_" + index + "_VehicleCode' name='tblTyreChangeLog[" + index + "].VehicleCode' type='text' value='" + VehicleCode + "'/> </td>";
+
+
+                    //var spareCell = "<td><input style='width:100%' class='form-control nothing'  id='tblTyreChangeLog_" + index + "_IsSpare' name='tblTyreChangeLog[" + index + "].IsSpare' type='checkbox'/> </td>";
+
+
+                    var tyreSetupCell = "<td><input style='width:100%' class='form-control nothing' redonly id='tblTyreChangeLog_" + index + "_TyreSetupCode' name='tblTyreChangeLog[" + index + "].TyreSetupCode' type='text' value='" + result.tyreSetupCode + "' readonly/></td>";
+                    var statusCell = "<td><input style='width:100%' class='form-control nothing'readonly readonly id='tblTyreChangeLog_" + index + "_Status' name='tblTyreChangeLog[" + index + "].Status' type='text' value='" + StatusTyre + "'/> </td>";
+                    var endKmCell = "<td><input style='width:100%' class='form-control nothing' readonly  id='tblTyreChangeLog_" + index + "_EndKm' name='tblTyreChangeLog[" + index + "].EndKm' type='text'/> </td>";
+                    var prevVehicleCodeCell = "<td><input style='width:100%' class='form-control nothing' readonly id='tblTyreChangeLog_" + index + "_PrevVehicleCode' name='tblTyreChangeLog[" + index + "].PrevVehicleCode' type='text'  /></td>";
+
+                    var removeCell = "<td><button type='button' class='btn btn-sm btn-danger' onclick='removeRow(" + index + ")'>Remove</button></td>";
+
+
+                    var newRow = "<tr id='trTblTyreChangeLog" + index + "'>"
+                        + indexCell
+                        + idCell
+                        + slNoCell
+                        + tyreNumberCell
+                        + installationDateCell
+                        + startingKmCell
+                        + tyreSizeCell
+                        + tyreBandCell
+                        + removeCell
+                        + prevVehicleCodeCell
+                        + tyreSetupCell
+                        + endKmCell
+                        + vehicleCodeCell
+                        + statusCell
+                        + "</tr>";
+                    if (VehicleCode == '*') {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+
+                        toastr.error("Please Select a Vehicle");
+                        return false;
+                    }
+                    else {
+                        tbody.append(newRow);
+                    }
+
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+
+    }
+
+    function SetupCodeCheck(tyresetupcode) {
+        debugger;
+        $('#tblTyre tbody tr').each(function () {
+            // Get the value of the input field inside the td (first column)
+            var code = $(this).find('td:first input.clTyreSetup').val();
+            var found = false;
+            if (code === tyresetupcode) {
+                found = true; // If found, set the flag to true
+                return false; // Stop further iteration
+            }
+
+            return found;
+        });
+
+    }
+    function removeRow(id) {
+
+        var controlToBeRemoved = "#trTblTyreChangeLog" + id;
+        $(controlToBeRemoved).remove();
+    }
+</script>

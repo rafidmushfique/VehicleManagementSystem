@@ -1,0 +1,329 @@
+﻿@model LILI_VMS.Models.TblEmployee
+
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
+
+
+
+
+@*<script src="~/lib/JQuery-unobtrusive-Ajax/jquery-ajax-unobtrusive-master/src/jquery.unobtrusive-ajax.js"></script>*@
+
+<!-- Modal placeholder -->
+<div id="modal-placeholder"></div>
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    @*<h1>
+            Employee
+        </h1>*@
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Employee</li>
+        <li class="active">Add Employee</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="box box-info" style="border:1px solid; border-color:cadetblue; padding:10px">
+        @*<div class="box-header with-border">
+                <h3 class="box-title">Add Employee</h3>
+            </div>*@
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" asp-controller="Employee" method="post" asp-action="CreateEmployee">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger">
+                    <span>Please correct the following errors</span>
+                </div>*@
+
+
+
+            @*@if (ViewData["Error"] != null)
+                {
+                    <div class="red">
+                        <p><strong>Error:</strong> @ViewData["Error"].ToString()</p>
+                    </div>
+                }
+                @if (TempData["Success"] != null)
+                {
+                    <div class="green">
+                        <p><strong>Success:</strong> @TempData["Success"].ToString()</p>
+                    </div>
+                }*@
+
+
+
+
+
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" asp-for="Name" class="form-control" placeholder="Name">
+                        <span asp-validation-for="Name"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Emp. Id</label>
+                    <div class="col-sm-10">
+                        <input type="text" asp-for="EmpId" class="form-control" placeholder="EmpId">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Designation</label>
+                    <div class="col-sm-10">
+                        <input type="text" asp-for="Designation" class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Department</label>
+                    <div class="col-sm-10">
+                        <input type="text" asp-for="Department" class="form-control" placeholder="Department">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EmpGrade" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <select asp-for="EmpGrade" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfGrade,"Id","GradeName"))"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IsActive" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-4 bootstrap-switch-square">
+                        <input type="checkbox" data-toggle="toggle" name="IsActive" id="IsActive" value="true" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="JoiningDate" class="col-sm-2 control-label"></label>
+                    @*<div class="col-sm-2">
+                        <input asp-for="JoiningDate" class="form-control" />
+                        <span asp-validation-for="JoiningDate" class="text-danger"></span>
+                    </div>*@
+
+                    <div class='col-sm-3 input-group date' id='JoiningDate' style="padding-left:15px;">
+                        <input asp-for="JoiningDate" type='text' class="form-control" />
+                        <span asp-validation-for="JoiningDate" class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+
+
+
+
+                <div style="border:1px solid #e5dbff; padding:10px;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Experties Id</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="ExpertiesId" class="form-control" placeholder="Experties Id">
+                        </div>
+                        <div class="col-sm-2">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-mini btn-primary" data-toggle="ajax-modal" data-target="#add-contact" data-url="@Url.Action("Experties")">
+                                Add Experties
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Experties Area</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="ExpertArea" class="form-control" placeholder="Expert Area">
+                        </div>
+                        <label for="inputEmail3" class="col-sm-2 control-label">Experties Description</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="ExpertDesc" class="form-control" placeholder="Description">
+                        </div>
+                    </div>
+                    <p>
+                        <input type="button" id="addRowToTable" value="Add New Row" onclick="addToTable()" />
+                    </p>
+                    <div class="box-body">
+                        <div style="border-radius:30px; border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                            <table id="htExpertiesDetail" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ExpertiesId</th>
+                                        <th>ExpertArea</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbExpertDtl">
+                                    @foreach (var item in Model.TblEmployeeExpert)
+                                    {
+                                        int i = 0; //To make unique Id
+                                        <tr>
+                                            <td>@Html.EditorFor(modelItem => item.ExpertiesId)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.ExpertArea)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                            <td><a href="" onclick="Delete('@item.Id')">Delete</a></td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <p>
+                    <input type="button" id="addRow" value="Add New Row" onclick="addNewRow()" />
+                </p>
+                <div class="box-body">
+                    <div style="border-radius:30px; border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                        <table id="htEmployeeEducationDetail" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>ExamId</th>
+                                    <th>Result</th>
+                                    <th>Comments</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbEduDtl">
+                                @foreach (var item in Model.tblEmpEducationalDetail)
+                                {
+                                    int i = 0; //To make unique Id
+                                    <tr>
+                                        <td>@Html.EditorFor(modelItem => item.Id)</td>
+                                        <td>@Html.TextBoxFor(modelItem => item.ExamId)</td>
+                                        <td>@Html.DropDownListFor(modelItem => item.Result, new List<SelectListItem> { }, new { @class = "form-control " })</td>
+                                        <td>@Html.TextBoxFor(modelItem => item.Comment)</td>
+                                        <td><a href="" onclick="Delete('@item.Id')">Delete</a></td>
+                                    </tr>
+                                    i++;
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+                <a class="btn btn-mini btn-primary" href='@Url.Content("/Employee/Index")'>Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Create</button>
+
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+
+
+    var arrHead = new Array();
+    arrHead = ['Id','EmpId','ExamId','Result','Comments','Action'];      // SIMPLY ADD OR REMOVE VALUES IN THE ARRAY FOR TABLE HEADERS.
+    // ADD A NEW ROW TO THE TABLE.s
+
+    //Add new row with data from textbox
+    function addToTable() {
+
+        @{
+            Model.TblEmployeeExpert.Add(new TblEmployeeExpert());
+        }
+        
+        var exptId = $("#ExpertiesId").val(); 
+        var exptArea = $("#ExpertArea").val();
+        var exptDesc = $("#ExpertDesc").val();
+
+        var index = $("#tbExpertDtl").children("tr").length;
+
+        var indexCell = "<td style='display:none'><input name='TblEmployeeExpert.Index' type='hidden' value='" + index + "' /></td>";
+        var idCell = "<td><input id='TblEmployeeExpert_" + index + "_ExpertiesId' name='TblEmployeeExpert[" + index + "].ExpertiesId' type='text' value='" + exptId + "' /></td>";
+        var expertAreaCell = "<td><input id='TblEmployeeExpert_" + index + "_ExpertArea' name='TblEmployeeExpert[" + index + "].ExpertArea' type='text' value='" + exptArea + "' /></td>";
+        var descriptionCell = "<td><input id='TblEmployeeExpert__" + index + "__Description' name='TblEmployeeExpert[" + index + "].Description' type='text' value='" + exptDesc + "' /></td>";
+
+        var removeCell = "<td><input id='addRowToTable' type='button' value='Remove' onclick='removeRowExpert(" + index + ");' /></td>";
+
+        var newRow = "<tr id='trtbExpertDtl" + index + "'>" + indexCell + idCell + expertAreaCell + descriptionCell + removeCell + "</tr>";
+        $("#tbExpertDtl").append(newRow);
+    }
+
+    //Add new blank row
+    function addNewRow() {
+
+            @{
+                Model.tblEmpEducationalDetail.Add(new TblEmployeeEducationalDetail());
+            }
+
+            var index = $("#tbEduDtl").children("tr").length;
+
+            var indexCell = "<td style='display:none'><input name='tblEmpEducationalDetail.Index' type='hidden' value='" + index + "' /></td>";
+            var idCell = "<td><input id='tblEmpEducationalDetail_" + index + "_Id' name='tblEmpEducationalDetail[" + index + "].Id' type='text' value='' /></td>";
+            var examIdCell = "<td><input id='tblEmpEducationalDetail_" + index + "_ExamId' name='tblEmpEducationalDetail[" + index + "].ExamId' type='text' value='' /></td>";
+            var resultCell = "<td><select id='tblEmpEducationalDetail_" + index + "_Result' name='tblEmpEducationalDetail[" + index + "].Result' type='select' value='' " +
+                                    "@Html.Raw(@System.Web.HttpUtility.JavaScriptStringEncode(Html.DropDownListFor(a => a.tblEmpEducationalDetail.FirstOrDefault().Result, new SelectList(ViewBag.ResultList, "Value", "Text"), "Select Result", new { @class = "form-control chosen-select"}).ToHtmlStringT()))" +
+                            "</td>";
+
+            var commentCell = "<td><input id='tblEmpEducationalDetail__" + index + "__Comment' name='tblEmpEducationalDetail[" + index + "].Comment' type='text' value='' /></td>";
+
+            var removeCell = "<td><input id='addRow' type='button' value='Remove' onclick='removeRow(" + index + ");' /></td>";
+
+            var newRow = "<tr id='trtbEduDtl" + index + "'>" + indexCell + idCell + examIdCell + resultCell + commentCell + removeCell + "</tr>";
+                $("#tbEduDtl").append(newRow);
+    }
+
+
+
+    function removeRow(id) {
+        var controlToBeRemoved = "#trtbEduDtl" + id;
+        //alert(controlToBeRemoved);
+        $(controlToBeRemoved).remove();
+    }
+
+    function removeRowExpert(id) {
+        var controlToBeRemoved = "#trtbExpertDtl" + id;
+        //alert(controlToBeRemoved);
+        $(controlToBeRemoved).remove();
+    }
+
+    // EXTRACT AND SUBMIT TABLE DATA.
+    function sumbitData() {
+        var myTab = document.getElementById('htEmployeeEducationDetail');
+        var values = new Array();
+
+        // LOOP THROUGH EACH ROW OF THE TABLE.
+        for (row = 1; row < myTab.rows.length - 1; row++) {
+            for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
+
+                var element = myTab.rows.item(row).cells[c];
+                if (element.childNodes[0].getAttribute('type') == 'text') {
+                    values.push("'" + element.childNodes[0].value + "'");
+                }
+            }
+        }
+        console.log(values);
+    }
+
+</script>
+
+
+@*<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#JoiningDate').datetimepicker();
+    });
+</script>*@

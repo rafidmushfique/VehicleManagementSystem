@@ -1,0 +1,183 @@
+﻿@model LILI_VMS.Models.TblBusinessUnitSetupInfo
+
+
+<div id="modal-placeholder">
+    @{
+        var message = TempData["msg"].ToString();
+        if (!string.IsNullOrEmpty(message))
+        {
+                                    <script>
+                                    alert("@message");
+                                    </script>
+        
+        }
+    }
+
+</div>
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BusinessUnitSetup/Index">Business/Unit Setup Information</a></li>
+        <li class="breadcrumb-item active">Add Business/Unit Setup Information</li>
+        </ol>
+ 
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+    <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="BusinessUnitSetup" method="post" asp-action="CreateBusinessSetup">
+           
+            <div class="card-body">
+
+                <div class="form-group">
+                     <div class="form-outline">
+                         <label asp-for="Type" class="col-sm-2 control-label"></label>
+                         <div class="col-sm-3">
+                                    <select class="form-control" asp-for="Type" onchange="BusUnitChange()">
+                                        <option value="Business">Business</option>
+                                        <option value="Unit">Unit</option>
+                                    </select>
+                         </div>
+                     </div>
+
+                            <div class="form-outline">
+                                <label for="PlantId" class="col-sm-2 offset-sm-1 control-label">Plant</label>
+                                <div class="col-sm-3">
+                                   
+
+                                    <select class="form-control" asp-for="FgPlantId" onchange="SetPlantInfo()">
+                                        @foreach (var item in ViewBag.ListOfPlants)
+                                        {
+                                            <option value="@item.PlantCode">@item.PlantName</option>
+                                        }
+
+
+                                    </select>
+                                </div>
+                            </div>
+                     
+                </div>
+
+               <div class="form-group">
+                            <div class="form-outline">
+                                <label for="BusinessCode" class="col-sm-2 control-label">Business Code</label>
+                                <div class="col-sm-4">
+                                <input type="text" asp-for="BusinessCode" class="form-control" placeholder="" readonly>
+                                    <span asp-validation-for="BusinessCode"></span>
+                            </div> 
+                            </div>
+
+                       <div class="form-outline">
+                                <label for="BusinessName" class="col-sm-2 control-label">Business Name</label>
+                          <div class="col-sm-4">
+                          <input type="text" asp-for="BusinessName" class="form-control" placeholder="">
+                                    <span asp-validation-for="BusinessName"></span>
+                          </div>
+                       </div>
+               </div>
+                         <div class="form-group">
+                            <div class="form-outline">
+                                <label for="ToolName" class="col-sm-2 control-label">Address</label>
+                                <div class="col-sm-4">
+                                    <textarea asp-for="Address" class="form-control" placeholder="Address"></textarea>
+                                    <span asp-validation-for="Address"></span>
+                                </div>
+                            </div>
+                            <div class="form-outline">
+                                <label for="ToolName" class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-4">
+                                    <textarea asp-for="Description" class="form-control" placeholder="Description"></textarea>
+                                    <span asp-validation-for="Description"></span>
+                                </div>
+                            </div>
+               </div>
+@*                          <div class="form-group">
+                       <div class="form-outline">
+
+                          <label for="ToolName" class="col-sm-2 control-label">Unit</label>
+                                <div class="col-sm-10">
+                          <input type="text" asp-for="Unit" class="form-control" placeholder="">
+                                    <span asp-validation-for="Unit"></span>
+                       </div>
+                       </div>
+               </div>*@
+                          <div class="form-group">
+
+               </div>
+            </div>
+
+
+            <!-- /.box-body -->
+            <div class="card-footer">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/BusinessUnitSetup/Index")'>Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Create</button>
+
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+
+    </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+    function SetPlantInfo() { 
+        var Plant = $("#FgPlantId").val();
+        $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GetPlantInfo", "BusinessUnitSetup")',
+                data: {
+                    vPlantCode: Plant
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    //alert(result);
+                    console.log(result);
+                    $("#Address").val(result[0].plantAddress);
+
+                }
+            });
+    }
+    function BusUnitChange() {
+        var id = "";
+        var selectElement = document.querySelector('#Type');
+        var id = $("#Type").val();
+        //alert(id);
+
+        $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GenerateBusinessCode", "BusinessUnitSetup")',
+                data: {
+                    busUnit: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    //alert(result);
+                    $("#BusinessCode").val(result);
+
+                }
+            });
+      
+    }
+    
+</script>

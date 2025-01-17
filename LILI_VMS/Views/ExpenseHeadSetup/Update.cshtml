@@ -1,0 +1,85 @@
+﻿@model LILI_VMS.Models.TblExpenseHeadSetup
+
+
+<div id="modal-placeholder">
+</div>
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/ExpenseHeadSetup/Index">Expense Head Setup</a></li>
+        <li class="breadcrumb-item active">Add Expense Head Setup</li>
+    </ol>
+
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="ExpenseHeadSetup" method="post" asp-action="UpdateExpenseSetup">
+
+                    <input type="hidden" asp-for="Id"></input>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label asp-for="ExpenseCode" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="ExpenseCode" class="form-control readonly" readonly></input>
+                            </div>
+                            <label asp-for="ExpenseName" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="ExpenseName" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Unit" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="Unit" class="form-control"></input>
+                            </div>
+                            <label asp-for="Rate" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="Rate" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Comments" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" style="height:100px" asp-for="Comments"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- /.box-body -->
+                    <div class="card-footer">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/ExpenseHeadSetup/Index")'>Cancel</a>
+                        <button type="submit" class="btn btn-info pull-right">Update</button>
+
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+
+<script type="text/javascript">
+
+
+
+</script>

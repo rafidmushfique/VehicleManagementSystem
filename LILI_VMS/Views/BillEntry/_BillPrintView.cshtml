@@ -1,0 +1,371 @@
+﻿@model IEnumerable<LILI_VMS.Models.BillInfoVM>
+@{
+    Layout = "";
+}
+
+
+            <div class="modal-header" style="background-color:#0c8599; color:white;">
+                <h5 class="modal-title" id="addContactLabel">GP Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style="position: relative;">
+
+                @if (Model != null)
+                {
+                    <div  class="row" style='margin-bottom:5em;'>
+                         <div class="col-xs-12 offset-xs-2">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <button class="btn  btn-primary" id="printReport"><i class="fa fa-print"> Print </i> </button>
+                                    <div class="card-tools">
+                                    </div>
+                                </div>
+                                <div class="card-body" id="PrintArea">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+
+                                            <div class="row">
+                                                 <div class="col-xs-12">
+                                                     <div class="header text-center">
+                                                         <h2><b>@Model.FirstOrDefault()?.BusinessName</b></h2>
+                                                         <h4><b>Vehicle Trip / Movement Bill</b></h4>
+                                                          <h5><b>Vehicle Number: @Model.FirstOrDefault()?.RegNo</b>  </h5>
+                                                     </div>
+                                                     <hr>
+                                                 </div>
+                                            </div>
+                                            <div class="row pt-1">
+                                                <div class="col-sm-6">
+                                                    <label> Bill No: </label>
+                                                    <text>@Model?.FirstOrDefault()?.BillNo</text>
+                                                </div>
+                                           
+                                            
+                                                <div class="col-sm-6">
+                                                    <label> Bill Date: </label>
+                                                    <text>@Model?.FirstOrDefault()?.BillDate.ToString("MMMM dd, yyyy")</text>
+                                                </div>
+                                            </div>
+                                            <div class="row pt-1">
+                                                     <div class="col-sm-6"></div>
+                                                     <div class="col-sm-6">
+                                                         <label> Loading date: </label>
+                                                         <text>@Model?.FirstOrDefault()?.LoadingDate.ToString("MMMM dd, yyyy")</text>
+                                                    </div>
+                                            </div>
+                                            <div class="row pt-5">
+                                                 
+                                                <div class="col-sm-12">
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                    <td>
+                                                        <label> Driver Name: </label>
+                                                        <text>@Model?.FirstOrDefault()?.DriverName</text>
+                                                    </td>
+                                                        <td>  
+                                                        <label> Helper Name: </label>
+                                                        <text>@Model?.FirstOrDefault()?.HelperName</text>
+
+                                                        </td>
+                                                       
+                                                    </tr>
+                                                    <tr style="margin:0; padding:0">
+                                                        <td colspan="2" style="margin:0; padding:0">
+                                                            <table class="table table-bordered"  style="width:100%;margin:0;padding:0;">
+                                                            <tr style="margin:0;  padding:0">
+                                                                <td>
+                                                                <label> Starting Km: </label>
+                                                                <text> @Model?.FirstOrDefault()?.StartingKm</text>
+                                                                </td>
+                                                                <td>
+                                                                <label> Closing Km: </label>
+                                                                <text> @Model?.FirstOrDefault()?.ClosingKM</text>
+                                                                </td>
+                                                                <td>
+                                                                <label> Bill KM: </label>
+                                                                <text> @Model?.FirstOrDefault()?.RunOfKm</text>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="margin:0;  padding:0">
+
+                                                                <td>
+                                                                    <label> KPL: </label>
+                                                                    <text>@Model?.FirstOrDefault()?.KPL</text>
+                                                                </td>
+                                                            <td>
+                                                                <label> Carrying MT: </label>
+                                                                <text>@Model?.FirstOrDefault()?.TotalLoadMt</text>
+                                                            </td>
+                                                            <td>
+                                                                <label> Vehicle Size: </label>
+                                                                <text>@Model?.FirstOrDefault()?.VehicleSize</text>
+                                                            </td>
+                                                            </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                            
+                                                    <tr>
+                                                        <td colspan="3">
+                                                         <label> Gate Pass No: </label>
+                                                        <text>
+                                                            @ViewBag.GpNoString
+                                                        </text>
+                                                        </td>
+
+                                                    </tr>
+                                          @*           <tr>
+                                                         <td colspan="3">
+                                                         <label> Comments : </label>
+                                                        <text>
+                                                            @Model.FirstOrDefault()?.Comments
+                                                        </text>
+                                                        </td>
+                                                    </tr> *@
+                                                    <tr>
+                                                         <td colspan="3">
+                                                            <label> Delivery Address: </label>
+                                                            <ul style="width:max-content; padding-left:5%">
+                                                                @{
+
+                                                                    foreach (var item in ViewBag.CustomerAddress)
+                                                                    {
+
+                                                                        <li> @item </li>
+
+                                                                    }
+
+                                                                }
+                                                            </ul>
+
+                                                         </td>
+                                                    </tr>
+                                                      <tr>
+                                                         <td colspan="3">
+                                                            <label> Comments: </label>
+                                                            <text>
+                                                                @Model.FirstOrDefault()?.Comments;
+                                                            </text>
+
+                                                         </td>
+                                                    </tr>
+                                                </table>
+                                                </div>
+
+                                            </div>
+                                            <div class="row pt-4">
+                                                <div class="col-xs-12 text-center">
+                                                    <h4><b> Bill Expenditures </b>  </h4>
+                                                </div>
+                                                <div class="col-xs-12" style="width:99%">
+                                                    <table id="myTable" class="table table-bordered  table-responsive-sm table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                               
+                                                                <th>Expenditure</th>
+                                                                <th>Unit</th>
+                                                                <th>Rate</th>
+                                                                <th>Quantity</th>
+                                                                <th>Amount</th>
+                                                                <th>Comments</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                           <tr>
+                                                               <td colspan="4"> <b>Total Expenditure</b> </td>
+                                                               <td style="text-align:right"> @ViewBag.TotalPriceSum</td>
+                                                                <td></td>
+                                                           </tr>
+                                                           <tr>
+                                                                <td colspan="4"><b>Total Exp. Excluding Fuel</b></td>
+                                                                <td style="text-align:right">@ViewBag.TotalPriceExcludingFuel</td>
+                                                                 <td></td>
+                                                           </tr>
+                                                           <tr>
+                                                               <td><b>Amount in Word:</b></td>
+                                                           </tr>
+                                                        </tfoot>
+                                                        <tbody>
+
+                                                            @foreach (var item in ViewBag.ExpenseDetails)
+                                                            {
+                                                                <tr>
+                                                                   
+                                                                    <td>@item.ExpenseName</td>
+                                                                    <td>@item.Unit</td>
+                                                                    <td style="text-align:right">@item.Rate</td>
+                                                                    <td style="text-align:right">@item.Quantity</td>
+                                                                    <td style="text-align:right">@item.TotalPrice</td>
+                                                                    <td>@item.Comments</td>
+                                                                </tr>
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <br />
+                                            <br />
+                                            <div class="row pt-5" id="signaturediv">
+                                                <div class="col-12">
+
+                                                    <div class="col-xs-4 text-center" >
+                                                        <label style="font-weight:normal"> @Model.FirstOrDefault().PreparedBy</label>
+                                                        <input disabled class="signature" style="height: 0;"></input>
+                                                        <label>Prepared By</label>
+                                                    </div>
+
+                                                    <div class="col-xs-4 text-center" >
+                                                         <label style="font-weight:normal"> @Model.FirstOrDefault().CheckedBy</label>
+                                                        <input disabled class="signature" style="height: 0;"></input>
+                                                        <label>Checked By</label>
+                                                    </div>
+
+                                                    <div class="col-xs-4 text-center" >
+                                                        <label style="font-weight:normal"> @Model.FirstOrDefault().ApprovedBy </label>
+                                                        <input disabled class="signature" style="height: 0;"></input>
+                                                        <label>Approved By</label>
+                                                    </div>
+
+                                                    
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+            <div class="modal-footer" style="background-color:#0c8599; ">
+            </div>
+
+
+
+  
+
+@*    <link href="~/Content/adminLte/plugins/select2/css/select2.min.css" rel="stylesheet" />*@
+<link href="~/lib/datatable/datatable.min.css" rel="stylesheet">
+<link href="~/lib/select2/select2.min.css" rel="stylesheet" />
+<style>
+
+    .signature {
+        border: 0;
+        width: 90%;
+        border-bottom: 1px solid #000;
+    }
+    .col-xs-2 {
+        width: 19.666667%;
+    }
+
+    label {
+        font-size: small;
+    }
+
+    .table td, .table th {
+        padding: 0.2em 0.5em;
+    }
+
+
+
+</style>
+
+@* <style>
+    @@page {
+        size: auto;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    @@media screen {
+        header, footer {
+            display: none;
+        }
+
+     
+    }
+
+    @@media print {
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        body > :not(#printSection) {
+            display: none !important;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 80%;
+        }
+
+        html, body {
+            height: 100vh;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+
+    }
+
+ 
+
+</style> *@
+
+<link media="print" rel="stylesheet" type="text/css" href="~/css/print.css" />
+
+
+
+
+    <script>
+        document.getElementById("printReport").onclick = function () {
+            debugger;
+           //$('#signaturediv').css('display', 'block');
+            printElement(document.getElementById("PrintArea"));
+            //$('#signaturediv').css('display', 'none');
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+
+            var $printSection = document.getElementById("printSection");
+
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            $("#printSection").remove();
+        }
+       
+    </script>

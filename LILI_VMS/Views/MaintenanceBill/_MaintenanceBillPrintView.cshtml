@@ -1,0 +1,305 @@
+﻿@model IEnumerable<LILI_VMS.Models.VMMaintenanceBill>
+@{
+    Layout = "";
+}
+
+
+            <div class="modal-header" style="background-color:#0c8599; color:white;">
+                <h5 class="modal-title" id="addContactLabel">Maintenance Bill Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style="position: relative;">
+                @if (Model != null)
+                {
+                    <div class='row' style='margin-bottom:5em;'>
+                        <div class="col-xs-12 offset-xs-2">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <button class="btn  btn-primary" id="printReport"><i class="fa fa-print"> Print </i> </button>
+                                    <div class="card-tools">
+                                    </div>
+                                </div>
+                                <div class="card-body" id="PrintArea">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h4 class="text-left">
+                                                <b> Maintenance Bill </b>
+                                            </h4>
+                                            <div class="row pt-5">
+                                                <div class="col-sm-4">
+                                                    <label> Type of Maintenance: </label>
+                                                    <label>@Model?.FirstOrDefault()?.MaintenanceTypeName</label>
+                                                </div>
+                                         
+                                            </div>
+
+                                            <div class="row pt-5">
+                                                <div class="col-sm-4">
+                                                    <label> Requisition No: </label>
+                                                    <label>@Model?.FirstOrDefault()?.RequisitionNo</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label> Workshop Name: </label>
+                                                    <label>@Model?.FirstOrDefault()?.SuppWorkShopName</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row pt-5">
+                                                <div class="col-sm-4">
+                                                    <label>Last Maintenance Date : </label>
+                                                    <label>@Model?.FirstOrDefault()?.LastMaintenanceDate.ToString("MMMM dd, yyyy")</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                </div>
+                                                  <div class="col-sm-4">
+                                                    <label> Address: </label>
+                                                    <label>@Model?.FirstOrDefault()?.Address</label>
+                                                </div>
+                                            </div>
+                                                 <div class="row pt-5">
+                                                <div class="col-sm-4">
+                                                    <label>Last Maintenance Km : </label>
+                                                    <label>@Model?.FirstOrDefault()?.LastMaintenanceKM</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                </div>
+                                                  <div class="col-sm-4">
+                                                    <label> Mobile No: </label>
+                                                    <label>@Model?.FirstOrDefault()?.ContactNo</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row pt-5">
+                                                <div class="col-sm-4">
+                                                    <label> Registration No: </label>
+                                                    <label>@Model?.FirstOrDefault()?.RegistrationNo</label>
+                                                </div>
+                                               <div class="col-sm-4">
+                                                </div>
+                                                  <div class="col-sm-4">
+                                                    <label> Driver Name: </label>
+                                                    <label>@Model?.FirstOrDefault()?.Driver</label>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="row pt-5">
+                                                <div class="col-xs-12" style="width:99%">
+                                                    <table id="myTable" class="table table-bordered  table-responsive-sm table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Item Code</th>
+                                                                <th>Item</th>
+                                                                <th>Unit</th>
+                                                                <th>Quantity</th>
+                                                                <th>Rate</th>
+                                                                <th>Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <td colspan="3">
+                                                                    <label>Total:</label>
+                                                                </td>
+                                                                 <td>
+                                                                 </td>
+                                                                  <td>
+                                                                 </td>
+                                                                <td>
+                                                                    @ViewBag.TotalAmount
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                        <tbody>
+
+                                                         @foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.PartsCode</td>
+                                                                    <td>@item.PartsName</td>
+                                                                    <td>@item.UOMName</td>
+                                                                    <td>@item.RequitionQty</td>
+                                                                    <td>@item.UnitPrice</td>
+                                                                    <td>@item.TotalPrice</td>
+                                                                </tr>
+                                                            }
+ 
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                             <br/>
+                                            <br />
+                                            <br />
+                                <div class="row pt-5" id="signaturediv">
+                                    <div class="col-12 d-flex justify-content-between">
+
+                                        <div class="text-center col-xs-3">
+                                            <label style="font-weight:normal">
+                                                @Model.FirstOrDefault()?.PreparedBy
+                                            </label>
+                                            <input disabled class="signature" style="height: 0;" />
+                                            <label>Prepared By</label>
+                                        </div>
+
+                                        <div class="text-center col-xs-3">
+                                            <label style="font-weight:normal">
+                                                @Model.FirstOrDefault()?.CheckedBy
+                                            </label>
+                                            <input disabled class="signature" style="height: 0;" />
+                                            <label>Checked By</label>
+                                        </div>
+
+                                        <div class="text-center col-xs-3">
+                                            <label style="font-weight:normal">
+                                                @Model.FirstOrDefault()?.RecommendedBy
+                                            </label>
+                                            <input disabled class="signature" style="height: 0;" />
+                                            <label>Recommended By</label>
+                                        </div>
+
+                                        <div class="text-center col-xs-3">
+                                            <label style="font-weight:normal">
+                                                @Model.FirstOrDefault()?.ApprovedBy
+                                            </label>
+                                            <input disabled class="signature" style="height: 0;" />
+                                            <label>Approved By</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+            <div class="modal-footer" style="background-color:#0c8599; ">
+                
+
+            </div>
+
+
+
+  
+    <style>
+    .signature {
+        border: 0;
+        width: 90%;
+        border-bottom: 1px solid #000;
+        margin: 0 auto;
+    }
+
+    #signaturediv label {
+        display: block;
+        min-height: 1.5rem; /* Ensures consistent height even if content varies */
+    }
+
+    .col-xs-2 {
+        width: 19.666667%;
+    }
+
+    label {
+        font-size: small;
+    }
+
+    .table td, .table th {
+        padding: 0.2em 0.5em;
+    }
+
+    </style>
+
+<style>
+    @@page {
+        size: auto;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    @@media screen {
+        header, footer {
+            display: none;
+        }
+    }
+
+    @@media print {
+        html, body {
+            height: 100vh;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden;
+          
+        }
+
+
+        body > :not(#printSection) {
+            display: none !important;
+        }
+
+
+        #printSection, #printSection * {
+            visibility: visible;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+    }
+</style>
+
+
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('.single_select2').select2({ width: 'resolve' });
+        });
+        document.getElementById("printReport").onclick = function () {
+            debugger;
+           //$('#signaturediv').css('display', 'block');
+            printElement(document.getElementById("PrintArea"));
+            //$('#signaturediv').css('display', 'none');
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+
+            var $printSection = document.getElementById("printSection");
+
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+        }
+       
+    </script>

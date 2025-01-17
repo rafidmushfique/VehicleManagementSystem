@@ -1,0 +1,125 @@
+﻿@model TblVendorSmsmaster
+<div id="modal-placeholder"></div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/VendorSms/Index">Vendor SMS Notification</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+
+</section>
+<section class="content container-fluid">
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="VendorSms" method="post" asp-action="CreateVenorNotification">
+                    <div class="card-body">
+                        <div class="form-group">
+
+                            <div class="row">
+                                <label asp-for="VendorSmsCode" class="col-sm-2 control-label">Sms Track Code</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="VendorSmsCode" class="form-control readonly" readonly />
+                                </div>
+                                <label  class="col-sm-2 control-label"> Date</label>
+                                <div class="col-sm-2" >
+                                    <input type="date" asp-for="ScheduleDate" class="form-control" value="" onclick="this.showPicker()" required />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                <table id="tblSms" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:3%">Vendor Code</th>
+                                            <th style="width:7%">Vendor Name</th>
+                                            <th style="width:5%"> Vendor Address1</th>
+                                            <th style="width:5%"> Vendor Address2</th>
+                                            <th style="width:5%"> Contact Info</th>
+                                            <th style="width:10%"> Message </th>
+                                            <th style="text-align:center; width:0.5%">Action</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbSmsGrid">
+                                        @for (var i = 0; i < Model.TblVendorSmsdetails.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].VendorCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].VendorName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].Add1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].Add2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                <td>@Html.EditorFor(modelItem => modelItem.TblVendorSmsdetails[i].Smsto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"} })</td>
+                                                <td>@Html.TextAreaFor(modelItem => modelItem.TblVendorSmsdetails[i].Smsmessage, new { @class = "form-control", @readonly = "readonly" })</td>
+                                                <td style="text-align:center"><button class="btn btn-danger" onclick="this.closest('tr').remove()">Remove</button></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/VendorSms/Index")'>Cancel</a>
+                        <button type="submit" class="btn btn-Success">Send</button>
+                    </div>
+                    </form>
+               
+               
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+     
+        $("#ScheduleDate").on("change", function () { 
+            let date = $("#ScheduleDate").val();
+            let vendorSmsCode = $("#VendorSmsCode").val();;
+            let table = $("#tblSms");
+            let $tbody = $("#tbSmsGrid");
+            $tbody.empty();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetVendorListForSms", "VendorSms")',
+                data: {
+                    Date: date
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    console.log(result);
+                    $.each(result, function (idx, elem) {
+                        var index = $("#tbSmsGrid").children("tr").length;
+                        var idCell = "<td style='display:none'> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].Id' value='0' readonly/></td>";
+                        var vendorSmsCodeCell = "<td style='display:none'> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].VendorSmsCode' value='" + vendorSmsCode + "' readonly/></td>";
+                        var vendorCodeCell = "<td> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].VendorCode' value='" + elem.vendorCode + "' readonly/></td>";
+                        var vendorNameCell = "<td> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].VendorName' value='" + elem.vendorName + "' readonly/></td>";
+                        var vendorAdd1Cell = "<td> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].Add1' value='" + elem.add1 + "' readonly/></td>";
+                        var vendorAdd2Cell = "<td> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].Add2' value='" + elem.add2 + "' readonly/></td>";
+                        var SmstoCell = "<td> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].Smsto' value='" + elem.smsto + "' readonly/></td>";
+                        var SmsmessageCell = "<td> <input class='form-control' id= 'TblVendorSmsdetails_" + index + "_VendorCode' name='TblVendorSmsdetails[" + index + "].Smsmessage' value='" + elem.smsmessage + "' /></td>";
+                        var removeActionCell = "<td><button type='button' class='btn btn-sm btn-danger' onclick='removeRow(" + index + ")'>Remove</button></td>";
+                        var newRow = "<tr id='trTblSmsCell" + index + "'>" + idCell + vendorSmsCodeCell + vendorCodeCell + vendorNameCell + vendorAdd1Cell + vendorAdd2Cell + SmstoCell + SmsmessageCell + removeActionCell + "</tr>";
+                        
+                        $tbody.append(newRow);
+                    })
+                }
+            })
+        })
+
+    })
+
+    function removeRow(id) {
+
+        var controlToBeRemoved = "#trTblSmsCell" + id;
+        $(controlToBeRemoved).remove();
+    }
+</script>

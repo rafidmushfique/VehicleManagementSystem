@@ -1,0 +1,810 @@
+﻿@model TblGpbill
+<div id="modal-placeholder"></div>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/BillEntry/Index">Bill Entry</a></li>
+        <li class="breadcrumb-item active">Edit Bill Entry</li>
+    </ol>
+
+</section>
+<div class="modal">
+</div>
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <!-- Horizontal Form -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-controller="BillEntry" method="post" asp-action="UpdateBill">
+
+                    <input type="hidden" asp-for="Id"></input>
+                    <div class="card-body">
+
+
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                @*                                 <div class="form-group control-group">
+                                <label asp-for="BusinessCode" class="col-sm-4 control-label">Business / Unit  (HIDE)</label>
+                                <div class="col-sm-4">
+                                <select class="select2 form-control" asp-for="BusinessCode" onchange="SetPlantCode()" required>
+                                @foreach (var item in ViewBag.ListOfBusiness)
+                                {
+                                <option value="@item.BusinessCode">@item.BusinessName</option>
+                                }
+                                </select>
+                                </div>
+                                </div> *@
+                                <div class="form-group control-group">
+                                    <label asp-for="BillNo" class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="BillNo" class="form-control readonly" readonly></input>
+                                    </div>
+                                </div>
+                                <div class="form-group control-group">
+                                    <input type="hidden" asp-for="VehicleCode"></input>
+                                
+
+                                    <label for="RegNo" class="col-sm-4 control-label"> Reg No. </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="RegNo" class="form-control readonly" readonly></input>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <button type="button" style="display:none" id="VehicleSearch" class="btn btn btn-info" data-toggle="ajax-modal" data-target="#add-material-search" data-url="@Url.Action("VehicleInformation")">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group control-group">
+                                    <label asp-for="DriverName" class="col-sm-4 control-label">Driver Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="DriverName" class="form-control readonly" readonly></input>
+                                    </div>
+                                </div>
+                                <div class="form-group control-group">
+                                    <label asp-for="HelperName" class="col-sm-4 control-label">Helper Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="HelperName" class="form-control readonly" readonly></input>
+                                    </div>
+                                </div>
+                                <div class="form-group control-group">
+                                    <input type="hidden" id="CustomerCode" class="form-control"></input>
+                                    <input type="hidden" id="CustomerName" class="form-control"></input>
+                                    <input type="hidden" id="CustomerAddress" class="form-control"></input>
+                                    <input type="hidden" id="LoadOfMt" class="form-control readonly"></input>
+                                    <label for="GpNo" class="col-sm-4 control-label"> Gp No. </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" id="GpNo" class="form-control readonly" readonly></input>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button"  id="btnGp" class="btn btn btn-info" data-toggle="ajax-modal" data-target="#add-material-search" data-url="@Url.Action("GpInformation")">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="EntranceDate" class="col-sm-4 control-label"> Entrance Date </label>
+                                    <div class="col-sm-4">
+                                        <input type="date" asp-for="EntranceDate" class="form-control readonly"></input>
+                                    </div>
+                                </div>
+@*                                 <div class="form-group control-group">
+                                    <label for="LoadOfMt" class="col-sm-4 control-label"> Load Of MT </label>
+                                    <div class="col-sm-4">
+                                       
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn btn-info" onclick="addNewRowToGrid()">
+                                            Add
+                                        </button>
+                                    </div>
+                                </div> *@
+                            </div>
+                            <input type="hidden" class="form-control" asp-for="PlantId" readonly></input>
+
+                            <div class="col-sm-6">
+                                @*                                 <div class="form-group">
+
+
+                                <label style="display:none"  class="col-sm-4 control-label"></label>
+                                <div class="col-sm-4" style="display:none">
+                                </div>
+
+                                </div> *@
+                                <div class="form-group">
+
+
+                                    <label asp-for="BillDate" class="col-sm-4 control-label"> Bill Date</label>
+                                    <div class="col-sm-4">
+                                        <input type="date" asp-for="BillDate" class="form-control "></input>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+
+
+                                    <label for="VehicleNo" class="col-sm-4 control-label"> Vehicle Code</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="VehicleCode" class="form-control readonly" readonly></input>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label asp-for="DriverMob" class="col-sm-4 control-label">Driver Mob. </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="DriverMob" class="form-control readonly" readonly></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <label asp-for="HelperMob" class="col-sm-4 control-label">Helper Mob. </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="HelperMob" class="form-control readonly" readonly></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <label for="TotalLoadMt" class="col-sm-4 control-label"> Total Load Mt </label>
+                                    <div class="col-sm-2">
+                                        <input type="text" asp-for="TotalLoadMt" class="form-control readonly" readonly></input>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label for="LoadingDate" class="col-sm-4 control-label"> Loading Date </label>
+                                    <div class="col-sm-4">
+                                        <input type="date" asp-for="LoadingDate" class="form-control readonly" readonly></input>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="StartingKm" class="col-sm-4 control-label"> Starting KM </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="StartingKm" class="form-control " onkeyup="fnCalculateRunKm()"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="RunOfKm" class="col-sm-4 control-label"> Run Of KM </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="RunOfKm" class="form-control readonly" placeholder="closing-starting" readonly></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                         
+                                <div class="form-group">
+                                    <label for="ClosingKm" class="col-sm-4 control-label"> Closing KM </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="ClosingKm" class="form-control " onkeyup="fnCalculateRunKm()"></input>
+                                    </div>
+                                </div>
+                     
+                                <div class="form-group">
+                                    <label for="Kpl" class="col-sm-4 control-label"> KPL </label>
+                                    <div class="col-sm-4">
+                                        <input type="text" asp-for="Kpl" class="form-control readonly" placeholder="" readonly></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="hidden" asp-for="IsReturned"></input>
+                                <label class="col-sm-4 control-label"> Return Info </label>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" class="form-control" id="ReturnInfoCheckbox"></input>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                           
+
+                                <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                    <table id="htGpList" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center; width:6%">Gp No</th>
+                                                <th style="text-align:center; width:3%">Load Of MT</th>
+                                                <th style="text-align:center; width:7%">Customer</th>
+                                                <th style="text-align:center; width:7%">Customer Address</th>
+                                                <th style="text-align:center; width:2%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="htGpGrid">
+                                            @{
+
+                                                for (var i = 0; i < Model.TblGpbillGpdetails.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.EditorFor(modelItem => modelItem.TblGpbillGpdetails[i].Gpno, new { htmlAttributes = new { @class = "form-control clGpNo", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblGpbillGpdetails[i].LoadOfMt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "text-align:right" } })</td>
+                                                        <td>@Html.EditorFor(modelItem => modelItem.TblGpbillGpdetails[i].Customer, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                        <td>@Html.EditorFor(modelItem => modelItem.TblGpbillGpdetails[i].CustomerAddress, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                        <td style="display:none">@Html.EditorFor(modelItem => modelItem.TblGpbillGpdetails[i].CustomerCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+                                                    </tr>
+
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                          
+                       
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+
+                                <label asp-for="Comments" class="col-sm-2 text-right">Comments</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" asp-for="Comments" style="height:10rem"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                            <div class="col-sm-12">
+                                <table id="htExpenseList" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center; width:5%">Expense Code</th>
+                                            <th style="text-align:center; width:10%">Expense Name</th>
+                                            <th style="text-align:center; width:5%">Unit</th>
+                                            <th style="text-align:center; width:7%">Quantity</th>
+                                            <th style="text-align:center; width:5%">Rate</th>
+                                            <th style="text-align:center; width:5%">Total Price</th>
+                                            <th style="text-align:center; width:10%">Comments</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody id="htExpenseGrid">
+                                        @{
+
+                                            for (var i = 0; i < Model.TblGpbillExpenseDetails.Count; i++)
+                                            {
+                                                var trrow = "trTblGpbillExpenseDetails" + @i;
+                                                <tr id="@trrow">
+                                                    <td style='display:none'><input name='TblRebProcessOrderDetail.Index' type='hidden' value="@i" /></td>
+                                                    <td style='display:none'><input name='TblGpbillExpenseDetails[@i].BillNo' type='hidden' value="@Model.BillNo" /></td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].ExpenseCode, new { htmlAttributes = new { @id = "TblGpbillExpenseDetails_" + @i + "_ExpenseCode", @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].ExpenseName, new { htmlAttributes = new { @id = "TblGpbillExpenseDetails_" + @i + "_ExpenseName", @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].Unit, new { htmlAttributes = new { @id = "TblGpbillExpenseDetails_" + @i + "_Unit", @class = "form-control", @readonly = "readonly" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].Quantity, new { htmlAttributes = new { @onchange = "calculateTotalPrice(this)", @id = "TblGpbillExpenseDetails_" + @i + "_Quantity", @class = "form-control", @style = "text-align:right" } })</td>
+                                                    @if (Model.TblGpbillExpenseDetails[i].ExpenseCode != "EC-2404007" && Model.TblGpbillExpenseDetails[i].ExpenseCode != "EC-2404008" && Model.TblGpbillExpenseDetails[i].ExpenseCode != "EC-2404009" && Model.TblGpbillExpenseDetails[i].ExpenseCode != "EC-2404010")
+                                                    {
+                                                        <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].Rate, new { htmlAttributes = new { @onchange = "calculateTotalPrice(this)", @id = "TblGpbillExpenseDetails_" + @i + "_Rate", @class = "form-control", @style = "text-align:right" } })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].Rate, new { htmlAttributes = new { @id = "TblGpbillExpenseDetails_" + @i + "_Rate", @class = "form-control", @readonly = "readonly", @style = "text-align:right" } })</td>
+                                                    }
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].TotalPrice, new { htmlAttributes = new { @id = "TblGpbillExpenseDetails_" + @i + "_TotalPrice", @class = "clTotalPrice form-control", @readonly = "readonly", @style = "text-align:right" } })</td>
+                                                    <td>@Html.EditorFor(modelItem => modelItem.TblGpbillExpenseDetails[i].Comments, new { htmlAttributes = new { @id = "TblGpbillExpenseDetails_" + @i + "_Comments", @class = "clComments form-control" } })</td>
+
+                                              
+                                                </tr>
+                                            }
+
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5" style="text-align:right"> <b>Total</b> </td>
+                                            <td>
+                                                <input type="text" style="text-align:right" asp-for="TotalAmount" value="@Model.Total" class="form-control" readonly></input>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ReturnTripDetails">
+                        <div class="card">
+                            <div class="card-header">
+                                <b>Return Trip Info</b>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">CustomerName </label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" id="CustomerNameRTN" class="form-control"></input>
+                                                </div>
+                                                <label class="col-sm-2 control-label"> Weight </label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" id="Weight" onkeypress='return isNumberKey(event)' class="form-control"></input>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">LoadingDate </label>
+                                                <div class="col-sm-3">
+                                                    <input type="date" id="RTNLoadingDate" class="form-control"></input>
+                                                </div>
+                                                <label class="col-sm-2 control-label"> UnloadingDate </label>
+                                                <div class="col-sm-3">
+                                                    <input type="date" id="UnloadingDate" class="form-control"></input>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label"> LoadingPoint </label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" id="LoadingPoint" class="form-control"></input>
+                                                </div>
+                                                <label class="col-sm-2 control-label"> UnloadingPoint </label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" id="UnloadingPoint" class="form-control"></input>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 text-right">Total Amount</label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" id="TotalTripAmount" class="form-control"></input>
+                                                </div>
+                                                <label class="col-sm-2 text-right">Remarks</label>
+                                                <div class="col-sm-3">
+                                                    <textarea class="form-control" id="ReturnComments" style="height:10rem"></textarea>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6 text-right">
+                                            <div class="form-group">
+                                                <button type="button" onclick="fnAddDataToGrid()" class="btn btn-info"> Add to Grid</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div style="border:0px solid #ccc; min-width:30%;  overflow:hidden;">
+                                            <table id="tblReturnList" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center; width:6%">BillNo</th>
+                                                        <th style="text-align:center; width:3%">LoadingDate</th>
+                                                        <th style="text-align:center; width:7%">UnloadingDate</th>
+                                                        <th style="text-align:center; width:7%">LoadingPoint</th>
+                                                        <th style="text-align:center; width:2%">UnloadingPoint</th>
+                                                        <th style="text-align:center; width:2%">CustomerName</th>
+                                                        <th style="text-align:center; width:2%">Weight</th>
+                                                        <th style="text-align:center; width:2%">TotalAmount</th>
+                                                        <th style="text-align:center; width:7%">Comments</th>
+                                                        <th style="text-align:center; width:2%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="htReturnGrid">
+                                                    @{
+
+                                                        for (var i = 0; i < Model.TblReturnTripInfos.Count; i++)
+                                                        {
+                                                            var trrow = "trTblReturnTripInfos" + @i;
+                                                            <tr id="@trrow">
+                                                                <td style='display:none'><input name='TblReturnTripInfos.Index' type='hidden' value="@i" /></td>
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].BillNo, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_BillNo", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].LoadingDate, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_LoadingDate", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].UnloadingDate, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_UnloadingDate", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].LoadingPoint, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_LoadingPoint", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].UnloadingPoint, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_UnloadingPoint", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].CustomerName, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_CustomerName", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].Weight, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_Weight", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].TotalAmount, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_TotalAmount", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>@Html.EditorFor(modelItem => modelItem.TblReturnTripInfos[i].Comments, new { htmlAttributes = new { @id = "TblReturnTripInfos" + i + "_Comments", @class = "form-control", @readonly = "readonly" } })</td>
+
+                                                                <td>
+                                                                    <button type="button" class="btn btn-primary" id="actionBtn" onclick="performAction(@i)">Action</button>
+                                                                </td>
+
+                                                            </tr>
+                                                        }
+
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="card-footer">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/BillEntry/Index")'>Cancel</a>
+                        @if (Model.Status != "Approved")
+                        {
+                            <button type="submit" class="btn btn-info pull-right">Save</button>
+                        }
+                        else
+                        {
+                            <button type="button" onclick="fnNotify()" class="btn btn-info pull-right">Save</button>
+                        
+                        }
+
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+<script>
+    // $('#RegNo').on('click', function () {
+    //     $('#VehicleSearch').trigger('click');
+    // });
+    $(document).ready(function(){
+        var IsReturnTrip = $("#IsReturned").val();
+        if (IsReturnTrip != 'Y') {
+            $("#ReturnTripDetails").hide();
+        }
+        else {
+            $("#ReturnTripDetails").show();
+            $("#ReturnInfoCheckbox").prop("checked", true);
+        }
+
+        $("#ReturnInfoCheckbox").on('change', function () {
+            if ($(this).is(':checked')) {
+                $("#ReturnTripDetails").show(); // Show the element
+                $("#IsReturned").val('Y');
+            } else {
+                $("#ReturnTripDetails").hide(); // Hide the element
+            }
+        });
+    })
+   
+
+    $('#GpNo').on('click', function () {
+        $('#btnGp').trigger('click');
+    });
+
+    $('#Kpl').on('change', function () {
+        // Call your function here
+
+        CalculateQtyForFuel();
+    });
+
+    function fnAddDataToGrid() {
+        var table = $("#tblReturnList");
+        var tbody = $("#htReturnGrid");
+
+        var BillNo = $("#BillNo").val();
+        var CustomerName = $("#CustomerNameRTN").val();
+        var Weight = $("#Weight").val();
+        var DateLoading = $("#RTNLoadingDate").val();
+        var UnloadingDate = $("#UnloadingDate").val();
+        var LoadingPoint = $("#LoadingPoint").val();
+        var UnloadingPoint = $("#UnloadingPoint").val();
+        var TotalAmount = $("#TotalTripAmount").val();
+        var Remarks = $("#ReturnComments").val();
+
+        var index = tbody.children("tr").length;
+        var indexCell = "<td style='display:none'><input readonly class='form-control' name='TblReturnTripInfos.Index' type='hidden' value='" + index + "' /></td>";
+        var idCell = "<td style='display:none'> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_Id' name='TblReturnTripInfos[" + index + "].Id' type='text' value='0' /></td>";
+        var billNoCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_BillNo' name='TblReturnTripInfos[" + index + "].BillNo' type='text' value='" + BillNo + "' /></td>";
+        var customerNameCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_CustomerName' name='TblReturnTripInfos[" + index + "].CustomerName' type='text' value='" + CustomerName + "' /></td>";
+        var weightCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_Weight' name='TblReturnTripInfos[" + index + "].Weight' type='text' value='" + Weight + "' /></td>";
+        var loadingDateCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_LoadingDate' name='TblReturnTripInfos[" + index + "].LoadingDate' type='text' value='" + DateLoading + "' /></td>";
+        var unloadingDateCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_UnloadingDate' name='TblReturnTripInfos[" + index + "].UnloadingDate' type='text' value='" + UnloadingDate + "' /></td>";
+        var loadingPointCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_LoadingPoint' name='TblReturnTripInfos[" + index + "].LoadingPoint' type='text' value='" + LoadingPoint + "' /></td>";
+        var unloadingPointCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_UnloadingPoint' name='TblReturnTripInfos[" + index + "].UnloadingPoint' type='text' value='" + UnloadingPoint + "' /></td>";
+        var totalAmountCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_TotalAmount' name='TblReturnTripInfos[" + index + "].TotalAmount' type='text' value='" + TotalAmount + "' /></td>";
+        var remarksCell = "<td> <input readonly class='form-control' id='TblReturnTripInfos_" + index + "_Remarks' name='TblReturnTripInfos[" + index + "].Remarks' type='text' value='" + Remarks + "' /></td>";
+        var removeCell = "<td><button type='button' class='btn btn-sm btn-danger' onclick='removeTripRow(" + index + ")'>Remove</button></td>";
+
+        var newRow = "<tr id='trTblReturnTripInfos" + index + "'>"
+            + billNoCell
+            + loadingDateCell
+            + unloadingDateCell
+            + loadingPointCell
+            + unloadingPointCell
+            + customerNameCell
+            + weightCell
+            + totalAmountCell
+            + remarksCell
+            + removeCell
+            + "</tr>";
+
+        tbody.append(newRow);
+    }
+
+    function fnNotify() {
+        let message = "UPDATE FAILED: The Bill has already been APPROVED and can't be modified.";
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+
+        toastr.error(message);
+
+        // alert(result.message);
+
+
+
+
+    }
+    function fnRemoveExpenseRow(e) {
+
+        $(e).closest('tr').remove();
+        fnTotalCalculation();
+    }
+
+    function SetPlantCode() {
+        var BusinessCode = $("#BusinessCode").val();
+        if (BusinessCode != '*') {
+            $("#btnGp").attr("disabled", false);
+        }
+        else {
+            $("#btnGp").attr("disabled", true);
+        }
+        $.ajax({
+            type: "POST",
+            url: "/BillEntry/GetPlantCode",
+            data: { BusinessCode: BusinessCode },
+            success: function (result) {
+
+                console.log(result);
+                var plant = result[0].plantId;
+                $("#PlantId").val(plant);
+
+            },
+            error: function () {
+                $("#PlantId").val('');
+                $("#btnGp").attr("disabled", true);
+            }
+        });
+    }
+
+    function CalculateQtyForFuel() {
+        $("#htExpenseGrid tr").each(function (idx, element) {
+            var $row = $(this);
+            var expenseCode = $row.find('.clExpenseCode ').val();
+            var RunOfKm = $("#RunOfKm").val();
+            var KPL = $("#Kpl").val();
+            var Qty = 0;
+            if (KPL != 0) {
+                Qty = RunOfKm / KPL;
+                Qty = Qty.toFixed(2);
+            }
+
+            if (expenseCode == 'EC-2404005') {
+                $row.find('.clQty').val(Qty);
+                // console.log(idx);
+                calculateTotalPrice($row.find('.clTotalPrice')[idx])
+            }
+
+
+        });
+
+    }
+    function removeTblRow(id) {
+
+        var controlToBeRemoved = "#trTblGpbillGpdetails" + id;
+        $(controlToBeRemoved).remove();
+        fnCalculateTotalLoadMt();
+    }
+    function removeExpenseRow(e) {
+
+        var controlToBeRemoved = "#trTblGpbillGpdetails" + id;
+        $(controlToBeRemoved).remove();
+    }
+
+    function addNewRowToExpenseGrid() {
+
+    }
+
+    function addNewRowToGrid() {
+        var GpNo = $("#GpNo").val();
+
+
+        var LoadOfMt = $("#LoadOfMt").val();
+        var CustomerName = $("#CustomerName").val();
+        var CustomerCode = $("#CustomerCode").val();
+        var CustomerAddress = $("#CustomerAddress").val();
+        var $table = $("#htGpList");
+        var $tbody = $("#htGpGrid");
+
+        var BillNo = $("#BillNo").val();
+
+        var index = $tbody.children("tr").length;
+        var indexCell = "<td style='display:none'><input readonly class='form-control' name='TblGpbillGpdetails.Index' type='hidden' value='" + index + "' /></td>";
+        var idCell = "<td style='display:none'> <input readonly class='form-control' id='TblGpbillGpdetails_" + index + "_Id' name='TblGpbillGpdetails[" + index + "].Id' type='text' value='0' /></td>";
+        var billNoCell = "<td style='display:none'> <input readonly class='form-control' id='TblGpbillGpdetails_" + index + "_BillNo' name='TblGpbillGpdetails[" + index + "].BillNo' type='text' value='" + BillNo + "' /></td>";
+        var GpNoCell = "<td> <input readonly class='form-control clGpNo' id='TblGpbillGpdetails_" + index + "_GPNo' name='TblGpbillGpdetails[" + index + "].GPNo' type='text' value='" + GpNo + "' /></td>";
+        var LoadOfMtCell = "<td > <input readonly style='text-align:right'class='clLoadOfMt form-control' id='TblGpbillGpdetails_" + index + "_LoadOfMt' name='TblGpbillGpdetails[" + index + "].LoadOfMt' type='text' value='" + LoadOfMt + "' /></td>";
+        var CustomerCodeCell = "<td style='display:none'> <input readonly class='form-control' id='TblGpbillGpdetails_" + index + "_CustomerCode' name='TblGpbillGpdetails[" + index + "].CustomerCode' type='text' value='" + CustomerCode + "' /></td>";
+
+        var CustomerNameCell = "<td> <input readonly class='form-control' id='TblGpbillGpdetails_" + index + "_Customer' name='TblGpbillGpdetails[" + index + "].Customer' type='text' value='" + CustomerName + "' /></td>";
+
+        var CustomerAddressCell = "<td> <input readonly class='form-control' id='TblGpbillGpdetails_" + index + "_CustomerAddress' name='TblGpbillGpdetails[" + index + "].CustomerAddress' type='text' value='" + CustomerAddress + "' /></td>";
+        var removeCell = "<td><button type='button' class='btn btn-sm btn-danger' onclick='removeTblRow(" + index + ")'>Remove</button></td>";
+
+        var newRow = "<tr id='trTblGpbillGpdetails" + index + "'>" + indexCell + GpNoCell + LoadOfMtCell + CustomerCodeCell + CustomerNameCell + CustomerAddressCell + removeCell + "</tr>";
+
+        if (CheckGpNo(GpNo)) {
+            //alert("Gp No Already exists in table")
+            let message = "Gp No Already exists in table";
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+
+            toastr.info(message);
+        }
+        else {
+            $tbody.append(newRow);
+        }
+
+
+
+        $("#GpNo").val('');
+        $("#LoadOfMt").val('');
+        $("#CustomerName").val('');
+        $("#CustomerCode").val('');
+        $("#CustomerAddress").val('');
+
+        fnCalculateTotalLoadMt();
+    }
+    function calculateTotalPrice(e) {
+
+
+        var Id = e.id;
+
+        var IdSplit = Id.split("_");
+
+        var rowId = IdSplit[0] + "_" + IdSplit[1];
+
+        var Qty = $("#" + rowId + "_Quantity").val();
+        var Rate = $("#" + rowId + "_Rate").val();
+        var totalPriceId = $("#" + rowId + "_TotalPrice");
+
+        totalPriceId.val(Number(Qty) * Number(Rate));
+
+        fnTotalCalculation();
+
+    }
+
+    function fnTotalCalculation() {
+        var Total = "0";
+        $("#htExpenseGrid tr").each(function () {
+            var clTotal = Total;
+            var $row = $(this);
+
+            var TotalPrice = $row.find('.clTotalPrice').val();
+            var clTotal = Number(clTotal) + Number(TotalPrice);
+
+            Total = clTotal;
+
+        });
+
+
+        $("#TotalAmount").val(Math.round(Total));
+    }
+    function fnCalculateTotalLoadMt() {
+        var Total = 0;
+        $("#htGpGrid tr").each(function () {
+            var clTotal = Total;
+            var $row = $(this);
+
+            var TotalPrice = $row.find('.clLoadOfMt').val();
+            var clTotal = Number(clTotal) + Number(TotalPrice);
+
+
+            Total = clTotal;
+        });
+        $("#TotalLoadMt").val(Total);
+    }
+    function fnCalculateRunKm() {
+        startingKm = Number($("#StartingKm").val());
+        closingKm = Number($("#ClosingKm").val());
+
+        var runOfKm = closingKm - startingKm
+        if (runOfKm > 0) {
+            $("#RunOfKm").val(runOfKm);
+        }
+        else {
+            $("#RunOfKm").val(0);
+        }
+
+        CalculateQtyForFuel();
+    }
+
+    function CheckGpNo(GpNo) {
+        var check = false;
+        $("#htGpGrid tr").each(function () {
+
+            var $row = $(this);
+
+            var TableGpNo = $row.find('.clGpNo').val();
+            if (TableGpNo == GpNo) {
+                check = true;
+            }
+
+        });
+
+        return check;
+    }
+
+    $('.clQTY').on('focus', function () { $(this).select(); });
+    $('#StartingKm').on('focus', function () { $(this).select(); });
+    $('#ClosingKm').on('focus', function () { $(this).select(); });
+</script>

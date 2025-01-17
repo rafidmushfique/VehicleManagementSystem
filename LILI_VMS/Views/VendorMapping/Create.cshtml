@@ -1,0 +1,182 @@
+﻿@model VendorMappingSaveVM
+<div id="modal-placeholder"></div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/VendorMapping/Index">Vendor Mapping</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+</section>
+
+<div class="modal">
+</div>
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+
+                <form class="form-horizontal" asp-action="CreateVendorMapping" asp-controller="VendorMapping" method="post">
+                    <div class="card-body">
+                       
+                           
+
+                           
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label for="inputEmail3" class="col-sm-4 control-label">User</label>
+                                            <div class="col-sm-5">
+                                                <select id="UserId" class="form-control select2">
+                                                    <option value="*"> Select User</option>
+                                                    @foreach (var item in ViewBag.UserList)
+                                                    {
+                                                        <option value="@item.Email"> @item.UserName </option>
+
+                                                    }
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label for="Vendor" class="col-sm-4 control-label">Link Vendor</label>
+
+                                            <div class="col-sm-2">
+                                                <button type="button" id="btnGp" class="btn btn-success" data-toggle="ajax-modal" data-target="#add-material-search" data-url="@Url.Action("VendorModal")">
+                                                    <span class="fas fa-link"> Link to New Vendor Code </span>
+                                                </button>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-sm-6">
+                                   
+                                    <div class="col-sm-12">
+                                        <table id="tblVendor" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:3%">Vendor Code</th>
+                                                    <th style="width:5%">Vendor Name</th>
+
+                                                    <th style="text-align:center; width:2%">Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="htVendorGrid">
+                                               
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                
+
+                               
+                           
+                      
+                     
+                       
+
+                    </div>
+
+                    <div class="card-footer text-center">
+
+                        <a class="btn btn-mini btn-primary" href='@Url.Content("/Home")'>Cancel</a>
+                        <button type="submit" class="btn btn-info">Save</button>
+
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("#UserId").on('change', function () {
+
+            var user = $("#UserId").val();
+            let table = $("#tblVendor");
+            let $tbody = $("#htVendorGrid");
+            $tbody.empty();
+            $.ajax({
+                type: "POST",
+                url: "/VendorMapping/GetUserVendorMapInfo",
+                data: { UserId: user },
+                success: function (msg) {
+                    console.log(msg);
+                    $.each(msg, function (idx, elem) {
+                        let index = $tbody.children("tr").length;
+                        let indexCell = "<td style='display:none'><input readonly class='form-control' name='TblUserWiseVendorCode.Index' type='hidden' value='" + index + "' /></td>";
+                        let idCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserWiseVendorCode_" + index + "_Id' name='TblUserWiseVendorCode[" + index + "].Id' type='text' value='0' /></td>";
+                        let UserIdCell = "<td style='display:none'> <input readonly class='form-control' id='TblUserWiseVendorCode_" + index + "_UserId' name='TblUserWiseVendorCode[" + index + "].UserId' type='text' value='" + user + "' /></td>";
+                        let vendorCodeCell = "<td> <input readonly class='form-control clVendorCode' id='TblUserWiseVendorCode_" + index + "_VendorCode' name='TblUserWiseVendorCode[" + index + "].VendorCode' type='text' value='" + elem.vendorCode + "' /></td>";
+                        let vendorNameCell = "<td> <input readonly class='form-control' id='TblUserWiseVendorCode_" + index + "_VendorName' name='TblUserWiseVendorCode[" + index + "].VendorName' type='text' value='" + elem.vendorName + "' /></td>";
+
+                        let removeCell = "<td style='text-align:center'><button type='button' class='btn btn-danger' onclick='removeVendorData(" + elem.id + ","+ index +")'>Unmap</button></td>";
+
+                        var newRow = "<tr id='trTblUserWiseVendorCode" + index + "'>" + indexCell + idCell + UserIdCell + vendorCodeCell + vendorNameCell + removeCell + "</tr>";
+
+
+                        $tbody.append(newRow);
+                    })
+                },
+                error: function (ex) { 
+                    console.log(ex);
+                }
+            });
+        });
+    })
+    function removeVendorRow(id) {
+
+        var controlToBeRemoved = "#trTblUserWiseVendorCode" + id;
+        $(controlToBeRemoved).remove();
+    }
+    function removeVendorData(id,index)
+    {
+        $.ajax({
+            type: "POST",
+            url: "/VendorMapping/DeleteVendorMap",
+            data: { Id: id },
+            success: function (msg) {
+                console.log(msg);
+                if (msg) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+
+
+                    toastr.success("Vendor Unmapped!");
+                    removeVendorRow(index);
+                }
+            },
+            error: function (ex) {
+                console.log(ex);
+            }
+        });
+    }
+
+</script>

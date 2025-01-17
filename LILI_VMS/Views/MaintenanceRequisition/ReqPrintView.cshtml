@@ -1,0 +1,318 @@
+﻿@model RequisitionInfoVM
+@{
+    Layout = "";
+}
+
+
+<div class="modal-header" style="background-color:#0c8599; color:white;">
+    <h5 class="modal-title" id="addContactLabel">GP Info</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body" style="position: relative;">
+
+    @if (Model != null)
+    {
+        <div class="row" style='margin-bottom:5em;'>
+            <div class="col-xs-12 offset-xs-2">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <button class="btn  btn-primary" id="printReport"><i class="fa fa-print"> Print </i> </button>
+                        <div class="card-tools">
+                        </div>
+                    </div>
+                    <div class="card-body" id="PrintArea">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="header text-center">
+                                            <h2><b>@Model.BusinessName</b></h2>
+                                            <h4><b>@Model.PlantName</b></h4>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+                                    <div class="col-sm-6">
+                                        <label> Requisition No: </label>
+                                        <text>@Model.RequisitionNo</text>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <label> Workshop Name: </label>
+                                        <text>@Model.SuppWorkShopName</text>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+                                   
+                                    <div class="col-sm-6">
+                                        <label> Type of Maintenance: </label>
+                                        <text>@Model.MaintenanceTypeName</text>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label> Address: </label>
+                                        <text>@Model.Address</text>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+
+                                    <div class="col-sm-6">
+                                        <label> Last Maint. Date: </label>
+                                        <text>@Model.LastMaintenanceDate</text>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label> Current Maint. Date: </label>
+                                        <text>@Model.CurrentMaintenanceDate</text>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+
+                                    <div class="col-sm-6">
+                                        <label> Last Maint. Kilo: </label>
+                                        <text>@Model.LastMaintenanceKM</text>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label> Current Maint. Kilo: </label>
+                                        <text>@Model.CurrentMaintenanceKM</text>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+
+                                    <div class="col-sm-6">
+                                        <label> Registration No: </label>
+                                        <text>@Model.RegistrationNo</text>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label> Driver Name: </label>
+                                        <text>@Model.DriverName</text>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+
+                                    <div class="col-sm-6">
+                                        <label> Total Run: </label>
+                                        <text>@Model.TotalRunKM</text>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label> Mobile No: </label>
+                                        <text>@Model.DriverMobileNo</text>
+                                    </div>
+                                </div>
+
+                                <div class="row pt-4">
+                                    <div class="col-xs-12">
+                                        <b> Subject: Requisition For @Model.MaintenanceTypeName</b>
+                                    </div>
+                                </div>
+                                <div class="row pt-4">
+                                    
+                                    <div class="col-xs-12" style="width:99%">
+                                        <table id="myTable" class="table table-bordered  table-responsive-sm table-hover">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>ItemName</th>
+                                                    <th>Brand Name</th>
+                                                    <th>Req. Qty</th>
+                                                    <th>Rate</th>
+                                                    <th>Estimated Budget</th>
+                                                    <th>Comments</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4"> <b>Total:</b> </td>
+                                                    <td style="text-align:right"> @Model.TotalPriceSum</td>
+                                                    <td></td>
+                                                </tr>
+                                              
+                                                <tr>
+                                                    <td><b>Amount in Word:</b></td>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+
+                                                @foreach (var item in Model.PartsDetails)
+                                                {
+                                                    <tr>
+
+                                                        <td>@item.PartsName</td>
+                                                        <td>@item.BrandName</td>
+                                                        <td style="text-align:right">@item.RequitionQty</td>
+                                                        <td style="text-align:right">@item.UnitPrice</td>
+                                                        <td style="text-align:right">@item.TotalPrice</td>
+                                                        <td>@item.Comments</td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                <div class="row pt-5" id="signaturediv">
+                                    <div class="col-xs-12">
+
+                                        <div class="col-xs-4 text-center">
+                                            <label style="font-weight:normal;min-height: 20px; display:block">@Model.PreparedBy</label>
+                                            
+                                            <input disabled class="signature" style="height: 0;"></input>
+                                            <label>Prepared By</label>
+                                        
+                                        </div>
+
+                                        <div class="col-xs-4 text-center">
+                                            <label style="font-weight:normal;min-height: 20px; display:block">@Model.RecommendBy </label>
+                                            <input disabled class="signature" style="height: 0;"></input>
+                                            <label>Checked By</label>
+                                        </div>
+
+                                        <div class="col-xs-4 text-center">
+                                            <label style="font-weight:normal;min-height: 20px; display:block">@Model.ApprovedBy </label>
+                                            <input disabled class="signature" style="height: 0;"></input>
+                                            <label>Approved By</label>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+<div class="modal-footer" style="background-color:#0c8599; ">
+</div>
+
+
+@*    <link href="~/Content/adminLte/plugins/select2/css/select2.min.css" rel="stylesheet" />*@
+<link href="~/lib/datatable/datatable.min.css" rel="stylesheet">
+<link href="~/lib/select2/select2.min.css" rel="stylesheet" />
+<style>
+
+    .signature {
+        border: 0;
+        width: 90%;
+        border-bottom: 1px solid #000;
+    }
+    .col-xs-2 {
+        width: 19.666667%;
+    }
+
+    label {
+        font-size: small;
+    }
+
+    .table td, .table th {
+        padding: 0.2em 0.5em;
+    }
+
+
+
+</style>
+
+@* <style>
+    @@page {
+        size: auto;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    @@media screen {
+        header, footer {
+            display: none;
+        }
+
+
+    }
+
+    @@media print {
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        body > :not(#printSection) {
+            display: none !important;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 80%;
+        }
+
+        html, body {
+            height: 100vh;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+
+    }
+
+
+
+</style> *@
+
+<link media="print" rel="stylesheet" type="text/css" href="~/css/print.css" />
+
+
+
+
+<script>
+    document.getElementById("printReport").onclick = function () {
+        debugger;
+       //$('#signaturediv').css('display', 'block');
+        printElement(document.getElementById("PrintArea"));
+        //$('#signaturediv').css('display', 'none');
+    }
+    function printElement(elem) {
+        var domClone = elem.cloneNode(true);
+
+        var $printSection = document.getElementById("printSection");
+
+        if (!$printSection) {
+            var $printSection = document.createElement("div");
+            $printSection.id = "printSection";
+           
+            document.body.appendChild($printSection);
+        }
+
+        $printSection.innerHTML = "";
+        $printSection.appendChild(domClone);
+        window.print();
+        $("#printSection").remove();
+    }
+
+</script>

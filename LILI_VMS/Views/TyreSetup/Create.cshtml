@@ -1,0 +1,61 @@
+﻿@model TblTyreSetup
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="/TyreSetup/Index">Tyre Setup</a></li>
+        <li class="breadcrumb-item active">Add Tyre Info</li>
+    </ol>
+</section>
+<section class="content container-fluid">
+   <div class="row">
+       <div class="col-sm-12">
+            <div class="card" style="border:1px solid; border-color:cadetblue; padding:10px">
+              
+                    <form class="form-horizontal" asp-action="CreateTyreSetup" asp-controller="TyreSetup" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Tyre Code</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="TyreSetupCode" class="form-control" placeholder="" readonly="readonly">
+                                </div>
+                                <label for="inputEmail3" class="col-sm-2 control-label">Tyre Number</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="TyreNumber" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                       </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Brand</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="TyreBrand" class="form-control" placeholder="">
+                                </div>
+                                <label for="inputEmail3" class="col-sm-2 control-label">Size</label>
+                                <div class="col-sm-3">
+                                    <input type="text" asp-for="TyreSize" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
+                            <div class="col-sm-3">
+                                <textarea class="form-control" asp-for="Comments"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="card-footer text-center">
+
+                            <a class="btn btn-mini btn-primary" href='@Url.Content("/TyreSetup/Index")'>Cancel</a>
+                            <button type="submit" class="btn btn-info">Save</button>
+
+                        </div>
+                    </form>
+               
+        
+           </div>
+       </div>
+   </div>
+</section>

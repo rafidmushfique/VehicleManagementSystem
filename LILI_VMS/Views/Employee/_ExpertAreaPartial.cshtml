@@ -1,0 +1,111 @@
+﻿@model List<LILI_VMS.Models.TblExpertArea>
+<!-- Modal -->
+<div class="modal fade" id="add-contact" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header"  style="background-color:#0c8599; color:white;">
+                <h5 class="modal-title" id="addContactLabel">Add Experties</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Experties">
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    @*<div class="form-group">
+                        <label asp-for="Id"></label>
+                        <input asp-for="Id" class="form-control" />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ExpertArea"></label>
+                        <input asp-for="ExpertArea" class="form-control" />
+                        <span asp-validation-for="ExpertArea" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>*@
+
+
+                    <div class="box-body">
+                        <table id="htExpertiesDetail" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:10%">Id</th>
+                                    <th style="width:45%">Experties</th>
+                                    <th style="width:45%">Description</th>
+                                    @*<th>Action</th>*@
+                                </tr>
+                            </thead>
+                            <tbody id="tbExprtDtl">
+                                @{
+                                    int i = 0; @*To make unique Id*@
+                                    foreach (var item in Model)
+                                    {
+                                        @*@Html.HiddenIndexerInputForModel()*@
+                                        var index = i;
+                                        <tr>
+                                            <td style="display:none"><input name='tblExpertiesDetail.Index' type="hidden" value=@index /></td>
+                                            <td>@Html.RadioButtonFor(modelItem => item.Id, item.Id)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.ExpertArea, new { @id = "ExpertArea_" + i })</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Description, new { @id = "Description_" + i })</td>
+                                            @*<td><input type="button" value="Remove" onClick="$(this).closest('tr').remove();"></td>*@
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer" style="background-color:#0c8599; ">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="SetExperties" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                @*<button type="button" id="SetExperties" class="btn btn-primary" data-save="modal">Ok</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+
+
+    $('#SetExperties').on('click', function () {
+        var expertiesId = $("input:checked").val();
+        if (expertiesId != '') {
+            $.ajax({
+                type: "POST",
+                url: "/Employee/SetExperties",
+                data: { expertiesId: expertiesId },
+                success: function (msg) {
+                    $('#ExpertiesId').val('');
+                    $('#ExpertArea').val('');
+                    $('#ExpertDesc').val('');
+
+                    for (var i = 0; i < msg.length; i++) {
+                        $('#ExpertiesId').val(msg[i].Id);
+                        $('#ExpertArea').val(msg[i].ExpertArea);
+                        $('#ExpertDesc').val(msg[i].Description);
+                    }
+                },
+                error: function () {
+                    $('#ExpertiesId').val('');
+                    $('#ExpertArea').val('');
+                    $('#ExpertDesc').val('');
+                }
+            });
+        }
+    });
+
+</script>
